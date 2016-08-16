@@ -240,7 +240,7 @@ bot.on("message", function(message) {
 	
 	if(message.content.startsWith(prefix + "setgame")) {
 		var game = message.content.split(" ").splice(1).join(" ");
-		bot.setPlayingGame(say);
+		bot.setPlayingGame(game);
 		bot.reply(message, "Successfully set game to " + game);
     }
 	
