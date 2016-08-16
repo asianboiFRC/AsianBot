@@ -7,7 +7,7 @@ var bot = new Discord.Client({
   disableEveryone: true
 });
 
-var prefix = "~";
+var prefix = "|";
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
@@ -112,7 +112,6 @@ bot.on("message", function(message) {
 			"\nID: " + message.sender.id + 
 			"\nCreated: " + message.sender.createdAt + 
 			"\nStatus: " + message.sender.online + 
-			"\nPlaying: " + message.sender.game.name + "\n" + 
 			message.sender.avatarURL);
 		}
 		else if (message.content.startsWith (prefix + "user"))
@@ -124,7 +123,6 @@ bot.on("message", function(message) {
 			"\nID: " + user.id + 
 			"\nCreated: " + user.createdAt + 
 			"\nStatus: " + user.online + 
-			"\nPlaying: " + user.game.name + "\n" + 
 			user.avatarURL);
 		}
     }
