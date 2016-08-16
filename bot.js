@@ -118,7 +118,7 @@ bot.on("message", function(message) {
 			"\nID: " + user.id + 
 			"\nCreated: " + user.createdAt + 
 			"\nStatus: " + user.online + 
-			"\nPlaying: " + user.game + "\n" + 
+			"\nPlaying: " + user.game.name + "\n" + 
 			user.avatarURL);
 		}
     }
