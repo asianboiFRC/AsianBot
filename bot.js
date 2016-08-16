@@ -112,7 +112,7 @@ bot.on("message", function(message) {
 			"\nID: " + message.sender.id + 
 			"\nCreated: " + message.sender.createdAt + 
 			"\nStatus: " + message.sender.online + 
-			message.sender.avatarURL);
+			"\n" + message.sender.avatarURL);
 		}
 		else if (message.content.startsWith (prefix + "user"))
 		{
@@ -123,7 +123,7 @@ bot.on("message", function(message) {
 			"\nID: " + user.id + 
 			"\nCreated: " + user.createdAt + 
 			"\nStatus: " + user.online + 
-			user.avatarURL);
+			"\n" + user.avatarURL);
 		}
     }
 	
