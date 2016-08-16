@@ -1,11 +1,9 @@
-/*AsianBot v0.0.6
- *August 16, 2016
+/*AsianBot v0.0.5
+ *August 15, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
 var Discord = require("discord.js");
-var bot = new Discord.Client();
-
-Discord.Client({
+var bot = new Discord.Client({
   disableEveryone: true
 });
 
@@ -23,6 +21,8 @@ bot.on('warn', e => { console.warn(e); });
 bot.on('debug', e => { console.info(e); });
 
 var replyTextToMentions = "Hi! I'm AsianBOT. Use " + prefix + "help to see a list of my commands.";
+
+disableEveryone: true
 
 bot.on("ready", function() {
 	var str = "";
@@ -96,6 +96,50 @@ bot.on("messageUpdated", function(message1, message2)
 });*/
 
 bot.on("message", function(message) {	
+	
+	if(message.content.startsWith (prefix + "userinfo")) {
+		if (message.content === prefix + "userinfo")
+		{
+			bot.sendMessage(message,
+			"Name: " + message.sender.username + 
+			"\nDiscriminator: " + message.sender.discriminator + 
+			"\nID: " + message.sender.id + 
+			"\nCreated: " + message.sender.createdAt + 
+			"\nStatus: " + message.sender.online + 
+			"\nPlaying: " + message.sender.game + "\n" + 
+			message.sender.avatarURL);
+		}
+		else
+		{
+			var user = message.mentions[0];
+			bot.sendMessage(message,
+			"Name: " + user.username + 
+			"\nDiscriminator: " + user.discriminator + 
+			"\nID: " + user.id + 
+			"\nCreated: " + user.createdAt + 
+			"\nStatus: " + user.online + 
+			"\nPlaying: " + user.game + "\n" + 
+			user.avatarURL);
+		}
+    }
+	
+	if(message.content.startsWith(prefix + "serverinfo")) {
+		bot.sendMessage(message,
+		"Server: " + message.server.name + 
+		"Owner: " + message.server.owner + 
+		"Created: " + message.server.createdAt + 
+		"Region: " + message.server.region + 
+		"Server ID: " + message.server.id + 
+		"Members: " + message.server.members.length + 
+		"Channels: " + message.server.channels.length + 
+		"Roles: " + message.server.roles.map(r=>r.name).join(", ") + 
+		"\n" + message.server.iconURL);
+	}
+    
+	
+	if(message.content.startsWith (prefix + "servers")) {
+		bot.sendMessage(message, "Servers: " + bot.servers.length);
+	}
 	
 	if(message.content.startsWith (prefix + "mute")) {
 		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")))
@@ -206,22 +250,15 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content.startsWith(prefix + "serverinfo")) {
+	if(message.content.startsWith (prefix + "serverinfo")) {
 		bot.sendMessage(message,
-		"Server: " + message.server.name + 
-		"Owner: " + message.server.owner + 
-		"Created: " + message.server.createdAt + 
-		"Region: " + message.server.region + 
-		"Server ID: " + message.server.id + 
-		"Members: " + message.server.members.length + 
-		"Channels: " + message.server.channels.length + 
-		"Roles: " + message.server.roles.map(r=>r.name).join(", ") + 
-		"\n" + message.server.iconURL);
-	}
-    
-	
-	if(message.content.startsWith (prefix + "servers")) {
-		bot.sendMessage(message, "Servers: " + bot.servers.length);
+		"Name: " + message.sender.username + 
+		"\nDiscriminator: " + message.sender.discriminator + 
+		"\nID: " + message.sender.id + 
+		"\nCreated: " + message.sender.createdAt + 
+		"\nStatus: " + message.sender.online + 
+		"\nPlaying: " + message.sender.game + "\n" + 
+		message.sender.avatarURL);
     }
 	
 	if(message.content.startsWith (prefix + "warn")) {
