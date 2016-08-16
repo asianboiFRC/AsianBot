@@ -1,5 +1,5 @@
-/*AsianBot v0.0.5
- *August 15, 2016
+/*AsianBot v0.0.6
+ *August 16, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
 var Discord = require("discord.js");
@@ -221,7 +221,7 @@ bot.on("message", function(message) {
     
 	
 	if(message.content.startsWith (prefix + "servers")) {
-		bot.sendMessage("Servers: " + bot.servers.length);
+		bot.sendMessage(message, "Servers: " + bot.servers.length);
     }
 	
 	if(message.content.startsWith (prefix + "warn")) {
