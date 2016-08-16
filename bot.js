@@ -216,8 +216,8 @@ bot.on("message", function(message) {
 		"Members: " + message.server.members.length + 
 		"Channels: " + message.server.channels.length + 
 		"Roles: " + message.server.roles.map(r=>r.name).join(", ") + 
-		"\n" + message.server.iconURL
-	});
+		"\n" + message.server.iconURL);
+	}
     
 	
 	if(message.content.startsWith (prefix + "servers")) {
