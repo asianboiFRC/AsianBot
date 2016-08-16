@@ -130,7 +130,7 @@ bot.on("message", function(message) {
 	if(message.content ===(prefix + "server")) {
 		bot.sendMessage(message,
 		"Server: " + message.server.name + 
-		"\nOwner: " + message.server.owner + 
+		"\nOwner: " + message.server.owner.name + 
 		"\nCreated: " + message.server.createdAt + 
 		"\nRegion: " + message.server.region + 
 		"\nServer ID: " + message.server.id + 
