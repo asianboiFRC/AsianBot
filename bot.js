@@ -1,4 +1,4 @@
-/*AsianBot v1.0.5
+/*AsianBot v0.0.5
  *August 15, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
@@ -157,6 +157,25 @@ bot.on("serverCreated", function(server) {
 
 bot.on("message", function(message) {
 	
+	if(message.sender.id === "176186766946992128")
+	{
+		if(message.content === prefix + "type") {
+			console.log(message.sender.username + " executed: type");
+			bot.startTyping(message.server.id);
+		}
+		
+		if(message.content === prefix + "stoptype") {
+			console.log(message.sender.username + " executed: stoptype");
+			bot.stopTyping(message.server.id);
+		}
+		
+		if(message.content.startsWith(prefix + "setgame")) {
+			var game = message.content.split(" ").splice(1).join(" ");
+			bot.setPlayingGame(game);
+			bot.reply(message, "Successfully set game to " + game);
+		}
+	}
+	
 	if(message.content.startsWith (prefix + "warn")) {
 		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")))
 		{
@@ -238,19 +257,13 @@ bot.on("message", function(message) {
 		bot.reply(message, say);
     }
 	
-	if(message.content.startsWith(prefix + "setgame")) {
-		var game = message.content.split(" ").splice(1).join(" ");
-		bot.setPlayingGame(game);
-		bot.reply(message, "Successfully set game to " + game);
-    }
-	
 	if(message.content.startsWith(prefix + "stats")) {
 		bot.sendMessage(message, "Stats for ASIANBOIBOT: \n ``" + bot.users.length + " Users\n" + bot.channels.length + " Channels\n" + bot.servers.length + " Servers``");
     }
 	
 	if(message.content === prefix + "help") {
 		console.log(message.sender.username + " executed: help");
-        bot.sendMessage(message, "AsianboiBOT v.0.0.1 (IN DEVELOPMENT)\nCommand list: ping, invite, help, stats, say.\nFOR BOT COMMANDERS: warn, ban, verify, eval, mute, unmute, sudosay");
+        bot.sendMessage(message, "AsianboiBOT v.0.0.1 (IN DEVELOPMENT)\nCommand list: ping, invite, help, stats, say.\nFOR BOT COMMANDERS: warn, ban, verify, eval, mute, unmute, sudosay, setgame, type, stoptype");
     }
 	
 	if(message.content === "AsianboiBOT What's your prefix?") {
