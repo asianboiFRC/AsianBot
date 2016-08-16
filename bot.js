@@ -109,7 +109,7 @@ bot.on("message", function(message) {
 			"\nPlaying: " + message.sender.game + "\n" + 
 			message.sender.avatarURL);
 		}
-		else
+		else if (message.content.startsWith (prefix + "userinfo"))
 		{
 			var user = message.mentions[0];
 			bot.sendMessage(message,
@@ -123,16 +123,16 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content.startsWith(prefix + "serverinfo")) {
+	if(message.content ===(prefix + "serverinfo")) {
 		bot.sendMessage(message,
 		"Server: " + message.server.name + 
-		"Owner: " + message.server.owner + 
-		"Created: " + message.server.createdAt + 
-		"Region: " + message.server.region + 
-		"Server ID: " + message.server.id + 
-		"Members: " + message.server.members.length + 
-		"Channels: " + message.server.channels.length + 
-		"Roles: " + message.server.roles.map(r=>r.name).join(", ") + 
+		"\nOwner: " + message.server.owner + 
+		"\nCreated: " + message.server.createdAt + 
+		"\nRegion: " + message.server.region + 
+		"\nServer ID: " + message.server.id + 
+		"\nMembers: " + message.server.members.length + 
+		"\nChannels: " + message.server.channels.length + 
+		"\nRoles: " + message.server.roles.map(r=>r.name).join(", ") + 
 		"\n" + message.server.iconURL);
 	}
     
