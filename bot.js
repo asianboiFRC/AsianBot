@@ -1,5 +1,5 @@
-/*AsianBot v0.0.5
- *August 15, 2016
+/*AsianBot v0.0.6
+ *August 16, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
 var Discord = require("discord.js");
@@ -97,8 +97,8 @@ bot.on("messageUpdated", function(message1, message2)
 
 bot.on("message", function(message) {	
 	
-	if(message.content.startsWith (prefix + "userinfo")) {
-		if (message.content === prefix + "userinfo")
+	if(message.content.startsWith (prefix + "user")) {
+		if (message.content === prefix + "user")
 		{
 			bot.sendMessage(message,
 			"Name: " + message.sender.username + 
@@ -109,7 +109,7 @@ bot.on("message", function(message) {
 			"\nPlaying: " + message.sender.game + "\n" + 
 			message.sender.avatarURL);
 		}
-		else if (message.content.startsWith (prefix + "userinfo"))
+		else if (message.content.startsWith (prefix + "user"))
 		{
 			var user = message.mentions[0];
 			bot.sendMessage(message,
@@ -123,7 +123,7 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content ===(prefix + "serverinfo")) {
+	if(message.content ===(prefix + "server")) {
 		bot.sendMessage(message,
 		"Server: " + message.server.name + 
 		"\nOwner: " + message.server.owner + 
@@ -353,7 +353,8 @@ bot.on("message", function(message) {
 	
 	if(message.content === prefix + "help") {
 		console.log(message.sender.username + " executed: help");
-        bot.sendMessage(message, "AsianboiBOT v.0.0.5 (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say.\nFOR BOT COMMANDERS: warn, ban, verify, eval, mute, unmute, sudosay, setgame, type, stoptype");
+        bot.sendMessage(message, 
+		"AsianboiBOT v.0.0.6 (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user.\nFOR BOT COMMANDERS: warn, ban, verify, eval, mute, unmute, sudosay, setgame, type, stoptype");
     }
 	
 	if(message.content === "AsianboiBOT What's your prefix?") {
