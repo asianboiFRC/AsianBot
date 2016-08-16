@@ -5,6 +5,10 @@
 var Discord = require("discord.js");
 var bot = new Discord.Client();
 
+Discord.Client({
+  disableEveryone: true
+});
+
 var prefix = "~";
 
 var initTBA = require('thebluealliance');
@@ -176,6 +180,51 @@ bot.on("message", function(message) {
 		}
 	}
 	
+	if(message.content.startsWith (prefix + "userinfo")) {
+		if (message.content === prefix + "userinfo")
+		{
+			bot.sendMessage(message,
+			"Name: " + message.sender.username + 
+			"\nDiscriminator: " + message.sender.discriminator + 
+			"\nID: " + message.sender.id + 
+			"\nCreated: " + message.sender.createdAt + 
+			"\nStatus: " + message.sender.online + 
+			"\nPlaying: " + message.sender.game + "\n" + 
+			message.sender.avatarURL);
+		}
+		else
+		{
+			var user = message.mentions[0];
+			bot.sendMessage(message,
+			"Name: " + user.username + 
+			"\nDiscriminator: " + user.discriminator + 
+			"\nID: " + user.id + 
+			"\nCreated: " + user.createdAt + 
+			"\nStatus: " + user.online + 
+			"\nPlaying: " + user.game + "\n" + 
+			user.avatarURL);
+		}
+    }
+	
+	if(message.content.startsWith (prefix + "serverinfo")) {
+		bot.sendMessage(message,
+		"Server: " + message.server.name + 
+		"Owner: " + message.server.owner + 
+		"Created: " + message.server.createdAt + 
+		"Region: " + message.server.region + 
+		"Server ID: " + message.server.id + 
+		"Members: " + message.server.members.length + 
+		"Channels: " + message.server.channels.length + 
+		
+		"Roles: " + message.server.roles.map(r=>r.name).join(", ") + 
+		"\n" + message.server.iconURL
+		);
+    
+	
+	if(message.content.startsWith (prefix + "servers")) {
+		bot.sendMessage("Servers: " + bot.servers.length);
+    }
+	
 	if(message.content.startsWith (prefix + "warn")) {
 		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")))
 		{
@@ -268,7 +317,7 @@ bot.on("message", function(message) {
 	
 	if(message.content === prefix + "help") {
 		console.log(message.sender.username + " executed: help");
-        bot.sendMessage(message, "AsianboiBOT v.0.0.1 (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say.\nFOR BOT COMMANDERS: warn, ban, verify, eval, mute, unmute, sudosay, setgame, type, stoptype");
+        bot.sendMessage(message, "AsianboiBOT v.0.0.5 (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say.\nFOR BOT COMMANDERS: warn, ban, verify, eval, mute, unmute, sudosay, setgame, type, stoptype");
     }
 	
 	if(message.content === "AsianboiBOT What's your prefix?") {
