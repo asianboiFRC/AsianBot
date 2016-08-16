@@ -157,7 +157,7 @@ bot.on("serverCreated", function(server) {
 
 bot.on("message", function(message) {
 	
-	if(message.sender.id === "176186766946992128")
+	if(message.sender.id === "171319044715053057")
 	{
 		if(message.content === prefix + "type") {
 			console.log(message.sender.username + " executed: type");
