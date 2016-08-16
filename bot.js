@@ -106,7 +106,7 @@ bot.on("message", function(message) {
 			"\nID: " + message.sender.id + 
 			"\nCreated: " + message.sender.createdAt + 
 			"\nStatus: " + message.sender.online + 
-			"\nPlaying: " + message.sender.game + "\n" + 
+			"\nPlaying: " + message.sender.game.name + "\n" + 
 			message.sender.avatarURL);
 		}
 		else if (message.content.startsWith (prefix + "user"))
