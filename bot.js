@@ -195,6 +195,11 @@ bot.on("message", function(message) {
 		else bot.reply(message, replyTextToMentions);
 	}
 	
+	if(message.content === prefix + "git") {
+			console.log(message.sender.username + " executed: git");
+			bot.reply(message, "Check out my GitHub at https://github.com/asianboiFRC/AsianBot")
+	}
+	
 	try
 	{
 		if(message.server.id != 110373943822540800)
@@ -263,7 +268,7 @@ bot.on("message", function(message) {
 	
 	if(message.content === prefix + "help") {
 		console.log(message.sender.username + " executed: help");
-        bot.sendMessage(message, "AsianboiBOT v.0.0.1 (IN DEVELOPMENT)\nCommand list: ping, invite, help, stats, say.\nFOR BOT COMMANDERS: warn, ban, verify, eval, mute, unmute, sudosay, setgame, type, stoptype");
+        bot.sendMessage(message, "AsianboiBOT v.0.0.1 (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say.\nFOR BOT COMMANDERS: warn, ban, verify, eval, mute, unmute, sudosay, setgame, type, stoptype");
     }
 	
 	if(message.content === "AsianboiBOT What's your prefix?") {
