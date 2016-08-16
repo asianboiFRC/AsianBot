@@ -1,3 +1,7 @@
+/*AsianBot v1.0.5
+ *August 15, 2016
+ *Programmed by Michael Cao (ASIANBOI)*/
+
 var Discord = require("discord.js");
 var bot = new Discord.Client();
 
