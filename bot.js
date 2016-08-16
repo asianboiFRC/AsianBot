@@ -238,6 +238,12 @@ bot.on("message", function(message) {
 		bot.reply(message, say);
     }
 	
+	if(message.content.startsWith(prefix + "setgame")) {
+		var game = message.content.split(" ").splice(1).join(" ");
+		bot.setPlayingGame(say);
+		bot.reply(message, "Successfully set game to " + game);
+    }
+	
 	if(message.content.startsWith(prefix + "stats")) {
 		bot.sendMessage(message, "Stats for ASIANBOIBOT: \n ``" + bot.users.length + " Users\n" + bot.channels.length + " Channels\n" + bot.servers.length + " Servers``");
     }
