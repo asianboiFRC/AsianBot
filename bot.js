@@ -206,7 +206,7 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content.startsWith (prefix + "serverinfo")) {
+	if(message.content.startsWith(prefix + "serverinfo")) {
 		bot.sendMessage(message,
 		"Server: " + message.server.name + 
 		"Owner: " + message.server.owner + 
@@ -215,10 +215,9 @@ bot.on("message", function(message) {
 		"Server ID: " + message.server.id + 
 		"Members: " + message.server.members.length + 
 		"Channels: " + message.server.channels.length + 
-		
 		"Roles: " + message.server.roles.map(r=>r.name).join(", ") + 
 		"\n" + message.server.iconURL
-		);
+	});
     
 	
 	if(message.content.startsWith (prefix + "servers")) {
