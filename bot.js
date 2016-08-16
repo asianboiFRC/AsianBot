@@ -14,7 +14,13 @@ var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v
 
 var startTime = Date.now()
 
-bot.loginWithToken("MjA0MzAxNDE5ODI4ODcxMTY4.CnQHgw.hqAODK_V7NQkPvCKUoGaB_2Wzyo");
+fs = require('fs')
+fs.readFile('token.txt', 'utf8', function (err,token) {
+	if (err) {
+		return console.log(err);
+	}
+	bot.loginWithToken(token);
+});
 
 bot.on('error', e => { console.error(e); });
 bot.on('warn', e => { console.warn(e); });
