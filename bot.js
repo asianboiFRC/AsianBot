@@ -267,7 +267,7 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content == "@AsianboiBOT#0370") 
+	if(message.content === "<@204301419828871168> What's your prefix?")
 	{
 		if(message.author.bot) return;
 		else bot.reply(message, replyTextToMentions);
