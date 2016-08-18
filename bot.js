@@ -12,8 +12,6 @@ var prefix = "~";
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
 
-var startTime = Date.now()
-
 fs = require('fs')
 fs.readFile('token.txt', 'utf8', function (err,token) {
 	if (err) {
@@ -357,6 +355,7 @@ bot.on("message", function(message) {
 	
     if(message.content === prefix + "ping") {
 		console.log(message.sender.username + " executed: ping");
+		var startTime = Date.now()
 		var responseTime = startTime - message.timestamp; 
         bot.sendMessage(message, "Hello, pong! You're on server **" + message.channel.server.name + "**.\nTook ``" + responseTime + "`` ms to respond.");
     }
@@ -410,9 +409,14 @@ bot.on("message", function(message) {
 			var code = message.content.split(" ").splice(1).join(" ");
 			
 			try {
-				
-				// tries to run code
-				bot.sendMessage(message, "``"+eval(code)+"``");
+				if (eval(code) === bot.internal.token)
+				{
+					bot.updateMessage(message, "You're not getting my token");
+				}
+				else
+				{
+					bot.updateMessage(message, "Code: ``" + code + "``\nOutput: ``"+eval(code)+"``");
+				}
 			} 
 			catch(err) {
 				bot.sendMessage(message, "Error: "+err);
