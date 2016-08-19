@@ -7,10 +7,10 @@ var bot = new Discord.Client({
   disableEveryone: true
 });
 
-var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
+var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793", "171319044715053057"];
 
 var prefix = "~";
-var version = "0.9.5"
+var version = "0.9.6"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
@@ -152,7 +152,7 @@ bot.on("message", function(message) {
 
 	if(message.author.bot) return;
 	
-	if(message.content.startsWith (prefix + "restart")){
+	if(message.content.startsWith (prefix + "restart") && isCommander.indexOf(message.sender.id) > -1){
 		bot.sendMessage(message, ":wave: ASIANBOT is restarting...")
 		process.exit();
 	}
