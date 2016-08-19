@@ -1,4 +1,4 @@
-/*AsianBot v0.0.9
+/*AsianBot v0.9
  *August 19, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
