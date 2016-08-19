@@ -102,7 +102,7 @@ bot.on("messageDeleted", function(message)
 
 bot.on("messageUpdated", function(message1, message2)
 {
-	if(message.server.id != 110373943822540800)
+	if(message1.server.id != 110373943822540800)
 	{
 		console.log(server(message1.sender.username + "'s message was edited!\n Old message: " + message1.content));
 		//bot.sendMessage(message1, message1.sender.username + "'s message was edited!\n Old message: " + message1.content);
