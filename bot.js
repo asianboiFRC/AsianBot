@@ -10,6 +10,7 @@ var bot = new Discord.Client({
 var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736"];
 
 var prefix = "~";
+var version = "0.9.3"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
@@ -347,7 +348,7 @@ bot.on("message", function(message) {
 	if(message.content === prefix + "help") {
 		console.log(exec(message.sender.username + " executed: help"));
         bot.sendMessage(message, 
-		"AsianboiBOT v.0.0.6 (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user." + 
+		"AsianboiBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user." + 
 		"\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute" + 
 		"\nFOR ADMINS: eval, type, stoptype, sudosay, sudoinvite");
     }
