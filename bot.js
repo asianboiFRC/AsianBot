@@ -7,10 +7,10 @@ var bot = new Discord.Client({
   disableEveryone: true
 });
 
-var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736"];
+var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
 
 var prefix = "~";
-var version = "0.9.3"
+var version = "0.9.4"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
@@ -414,7 +414,7 @@ bot.on("message", function(message) {
 			var code = message.content.split(" ").splice(1).join(" ");
 			
 			try {
-				if (eval(code) === bot.internal.token)
+				if (code.startsWith(prefix + "eval bot.internal.token") || code.startsWith(prefix + "eval eval"))
 				{
 					bot.sendMessage(message, "You're not getting my token");
 				}
