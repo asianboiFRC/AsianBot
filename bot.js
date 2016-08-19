@@ -1,4 +1,4 @@
-/*AsianBot v0.0.8
+/*AsianBot v0.0.9
  *August 19, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
@@ -6,6 +6,8 @@ var Discord = require("discord.js");
 var bot = new Discord.Client({
   disableEveryone: true
 });
+
+var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736"];
 
 var prefix = "~";
 
@@ -90,16 +92,17 @@ bot.on('userBanned', function(server, user)
 
 bot.on("messageDeleted", function(message)
 {
-	if(message.server.id === "176186766946992128" || message.server.id === "209467012684972034")
+	if(message.server.id != 110373943822540800)
 	{
-		console.log(server(message1.sender.username + "'s message was deleted!\n Old message: " + message1.content));
-		bot.sendMessage(message, message.sender.username + "'s message was deleted!");
+		console.log(server(message.sender.username + "'s message was deleted!\n Old message: " + message.content));
 	}
 });
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bot.on("messageUpdated", function(message1, message2)
 {
-	if(message1.server.id === "176186766946992128" || message1.server.id === "209467012684972034")
+	if(message.server.id != 110373943822540800)
 	{
 		console.log(server(message1.sender.username + "'s message was edited!\n Old message: " + message1.content));
 		//bot.sendMessage(message1, message1.sender.username + "'s message was edited!\n Old message: " + message1.content);
@@ -111,7 +114,7 @@ bot.on("message", function(message) {
 	if(message.content.startsWith (prefix + "user")) {
 		if (message.content === prefix + "user"){
 		
-			console.log(exec(message.sender.username + " executed: user"))
+			console.log(exec(message.sender.username + " executed: user"));
 			bot.sendMessage(message,
 			"Name: " + message.sender.username + 
 			"\nDiscriminator: " + message.sender.discriminator + 
@@ -122,7 +125,7 @@ bot.on("message", function(message) {
 		}
 		else if (message.content.startsWith (prefix + "user"))
 		{
-			console.log(exec(message.sender.username + " executed: user"))
+			console.log(exec(message.sender.username + " executed: user"));
 			var user = message.mentions[0];
 			bot.sendMessage(message,
 			"Name: " + user.username + 
@@ -135,7 +138,7 @@ bot.on("message", function(message) {
     }
 	
 	if(message.content ===(prefix + "server")) {
-		console.log(exec(message.sender.username + " executed: server"))
+		console.log(exec(message.sender.username + " executed: server"));
 		bot.sendMessage(message,
 		"Server: " + message.server.name + 
 		"\nOwner: " + message.server.owner.name + 
@@ -155,7 +158,7 @@ bot.on("message", function(message) {
 	}
 	
 	if(message.content.startsWith (prefix + "mute")) {
-		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")))
+		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
 			var user = message.mentions[0];
 			console.log(exec(message.sender.username + " executed: mute against " + user.name));
@@ -176,10 +179,10 @@ bot.on("message", function(message) {
     }
 	
 	if(message.content.startsWith (prefix + "unmute")) {
-		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")))
+		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
 			var user = message.mentions[0];
-			console.log(message.sender.username + " executed: unmute against " + user.name);
+			console.log(exec(message.sender.username + " executed: unmute against " + user.name));
 			try
 			{
 				bot.removeMemberFromRole(user.id, message.server.roles.get("name", "muted"));
@@ -197,10 +200,10 @@ bot.on("message", function(message) {
     }
 
     if(message.content.startsWith (prefix + "ban")) {
-		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")))
+		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
 			var user = message.mentions[0];
-			console.log(message.sender.username + " executed: ban against " + user.name);
+			console.log(exec(message.sender.username + " executed: ban against " + user.name));
 				bot.banMember(user, message.server)
 				bot.reply(message, user + " has been banned.");
 		}
@@ -211,14 +214,14 @@ bot.on("message", function(message) {
     }
 });
 
-bot.on("serverCreated", function(server) {
-	console.log(server("Bot added to " + server.name));
-	bot.sendMessage(server.defaultChannel, "Hello! I'm AsianboiBOT. Someone invited me here. To view my commands do " +prefix+"help!\nGive me a role with manage roles, manage server, and administrator.");
+bot.on("serverCreated", function(svr) {
+	console.log(server("Bot added to " + svr.name));
+	bot.sendMessage(svr.defaultChannel, "Hello! I'm AsianboiBOT. Someone invited me here. To view my commands do " +prefix+"help!\nGive me a role with manage roles, manage server, and administrator.");
 });
 
 bot.on("message", function(message) {
 	
-	if(message.sender.id === "171319044715053057")
+	if(message.sender.id === "171319044715053057"  || isCommander.indexOf(message.sender.id) > -1)
 	{
 		if(message.content === prefix + "type") {
 			console.log(exec(message.sender.username + " executed: type"));
@@ -239,7 +242,7 @@ bot.on("message", function(message) {
 	}
 	
 	if(message.content.startsWith (prefix + "warn")) {
-		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")))
+		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
 			var user = message.mentions[0];
 			console.log(exec(message.sender.username + " executed: warn against " + user.name));
@@ -287,28 +290,34 @@ bot.on("message", function(message) {
 			if (minutes < 10) {minutes = "0" + minutes}
 			if (seconds < 10) {seconds = "0" + seconds}
 			str += hours + ":" + minutes + ":" + seconds;
-		console.log(white("[" + str + "]") + server(" [PM] ") + exec(message.sender.name) + " : " + msg(message.cleanContent))
+		console.log(white("[" + str + "]") + server(" [PM] ") + exec(message.sender.name) + " : " + msg(message.cleanContent));
 	}
 	
-	if(message.content.startsWith(prefix + "sudosay") && message.sender.id === "171319044715053057")
+	if(message.content.startsWith(prefix + "sudosay"))
 	{
-		console.log(exec(message.sender.username + " executed: sudosay"));
-		var sudosay = message.content.split(" ").splice(1).join(" ");
-		bot.sendMessage(message, sudosay);
-		bot.deleteMessage(message);
+		if(message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1)
+		{
+			console.log(exec(message.sender.username + " executed: sudosay"));
+			var sudosay = message.content.split(" ").splice(1).join(" ");
+			bot.sendMessage(message, sudosay);
+			bot.deleteMessage(message);
+		}
     }
 	
-	if(message.content.startsWith(prefix + "sudoinvite") && message.sender.id === "171319044715053057")
+	if(message.content.startsWith(prefix + "sudoinvite"))
 	{
-		console.log(exec(message.sender.username + " executed: sudoinvite"));
-		const serverToInvite = message.content.split(" ").splice(1).join(" ");
-		bot.createInvite(bot.servers.get("name", serverToInvite).generalChannel, {
-            maxAge: 60,
-            maxUses: 1
-        })
-        .then(i => {
-            bot.sendMessage(message.author, i + "");
-        });
+		if(message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1)
+		{
+			console.log(exec(message.sender.username + " executed: sudoinvite"));
+			const serverToInvite = message.content.split(" ").splice(1).join(" ");
+			bot.createInvite(bot.servers.get("name", serverToInvite).generalChannel, {
+				maxAge: 60,
+				maxUses: 1
+			})
+			.then(i => {
+				bot.sendMessage(message.author, i + "");
+			});
+		}
 	}
 	
 	if(message.content.startsWith(prefix + "say")) {
@@ -319,13 +328,15 @@ bot.on("message", function(message) {
 	
 	if(message.content.startsWith(prefix + "stats")) {
 		console.log(exec(message.sender.username + " executed: stats"));
-		bot.sendMessage(message, "Stats for ASIANBOIBOT: \n ``" + bot.users.length + " Users\n" + bot.channels.length + " Channels\n" + bot.servers.length + " Servers``");
+		bot.sendMessage(message, "Stats for ASIANBOIBOT: \n``" + bot.users.length + " Users\n" + bot.channels.length + " Channels\n" + bot.servers.length + " Servers``");
     }
 	
 	if(message.content === prefix + "help") {
 		console.log(exec(message.sender.username + " executed: help"));
         bot.sendMessage(message, 
-		"AsianboiBOT v.0.0.6 (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user.\nFOR BOT COMMANDERS: warn, ban, verify, eval, mute, unmute, sudosay, setgame, type, stoptype");
+		"AsianboiBOT v.0.0.6 (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user." + 
+		"\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute" + 
+		"\nFOR ADMINS: eval, type, stoptype, sudosay, sudoinvite");
     }
 	
 	if(message.content === "AsianboiBOT What's your prefix?") {
@@ -354,13 +365,13 @@ bot.on("message", function(message) {
 			{
 				bot.sendMessage(message, message.sender.username + " :white_check_mark: Verified! Hello ASIANBOI.");
 			}
+			if(isCommander.indexOf(message.sender.id) > -1)
+			{
+				bot.sendMessage(message, message.sender.username + " :white_check_mark: You have been verified as a bot admin!");
+			}
 			else if(message.sender === message.server.owner)
 			{
 				bot.sendMessage(message, message.sender.username + " :white_check_mark: You have been verified as the server owner!");
-			}
-			else if(bot.memberHasRole(message.author, message.server.roles.get("name", "Admins")))
-			{
-				bot.sendMessage(message, message.sender.username + " :white_check_mark: You have been verified as an Admin.");
 			}
 			else if(bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")))
 			{
@@ -383,8 +394,8 @@ bot.on("message", function(message) {
 	
 	if(message.content.startsWith(prefix + "eval")){
     // Checks to see whos sending message (so bad people cant hack bot)
-			console.log(server(message.sender.username + " executed: eval"));
-		if(message.sender.id === "171319044715053057"){
+		console.log(server(message.sender.username + " executed: eval"));
+		if(message.sender.id === "171319044715053057"  || isCommander.indexOf(message.sender.id) > -1){
 			// gets code to run
 			var code = message.content.split(" ").splice(1).join(" ");
 			
