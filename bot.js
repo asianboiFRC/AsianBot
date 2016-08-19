@@ -10,7 +10,7 @@ var bot = new Discord.Client({
 var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
 
 var prefix = "~";
-var version = "0.9.4"
+var version = "0.9.5"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
@@ -37,6 +37,15 @@ bot.on('debug', e => { console.info(e); });
 var replyTextToMentions = "Hi! I'm AsianBOT. Use " + prefix + "help to see a list of my commands.";
 
 disableEveryone: true
+
+/*var stdin = process.openStdin();
+
+stdin.addListener("data", function(d) {
+    console.log("You entered: [" + 
+        d.toString().trim() + "]");
+	var input = d.toString().trim()
+	bot.sendMessage("215965218449260544", input);
+  });*/
 
 bot.on("ready", function() {
 	var str = "";
@@ -93,10 +102,7 @@ bot.on('userBanned', function(server, user)
 
 bot.on("messageDeleted", function(message)
 {
-	if(message.server.id != "110373943822540800")
-	{
-		console.log(server(message.sender.username + "'s message was deleted!\n Old message: " + message.content));
-	}
+	console.log(server(message.sender.username + "'s message was deleted!\n Old message: " + message.content));
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,8 +122,40 @@ bot.on("serverCreated", function(svr) {
 });
 
 bot.on("message", function(message) {	
+	try
+	{
+		if(message.server.id != 110373943822540800)
+		{
+			    var str = "";
+				var currentTime = new Date()
+				var hours = currentTime.getHours()
+				var minutes = currentTime.getMinutes()
+				var seconds = currentTime.getSeconds()
+				if (minutes < 10) {minutes = "0" + minutes}
+				if (seconds < 10) {seconds = "0" + seconds}
+				str += hours + ":" + minutes + ":" + seconds;
+			console.log(white("[" + str + "] ") + server(message.server) + " | " + chan(message.channel.name) + " | " + exec(message.sender.username) + ": " + msg(message.cleanContent));
+		}	
+	}
+	catch(err)
+	{
+		    var str = "";
+			var currentTime = new Date()
+			var hours = currentTime.getHours()
+			var minutes = currentTime.getMinutes()
+			var seconds = currentTime.getSeconds()
+			if (minutes < 10) {minutes = "0" + minutes}
+			if (seconds < 10) {seconds = "0" + seconds}
+			str += hours + ":" + minutes + ":" + seconds;
+		console.log(white("[" + str + "]") + server(" [PM] ") + exec(message.sender.name) + " : " + msg(message.cleanContent));
+	}
 
-		if(message.author.bot) return;
+	if(message.author.bot) return;
+	
+	if(message.content.startsWith (prefix + "restart")){
+		bot.sendMessage(message, ":wave: ASIANBOT is restarting...")
+		process.exit();
+	}
 	
 	if(message.content.startsWith (prefix + "user")) {
 		if (message.content === prefix + "user"){
@@ -165,7 +203,7 @@ bot.on("message", function(message) {
 		bot.sendMessage(message, "Servers: " + bot.servers.length);
 	}
 	
-	if(message.content.startsWith (prefix + "mute")) {
+	if(message.content.startsWith(prefix + "mute")) {
 		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
 			var user = message.mentions[0];
@@ -174,6 +212,8 @@ bot.on("message", function(message) {
 			{
 				bot.addMemberToRole(user.id, message.server.roles.get("name", "muted"));
 				bot.reply(message, ": " + user + " has been muted.");
+				var reason = message.content.split(" ").splice(2).join(" ")
+				bot.sendMessage(message, "ACTION: MUTE\nUSER: " + user.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
 			}
 			catch(err)
 			{
@@ -263,34 +303,6 @@ bot.on("message", function(message) {
 	if(message.content === prefix + "git") {
 			console.log(exec(message.sender.username + " executed: git"));
 			bot.reply(message, "Check out my GitHub at https://github.com/asianboiFRC/AsianBot")
-	}
-	
-	try
-	{
-		if(message.server.id != 110373943822540800)
-		{
-			    var str = "";
-				var currentTime = new Date()
-				var hours = currentTime.getHours()
-				var minutes = currentTime.getMinutes()
-				var seconds = currentTime.getSeconds()
-				if (minutes < 10) {minutes = "0" + minutes}
-				if (seconds < 10) {seconds = "0" + seconds}
-				str += hours + ":" + minutes + ":" + seconds;
-			console.log(white("[" + str + "] ") + server(message.server) + " | " + chan(message.channel.name) + " | " + exec(message.sender.username) + ": " + msg(message.cleanContent));
-		}	
-	}
-	catch(err)
-	{
-		    var str = "";
-			var currentTime = new Date()
-			var hours = currentTime.getHours()
-			var minutes = currentTime.getMinutes()
-			var seconds = currentTime.getSeconds()
-			if (minutes < 10) {minutes = "0" + minutes}
-			if (seconds < 10) {seconds = "0" + seconds}
-			str += hours + ":" + minutes + ":" + seconds;
-		console.log(white("[" + str + "]") + server(" [PM] ") + exec(message.sender.name) + " : " + msg(message.cleanContent));
 	}
 	
 	if(message.content.startsWith(prefix + "sudosay"))
