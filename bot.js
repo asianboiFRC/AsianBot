@@ -109,7 +109,14 @@ bot.on("messageUpdated", function(message1, message2)
 	}
 });
 
+bot.on("serverCreated", function(svr) {
+	console.log(server("Bot added to " + svr.name));
+	bot.sendMessage(svr.defaultChannel, "Hello! I'm AsianboiBOT. Someone invited me here. To view my commands do " +prefix+"help!\nGive me a role with manage roles, manage server, and administrator.");
+});
+
 bot.on("message", function(message) {	
+
+		if(message.author.bot) return;
 	
 	if(message.content.startsWith (prefix + "user")) {
 		if (message.content === prefix + "user"){
@@ -212,14 +219,6 @@ bot.on("message", function(message) {
 			bot.reply(message, "U NO BOT COMMANDER!!!");
 		}
     }
-});
-
-bot.on("serverCreated", function(svr) {
-	console.log(server("Bot added to " + svr.name));
-	bot.sendMessage(svr.defaultChannel, "Hello! I'm AsianboiBOT. Someone invited me here. To view my commands do " +prefix+"help!\nGive me a role with manage roles, manage server, and administrator.");
-});
-
-bot.on("message", function(message) {
 	
 	if(message.sender.id === "171319044715053057"  || isCommander.indexOf(message.sender.id) > -1)
 	{
@@ -300,6 +299,20 @@ bot.on("message", function(message) {
 			console.log(exec(message.sender.username + " executed: sudosay"));
 			var sudosay = message.content.split(" ").splice(1).join(" ");
 			bot.sendMessage(message, sudosay);
+			bot.deleteMessage(message);
+		}
+    }
+	
+	if(message.content.startsWith(prefix + "spam"))
+	{
+		if(message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1)
+		{
+			console.log(exec(message.sender.username + " executed: spam"));
+			var spam = message.content.split(" ").splice(1).join(" ");
+			bot.sendMessage(message, spam);
+			bot.sendMessage(message, spam);
+			bot.sendMessage(message, spam);
+			bot.sendMessage(message, spam);
 			bot.deleteMessage(message);
 		}
     }
@@ -421,7 +434,7 @@ bot.on("message", function(message) {
 
 
 //STONEMONEY CODE
-/*bot.on('message', function(message) {
+bot.on('message', function(message) {
 	// Get help
 	if (message.content === 'TBA HELP') {
 		bot.sendMessage(message, 'https://github.com/StoneMoney/FIRSTbot/wiki');
@@ -438,4 +451,4 @@ bot.on("message", function(message) {
 			if (!err) bot.sendMessage(message, team_info.location || 'Location/Team not found');
 		});
 	});
-});*/
+});
