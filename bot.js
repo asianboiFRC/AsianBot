@@ -1,7 +1,6 @@
-/*AsianBot v1.0
+/*AsianBot v1.1
  *August 20, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
-
 
 var Discord = require("discord.js");
 var bot = new Discord.Client({
@@ -12,13 +11,15 @@ var isCommander = ["143194991886467072", "171319044715053057", "1768709869000458
 
 var prefix = "~";
 var version = "1.0"
-var whatsnew = "Music function, cleverbot, and more! \nUPCOMING: Fun commands!"
+var whatsnew = "Google Search! \nUPCOMING: Fun commands and more Google API tools!"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
 
 var Cleverbot = require('cleverbot-node');
 cleverbot = new Cleverbot;
+
+var google = require('google')
 
 var chalk = require('chalk');
 var server = chalk.bold.red;
@@ -162,6 +163,25 @@ bot.on("message", function(message) {
 	}
 
 	if(message.author.bot) return;
+	
+	if(message.content.startsWith(prefix + "google")){
+		console.log(cmand(message.sender.username + " executed: google"));
+		var search = message.content.split(" ").splice(1).join(" ");
+		var nextCounter = 0;
+		google.resultsPerPage = 5
+		google(search, function (err, res){
+			if (err){
+				console.error(err)
+				bot.sendMessage(message, "ERROR: Search failed");
+			}
+			
+			var link = res.links[0];
+			var title = link.title;
+			var url = link.href;
+			var desc = link.description;
+			bot.sendMessage(message, "**Result: **" + title + "\n**Link: **" + url + "\n**Description: **" + desc);
+		})
+	}
 	
 	if(message.content.startsWith(prefix + "whatsnew")){
 		bot.sendMessage(message, "ASIANBOT " + version + ": " + whatsnew);
