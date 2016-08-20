@@ -163,7 +163,7 @@ bot.on("message", function(message) {
 
 	if(message.author.bot) return;
 	
-	if(message.content.startsWith(prefix + "whatsnew"){
+	if(message.content.startsWith(prefix + "whatsnew")){
 		bot.sendMessage(message, "ASIANBOT " + version + ": " + whatsnew);
 	}
 	
