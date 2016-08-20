@@ -1,5 +1,5 @@
 /*AsianBot v0.9
- *August 19, 2016
+ *August 20, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
 var Discord = require("discord.js");
@@ -10,7 +10,7 @@ var bot = new Discord.Client({
 var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793", "171319044715053057"];
 
 var prefix = "~";
-var version = "0.9.7"
+var version = "0.9.8"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
@@ -159,8 +159,9 @@ bot.on("message", function(message) {
 	if(message.author.bot) return;
 	
 	if(message.content.startsWith (prefix + "restart") && isCommander.indexOf(message.sender.id) > -1){
-		bot.sendMessage(message, ":wave: ASIANBOT is restarting...")
-		process.exit();
+		bot.sendMessage(message, ":wave: ASIANBOT is restarting...\n*Windows XP shutdown sounds*");
+		setTimeout(function () {bot.logout()}, 1000)		
+		setTimeout(function () {process.exit()}, 2000)		
 	}
 	
 	if(message.content.startsWith (prefix + "user")) {
@@ -366,10 +367,20 @@ bot.on("message", function(message) {
 	if(message.content === prefix + "help") {
 		console.log(cmand(message.sender.username + " executed: help"));
         bot.sendMessage(message, 
-		"AsianboiBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user." + 
+		"AsianBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user." + 
 		"\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute" + 
-		"\nFOR ADMINS: eval, type, stoptype, sudosay, sudoinvite");
+		"\nFOR ADMINS: eval, type, stoptype, sudosay, sudoinvite" +
+		"Music Commands: summon, play, np, disconnect, queue, clear, clean, restart, search, resume, skip, pause, setname, setnick, shuffle" + 
+		"Type ~license for the software license.");
     }
+	
+	if(message.content === prefix + "license"){
+		bot.sendMessage(message,"ASIANBOT - THE DISCORD BOT" +
+		"\nCopyright (C) 2016 ASIANBOI/Michael Cao" + 
+		"\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."+
+		"\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details."+
+		"\nYou should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.");
+	}
 	
 	if(message.content === "AsianboiBOT What's your prefix?") {
 		console.log(cmand(message.sender.username + " executed: prefix"));
