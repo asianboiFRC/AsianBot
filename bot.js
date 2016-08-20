@@ -1,4 +1,4 @@
-/*AsianBot v0.9
+/*AsianBot v1.0
  *August 20, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
@@ -11,8 +11,8 @@ var bot = new Discord.Client({
 var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793", "171319044715053057"];
 
 var prefix = "~";
-var version = "0.9.9"
-var whatsnew = "Talk function! Do ~talk(message) to talk with the bot!\nUPCOMING: Music function!"
+var version = "1.0"
+var whatsnew = "Music function, cleverbot, and more! \nUPCOMING: Fun commands!"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
@@ -329,7 +329,7 @@ bot.on("message", function(message) {
 	
 	if(message.content === prefix + "git") {
 			console.log(cmand(message.sender.username + " executed: git"));
-			bot.reply(message, "Check out my GitHub at https://github.com/asianboiFRC/AsianBot")
+			bot.reply(message, "Check out my GitHub at https://github.com/asianboiFRC/AsianBot (Music function not included)")
 	}
 	
 	if(message.content.startsWith(prefix + "sudosay"))
@@ -390,8 +390,8 @@ bot.on("message", function(message) {
 		"AsianBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user, talk." + 
 		"\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute" + 
 		"\nFOR ADMINS: eval, type, stoptype, sudosay, sudoinvite" +
-		"Music Commands: summon, play, np, disconnect, queue, clear, clean, restart, search, resume, skip, pause, setname, setnick, shuffle" + 
-		"Type ~license for the software license.");
+		"\nMusic Commands: summon, play, np, disconnect, queue, clear, clean, restart, search, resume, skip, pause, setname, setnick, shuffle" + 
+		"\nType ~license for the software license.");
     }
 	
 	if(message.content === prefix + "license"){
