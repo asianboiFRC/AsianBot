@@ -12,6 +12,7 @@ var isCommander = ["143194991886467072", "171319044715053057", "1768709869000458
 
 var prefix = "~";
 var version = "0.9.9"
+var whatsnew = "Talk function! Do ~talk(message) to talk with the bot!\nUPCOMING: Music function!"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
@@ -161,6 +162,10 @@ bot.on("message", function(message) {
 	}
 
 	if(message.author.bot) return;
+	
+	if(message.content.startsWith(prefix + "whatsnew"){
+		bot.sendMessage(message, "ASIANBOT " + version + ": " + whatsnew);
+	}
 	
 	if(message.content.startsWith(prefix + "talk")){
 		console.log(cmand(message.sender.username + " executed: talk"));
