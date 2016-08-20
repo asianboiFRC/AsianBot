@@ -2,6 +2,7 @@
  *August 20, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
+
 var Discord = require("discord.js");
 var bot = new Discord.Client({
   disableEveryone: true
@@ -10,10 +11,13 @@ var bot = new Discord.Client({
 var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793", "171319044715053057"];
 
 var prefix = "~";
-var version = "0.9.8"
+var version = "0.9.9"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
+
+var Cleverbot = require('cleverbot-node');
+cleverbot = new Cleverbot;
 
 var chalk = require('chalk');
 var server = chalk.bold.red;
@@ -158,7 +162,18 @@ bot.on("message", function(message) {
 
 	if(message.author.bot) return;
 	
-	if(message.content.startsWith (prefix + "restart") && isCommander.indexOf(message.sender.id) > -1){
+	if(message.content.startsWith(prefix + "talk")){
+		console.log(cmand(message.sender.username + " executed: talk"));
+		var cleverMessage = message.content.split(" ").splice(1).join(" ");
+		
+		Cleverbot.prepare(function(){
+			cleverbot.write(cleverMessage, function (response) {
+				bot.sendMessage(message, response.message);
+			});
+		});
+	}
+	
+	if(message.content.startsWith(prefix + "restart") && isCommander.indexOf(message.sender.id) > -1){
 		bot.sendMessage(message, ":wave: ASIANBOT is restarting...\n*Windows XP shutdown sounds*");
 		setTimeout(function () {bot.logout()}, 1000)		
 		setTimeout(function () {process.exit()}, 2000)		
@@ -367,7 +382,7 @@ bot.on("message", function(message) {
 	if(message.content === prefix + "help") {
 		console.log(cmand(message.sender.username + " executed: help"));
         bot.sendMessage(message, 
-		"AsianBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user." + 
+		"AsianBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user, talk." + 
 		"\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute" + 
 		"\nFOR ADMINS: eval, type, stoptype, sudosay, sudoinvite" +
 		"Music Commands: summon, play, np, disconnect, queue, clear, clean, restart, search, resume, skip, pause, setname, setnick, shuffle" + 
