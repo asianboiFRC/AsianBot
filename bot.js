@@ -348,27 +348,24 @@ bot.on("message", function(message) {
 			bot.reply(message, "U NO BOT COMMANDER!!!");
 		}
     }
-	
-	else if(message.sender.id === "171319044715053057"  || isCommander.indexOf(message.sender.id) > -1)
-	{
-		if(message.content === prefix + "type") {
+
+		if(message.content === prefix + "type" && isCommander.indexOf(message.sender.id) > -1) {
 			console.log(cmand(message.sender.username + " executed: type"));
 			bot.startTyping(message.server.id);
 		}
 		
-		if(message.content === prefix + "stoptype") {
+		if(message.content === prefix + "stoptype" && isCommander.indexOf(message.sender.id) > -1) {
 			console.log(cmand(message.sender.username + " executed: stoptype"));
 			bot.stopTyping(message.server.id);
 		}
 		
-		if(message.content.startsWith(prefix + "setgame")) {
+		if(message.content.startsWith(prefix + "setgame") && isCommander.indexOf(message.sender.id) > -1) {
 			var game = message.content.split(" ").splice(1).join(" ");
 			console.log(cmand(message.sender.username + " executed: setgame"));
 			bot.setPlayingGame(game);
 			bot.reply(message, "Successfully set game to " + game);
 		}
-	}
-	
+
 	else if(message.content.startsWith (prefix + "warn")) {
 		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
