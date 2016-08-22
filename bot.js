@@ -10,14 +10,14 @@ var bot = new Discord.Client({
 var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793", "171319044715053057"];
 
 var prefix = "~";
-var version = "1.0"
+var version = "1.1"
 var whatsnew = "Google Search! \nUPCOMING: Fun commands and more Google API tools!"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
 
 var Cleverbot = require('cleverbot-node');
-cleverbot = new Cleverbot;
+var cleverbot = new Cleverbot;
 
 var google = require('google')
 
@@ -65,19 +65,12 @@ bot.on("ready", function() {
 				str += hours + ":" + minutes + ":" + seconds;
 	console.log(server("Bot Online and Ready!"));
 	bot.sendMessage("214876995375464448", ":stopwatch: ``" + str + "`` :mega: AsianboiBOT is online and ready! :white_check_mark:");
+	bot.setPlayingGame('~help | ' + bot.servers.length + " Servers")
 });
 
 bot.on('serverNewMember', function(server, user)
 {
-	if(server.id === "176186766946992128")
-	{
-		bot.sendMessage(server.defaultChannel, ":wave: " + user.username + " joined the server.");
-	}
-	else if(server.id === "209467012684972034")
-	{
-		bot.sendMessage(server.defaultChannel, ":wave: " + user.username + " joined the server.");
-	}
-	else if(server.id === "214850991089123328")
+	if(server.id === "176186766946992128" || server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544")
 	{
 		bot.sendMessage(server.defaultChannel, ":wave: " + user.username + " joined the server.");
 	}
@@ -85,7 +78,7 @@ bot.on('serverNewMember', function(server, user)
 
 bot.on('serverMemberRemoved', function(server, user)
 {
-	if(server.id === "176186766946992128" || server.id === "209467012684972034" || server.id === "214850991089123328")
+	if(server.id === "176186766946992128" || server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544")
 	{
 		bot.sendMessage(server.defaultChannel, user.username + " left the server.");
 	}
@@ -93,15 +86,7 @@ bot.on('serverMemberRemoved', function(server, user)
 
 bot.on('userBanned', function(server, user)
 {
-	if(server.id === "176186766946992128")
-	{
-		bot.sendMessage(server.defaultChannel, ":hammer: " +  user.username + " was banned.");
-	}
-	else if(server.id === "209467012684972034")
-	{
-		bot.sendMessage(server.defaultChannel, ":hammer: " +  user.username + " was banned.");
-	}
-	else if(server.id === "214850991089123328")
+	if(server.id === "176186766946992128" || server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544")
 	{
 		bot.sendMessage(server.defaultChannel, ":hammer: " +  user.username + " was banned.");
 	}
@@ -183,11 +168,11 @@ bot.on("message", function(message) {
 		})
 	}
 	
-	if(message.content.startsWith(prefix + "whatsnew")){
+	else if(message.content.startsWith(prefix + "whatsnew")){
 		bot.sendMessage(message, "ASIANBOT " + version + ": " + whatsnew);
 	}
 	
-	if(message.content.startsWith(prefix + "talk")){
+	else if(message.content.startsWith(prefix + "talk")){
 		console.log(cmand(message.sender.username + " executed: talk"));
 		var cleverMessage = message.content.split(" ").splice(1).join(" ");
 		
@@ -198,13 +183,13 @@ bot.on("message", function(message) {
 		});
 	}
 	
-	if(message.content.startsWith(prefix + "restart") && isCommander.indexOf(message.sender.id) > -1){
+	else if(message.content.startsWith(prefix + "restart") && isCommander.indexOf(message.sender.id) > -1){
 		bot.sendMessage(message, ":wave: ASIANBOT is restarting...\n*Windows XP shutdown sounds*");
 		setTimeout(function () {bot.logout()}, 1000)		
 		setTimeout(function () {process.exit()}, 2000)		
 	}
 	
-	if(message.content.startsWith (prefix + "user")) {
+	else if(message.content.startsWith (prefix + "user")) {
 		if (message.content === prefix + "user"){
 		
 			console.log(cmand(message.sender.username + " executed: user"));
@@ -230,7 +215,7 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content ===(prefix + "server")) {
+	else if(message.content ===(prefix + "server")) {
 		console.log(cmand(message.sender.username + " executed: server"));
 		bot.sendMessage(message,
 		"Server: " + message.server.name + 
@@ -245,12 +230,12 @@ bot.on("message", function(message) {
 	}
     
 	
-	if(message.content.startsWith (prefix + "servers")) {
+	else if(message.content.startsWith (prefix + "servers")) {
 		console.log(cmand(message.sender.username + " executed: servers"));
 		bot.sendMessage(message, "Servers: " + bot.servers.length);
 	}
 	
-	if(message.content.startsWith(prefix + "mute")) {
+	else if(message.content.startsWith(prefix + "mute")) {
 		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
 			var user = message.mentions[0];
@@ -273,7 +258,7 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content.startsWith (prefix + "unmute")) {
+	else if(message.content.startsWith (prefix + "unmute")) {
 		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
 			var user = message.mentions[0];
@@ -294,13 +279,16 @@ bot.on("message", function(message) {
 		}
     }
 
-    if(message.content.startsWith (prefix + "ban")) {
+    else if(message.content.startsWith (prefix + "ban")) {
 		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
-			var user = message.mentions[0];
-			console.log(cmand(message.sender.username + " executed: ban against " + user.name));
-				bot.banMember(user, message.server)
+			if(msg.mentions.length === 1){
+            for(var user of msg.mentions){
+                bot.banMember(user, msg.channel);
+				console.log(cmand(message.sender.username + " executed: ban against " + user.name));
 				bot.reply(message, user + " has been banned.");
+                return;
+            }}
 		}
 		else
 		{
@@ -308,7 +296,7 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.sender.id === "171319044715053057"  || isCommander.indexOf(message.sender.id) > -1)
+	else if(message.sender.id === "171319044715053057"  || isCommander.indexOf(message.sender.id) > -1)
 	{
 		if(message.content === prefix + "type") {
 			console.log(cmand(message.sender.username + " executed: type"));
@@ -328,7 +316,7 @@ bot.on("message", function(message) {
 		}
 	}
 	
-	if(message.content.startsWith (prefix + "warn")) {
+	else if(message.content.startsWith (prefix + "warn")) {
 		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
 		{
 			var user = message.mentions[0];
@@ -341,18 +329,18 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content === "<@204301419828871168> What's your prefix?")
+	else if(message.content === "<@204301419828871168> What's your prefix?")
 	{
 		if(message.author.bot) return;
 		else bot.reply(message, replyTextToMentions);
 	}
 	
-	if(message.content === prefix + "git") {
+	else if(message.content === prefix + "git") {
 			console.log(cmand(message.sender.username + " executed: git"));
 			bot.reply(message, "Check out my GitHub at https://github.com/asianboiFRC/AsianBot (Music function not included)")
 	}
 	
-	if(message.content.startsWith(prefix + "sudosay"))
+	else if(message.content.startsWith(prefix + "sudosay"))
 	{
 		if(message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1)
 		{
@@ -363,7 +351,7 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content.startsWith(prefix + "spam"))
+	else if(message.content.startsWith(prefix + "spam"))
 	{
 		if(message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1)
 		{
@@ -377,7 +365,7 @@ bot.on("message", function(message) {
 		}
     }
 	
-	if(message.content.startsWith(prefix + "sudoinvite"))
+	else if(message.content.startsWith(prefix + "sudoinvite"))
 	{
 		if(message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1)
 		{
@@ -393,28 +381,29 @@ bot.on("message", function(message) {
 		}
 	}
 	
-	if(message.content.startsWith(prefix + "say")) {
+	else if(message.content.startsWith(prefix + "say")) {
 		console.log(cmand(message.sender.username + " executed: say"));
 		var say = message.content.split(" ").splice(1).join(" ");
 		bot.reply(message, say);
     }
 	
-	if(message.content.startsWith(prefix + "stats")) {
+	else if(message.content.startsWith(prefix + "stats")) {
 		console.log(cmand(message.sender.username + " executed: stats"));
 		bot.sendMessage(message, "Stats for ASIANBOIBOT: \n``" + bot.users.length + " Users\n" + bot.channels.length + " Channels\n" + bot.servers.length + " Servers``");
     }
 	
-	if(message.content === prefix + "help") {
+	else if(message.content === prefix + "help") {
 		console.log(cmand(message.sender.username + " executed: help"));
         bot.sendMessage(message, 
 		"AsianBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user, talk." + 
 		"\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute" + 
 		"\nFOR ADMINS: eval, type, stoptype, sudosay, sudoinvite" +
 		"\nMusic Commands: summon, play, np, disconnect, queue, clear, clean, restart, search, resume, skip, pause, setname, setnick, shuffle" + 
-		"\nType ~license for the software license.");
+		"\nType ~license for the software license." + 
+		"\nCheck out my server at https://discord.gg/scfs8Bx");
     }
 	
-	if(message.content === prefix + "license"){
+	else if(message.content === prefix + "license"){
 		bot.sendMessage(message,"ASIANBOT - THE DISCORD BOT" +
 		"\nCopyright (C) 2016 ASIANBOI/Michael Cao" + 
 		"\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."+
@@ -427,19 +416,20 @@ bot.on("message", function(message) {
         bot.sendMessage(message, "Hello, my prefix is " + prefix);
     }
 	
-    if(message.content === prefix + "ping") {
+    else if(message.content === prefix + "ping") {
 		console.log(cmand(message.sender.username + " executed: ping"));
-		var startTime = Date.now()
-		var responseTime = startTime - message.timestamp; 
+		var start = new Date(message.timestamp).getTime();
+		var end = new Date(botMessage.timestamp).getTime();
+		var responseTime = end - start;
         bot.sendMessage(message, "Hello, pong! You're on server **" + message.channel.server.name + "**.\nTook ``" + responseTime + "`` ms to respond.");
     }
 	
-	if(message.content === prefix + "invite") {
+	else if(message.content === prefix + "invite") {
 		console.log(cmand(message.sender.username + " executed: invite"));
         bot.sendMessage(message, "Invite me here: https://discordapp.com/oauth2/authorize?client_id=204301371518746624&scope=bot");
     }
 	
-	if(message.content === prefix + "verify")
+	else if(message.content === prefix + "verify")
 	{
 		try
 		{
@@ -475,7 +465,7 @@ bot.on("message", function(message) {
 		}
 	}
 	
-	if(message.content.startsWith(prefix + "eval")){
+	else if(message.content.startsWith(prefix + "eval")){
     // Checks to see whos sending message (so bad people cant hack bot)
 		console.log(server(message.sender.username + " executed: eval"));
 		if(message.sender.id === "171319044715053057"  || isCommander.indexOf(message.sender.id) > -1){
