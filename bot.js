@@ -320,9 +320,26 @@ bot.on("message", function(message) {
 		{
 			if(msg.mentions.length === 1){
             for(var user of msg.mentions){
-                bot.banMember(user, msg.channel);
+                bot.banMember(user, msg.server);
 				console.log(cmand(message.sender.username + " executed: ban against " + user.name));
 				bot.reply(message, user + " has been banned.");
+                return;
+            }}
+		}
+		else
+		{
+			bot.reply(message, "U NO BOT COMMANDER!!!");
+		}
+    }
+	
+	else if(message.content.startsWith (prefix + "kick")) {
+		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1)
+		{
+			if(msg.mentions.length === 1){
+            for(var user of msg.mentions){
+                bot.kickMember(user, msg.server);
+				console.log(cmand(message.sender.username + " executed: kick against " + user.name));
+				bot.reply(message, user + " has been kicked.");
                 return;
             }}
 		}
@@ -453,11 +470,11 @@ bot.on("message", function(message) {
     }
 	
     else if(message.content === prefix + "ping") {
-		console.log(cmand(message.sender.username + " executed: ping"));
-		var start = new Date(message.timestamp).getTime();
-		var end = new Date(botMessage.timestamp).getTime();
-		var responseTime = end - start;
-        bot.sendMessage(message, "Hello, pong! You're on server **" + message.channel.server.name + "**.\nTook ``" + responseTime + "`` ms to respond.");
+            var start = new Date(message.timestamp).getTime();
+            bot.sendMessage(message, "Pong!", (error, botMessage) => {
+                var end = new Date(botMessage.timestamp).getTime();
+                bot.updateMessage(botMessage, "Pong! | took " + (end - start) + "ms.");
+			});
     }
 	
 	else if(message.content === prefix + "invite") {
