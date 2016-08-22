@@ -1,5 +1,5 @@
-/*AsianBot v1.1
- *August 20, 2016
+/*AsianBot v1.2
+ *August 22, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
 var Discord = require("discord.js");
@@ -11,7 +11,7 @@ var isCommander = ["143194991886467072", "171319044715053057", "1768709869000458
 
 var prefix = "~";
 var version = "1.1"
-var whatsnew = "Google Search! \nUPCOMING: Fun commands and more Google API tools!"
+var whatsnew = "Google search! \nUPCOMING: Fun commands and more Google API tools!"
 
 var initTBA = require('thebluealliance');
 var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
@@ -28,6 +28,15 @@ var msg = chalk.yellow;
 var usr = chalk.bold.blue;
 var cmand = chalk.bgRed;
 var gray = chalk.gray;
+
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host: "localhost",
+  user: "asianbot",
+  password: "discordbot",
+  database: "discordbot"
+});
+connection.connect();
 
 fs = require('fs')
 fs.readFile('token.txt', 'utf8', function (err,token) {
@@ -63,7 +72,7 @@ bot.on("ready", function() {
 				if (minutes < 10) {minutes = "0" + minutes}
 				if (seconds < 10) {seconds = "0" + seconds}
 				str += hours + ":" + minutes + ":" + seconds;
-	console.log(server("Bot Online and Ready!"));
+	console.log("Bot Online and Ready! On " + bot.servers.length + " Servers!");
 	bot.sendMessage("214876995375464448", ":stopwatch: ``" + str + "`` :mega: AsianboiBOT is online and ready! :white_check_mark:");
 	bot.setPlayingGame('~help | ' + bot.servers.length + " Servers")
 });
@@ -113,7 +122,34 @@ bot.on("messageUpdated", function(message1, message2)
 	}
 });
 
+bot.on("serverDeleted", function(server) {
+  console.log("Attempting to remove " + server.name + " from the database!");
+  connection.query("DELETE FROM servers WHERE serverid = '" + server.id + "'", function(error) {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log("Server Removed!");
+  })
+})
+
 bot.on("serverCreated", function(svr) {
+	console.log("Trying to insert server " + svr.name + " into database");
+	var info = {
+	"servername": "'" + svr.name + "'",
+	"serverid": svr.id,
+	"ownerid": svr.owner.id,
+	"prefix": "~"
+	}
+
+	connection.query("INSERT INTO servers SET ?", info, function(error) {
+	if (error) {
+		console.log(error);
+		return;
+	}
+		console.log("Server Inserted!");
+	})
+  
 	console.log(server("Bot added to " + svr.name));
 	bot.sendMessage(svr.defaultChannel, "Hello! I'm AsianboiBOT. Someone invited me here. To view my commands do " +prefix+"help!\nGive me a role with manage roles, manage server, and administrator.");
 });
