@@ -10,7 +10,7 @@ var bot = new Discord.Client({
 var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793", "171319044715053057"];
 
 var prefix = "~";
-var version = "1.1"
+var version = "1.2"
 var whatsnew = "Google search! \nUPCOMING: Fun commands and more Google API tools!"
 
 var initTBA = require('thebluealliance');
@@ -449,7 +449,7 @@ bot.on("message", function(message) {
 		console.log(cmand(message.sender.username + " executed: help"));
         bot.sendMessage(message, 
 		"AsianBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user, talk." + 
-		"\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute" + 
+		"\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute, kick" + 
 		"\nFOR ADMINS: eval, type, stoptype, sudosay, sudoinvite" +
 		"\nMusic Commands: summon, play, np, disconnect, queue, clear, clean, restart, search, resume, skip, pause, setname, setnick, shuffle" + 
 		"\nType ~license for the software license." + 
@@ -473,7 +473,7 @@ bot.on("message", function(message) {
             var start = new Date(message.timestamp).getTime();
             bot.sendMessage(message, "Pong!", (error, botMessage) => {
                 var end = new Date(botMessage.timestamp).getTime();
-                bot.updateMessage(botMessage, "Pong! | took " + (end - start) + "ms.");
+				bot.updateMessage(botMessage, "Hello, pong! You're on server **" + message.channel.server.name + "**.\nTook ``" + (end - start) + "`` ms to respond.");
 			});
     }
 	
@@ -546,7 +546,7 @@ bot.on("message", function(message) {
 });
 
 
-//STONEMONEY CODE
+/*STONEMONEY CODE
 bot.on('message', function(message) {
 	// Get help
 	if (message.content === 'TBA HELP') {
@@ -564,4 +564,4 @@ bot.on('message', function(message) {
 			if (!err) bot.sendMessage(message, team_info.location || 'Location/Team not found');
 		});
 	});
-});
+});*/
