@@ -115,10 +115,8 @@ bot.on("messageDeleted", function(message) {
     }
 });
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 bot.on("messageUpdated", function(message1, message2) {
-    if (message1.server.id != "110373943822540800") {
+    if (server.id === "176186766946992128" || server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
         console.log(server(message1.sender.username + "'s message was edited!\n Old message: " + message1.content));
         //bot.sendMessage(message1, message1.sender.username + "'s message was edited!\n Old message: " + message1.content);
     }
@@ -525,6 +523,9 @@ bot.on("message", function(message) {
 			break;
 		case (prefix) + "watergame":
 			bot.sendMessage(message, cmds.watergame);
+			break;
+		case (prefix) + "aasher":
+			bot.sendMessage(message, cmds.aasher);
 			break;
 	}
 });
