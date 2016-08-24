@@ -92,11 +92,16 @@ bot.on("ready", function() {
 bot.on('serverNewMember', function(server, user) {
 	if(server.id === "176186766946992128")
 	{
-		bot.sendMessage(server.defaultChannel, "Hello " + user + " and welcome to the **FIRST Robotics Competition Discord Server** - a place for you to talk to fellow FRC students and enthusiasts about more or less anything! Please pay attention to the rules posted in #rules and have fun! Don't hesitate to ping a mod or an admin if you have any questions! `(Please change your nick with '/nick (name) - (team #)' to reflect your team number!)`");
+		bot.sendMessage(server.defaultChannel, "Hello " + user + " and welcome to the **FIRST Robotics Competition Discord Server** - " + 
+												"a place for you to talk to fellow FRC students and enthusiasts about more or less anything! " + 
+												"Please pay attention to the rules posted in #rules and have fun! Don't hesitate to ping a mod or an admin " + 
+												"if you have any questions! `(Please change your nick with '/nick (name) - (team #)' to reflect your team number!)`");
 		bot.sendMessage("200090417809719296", user + "joined FIRST Robotics Competition");
 		var username = user.username;
 		bot.setNickname(server, username + " - (SET TEAM#)", user);
-		bot.sendMessage("200090417809719296", username + " nick set to --> ``" + user.username + "``");
+		setTimeout(function() {
+            bot.sendMessage("200090417809719296", username + " Join Nick set to --> ``" + user.username + " - (SET TEAM#)``");
+        }, 1000)
 	}
 	else if (server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
         bot.sendMessage(server.defaultChannel, ":wave: " + user.username + " joined the server.");
@@ -106,7 +111,7 @@ bot.on('serverNewMember', function(server, user) {
 bot.on('serverMemberRemoved', function(server, user) {
 	if(server.id === "176186766946992128")
 	{
-		bot.sendMessage("200090417809719296", user.username + "left FIRST Robotics Competition");
+		bot.sendMessage("200090417809719296", user.username + " left FIRST Robotics Competition");
 	}
     else if (server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
         bot.sendMessage(server.defaultChannel, user.username + " left the server. RIP " + user.username + ".");
