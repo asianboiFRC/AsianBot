@@ -90,14 +90,26 @@ bot.on("ready", function() {
 });
 
 bot.on('serverNewMember', function(server, user) {
-    if (server.id === "176186766946992128" || server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
+	if(server.id === "176186766946992128")
+	{
+		bot.sendMessage(server.defaultChannel, "Hello " + user + " and welcome to the **FIRST Robotics Competition Discord Server** - a place for you to talk to fellow FRC students and enthusiasts about more or less anything! Please pay attention to the rules posted in #rules and have fun! Don't hesitate to ping a mod or an admin if you have any questions! `(Please change your nick with '/nick (name) - (team #)' to reflect your team number!)`");
+		bot.sendMessage("200090417809719296", user + "joined FIRST Robotics Competition");
+		var username = user.username;
+		bot.setNickname(server, username + " - (SET TEAM#)", user);
+		bot.sendMessage("200090417809719296", username + " nick set to --> ``" + user.username + "``");
+	}
+	else if (server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
         bot.sendMessage(server.defaultChannel, ":wave: " + user.username + " joined the server.");
     }
 });
 
 bot.on('serverMemberRemoved', function(server, user) {
-    if (server.id === "176186766946992128" || server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
-        bot.sendMessage(server.defaultChannel, user.username + " left the server.");
+	if(server.id === "176186766946992128")
+	{
+		bot.sendMessage("200090417809719296", user.username + "left FIRST Robotics Competition");
+	}
+    else if (server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
+        bot.sendMessage(server.defaultChannel, user.username + " left the server. RIP " + user.username + ".");
     }
 });
 
@@ -118,7 +130,6 @@ bot.on("messageDeleted", function(message) {
 bot.on("messageUpdated", function(message1, message2) {
     if (server.id === "176186766946992128" || server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
         console.log(server(message1.sender.username + "'s message was edited!\n Old message: " + message1.content));
-        //bot.sendMessage(message1, message1.sender.username + "'s message was edited!\n Old message: " + message1.content);
     }
 });
 
@@ -250,15 +261,15 @@ bot.on("message", function(message) {
     } else if (message.content === (prefix + "server")) {
         console.log(cmand(message.sender.username + " executed: server"));
         bot.sendMessage(message,
-            "Server: " + message.server.name +
-            "\nOwner: " + message.server.owner.name +
-            "\nCreated: " + message.server.createdAt +
-            "\nRegion: " + message.server.region +
-            "\nServer ID: " + message.server.id +
-            "\nMembers: " + message.server.members.length +
-            "\nChannels: " + message.server.channels.length +
-            "\nRoles: " + message.server.roles.map(r => r.name).join(", ") +
-            "\n" + message.server.iconURL);
+            "╠═►Server: " + message.server.name +
+            "\n╠═►Owner: " + message.server.owner.name +
+            "\n╠═►Created: " + message.server.createdAt +
+            "\n╠═►Region: " + message.server.region +
+            "\n╠═►Server ID: " + message.server.id +
+            "\n╠═►Members: " + message.server.members.length +
+            "\n╠═►Channels: " + message.server.channels.length +
+            "\n╠═►Roles: " + message.server.roles.map(r => r.name).join(", ") +
+            "\n╠═►Icon: " + message.server.iconURL);
     } else if (message.content.startsWith(prefix + "servers")) {
         console.log(cmand(message.sender.username + " executed: servers"));
         bot.sendMessage(message, "Servers: " + bot.servers.length);
