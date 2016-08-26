@@ -80,7 +80,7 @@ bot.on("ready", function() {
     }
     str += hours + ":" + minutes + ":" + seconds;
     console.log("Bot Online and Ready! On " + bot.servers.length + " Servers!");
-    bot.sendMessage("214876995375464448", ":stopwatch: ``" + str + "`` :mega: AsianboiBOT is online and ready! :white_check_mark:");
+    bot.sendMessage("214876995375464448", ":stopwatch: ``" + str + "`` :mega: AsianBOT is online and ready! :white_check_mark:");
     bot.setPlayingGame('~help | ' + bot.servers.length + " Servers")
 });
 
@@ -163,7 +163,7 @@ bot.on("serverCreated", function(svr) {
     })
 
     console.log(server("Bot added to " + svr.name));
-    bot.sendMessage(svr.defaultChannel, "Hello! I'm AsianboiBOT. Someone invited me here. To view my commands do " + prefix + "help!\nGive me a role with manage roles, manage server, and administrator.");
+    bot.sendMessage(svr.defaultChannel, "Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + prefix + "help!\nGive me a role with manage roles, manage server, and administrator.");
 });
 
 bot.on("message", function(message) {
@@ -278,10 +278,11 @@ bot.on("message", function(message) {
         if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1) {
             var user = message.mentions[0];
             console.log(cmand(message.sender.username + " executed: mute against " + user.name));
-			var role = msg.server.roles.get("name", "muted");
+			var role = message.server.roles.get("name", "muted");
 			// if the role doesn't exist, make it
 			if (!role) {
-				bot.createRole(msg.server, {
+				bot.sendMessage(message, "Creating Role...");
+				bot.createRole(message.server, {
 					name: "muted",
 					hoist: false, // make a seperate category in the users list
 					mentionable: false
@@ -311,9 +312,9 @@ bot.on("message", function(message) {
         }
     } else if (message.content.startsWith(prefix + "ban")) {
         if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1) {
-            if (msg.mentions.length === 1) {
-                for (var user of msg.mentions) {
-                    bot.banMember(user, msg.server);
+            if (message.mentions.length === 1) {
+                for (var user of message.mentions) {
+                    bot.banMember(user, message.server);
                     console.log(cmand(message.sender.username + " executed: ban against " + user.name));
                     bot.reply(message, user + " has been banned.");
 					var reason = message.content.split(" ").splice(2).join(" ")
@@ -326,9 +327,9 @@ bot.on("message", function(message) {
         }
     } else if (message.content.startsWith(prefix + "kick")) {
         if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1) {
-            if (msg.mentions.length === 1) {
-                for (var user of msg.mentions) {
-                    bot.kickMember(user, msg.server);
+            if (message.mentions.length === 1) {
+                for (var user of message.mentions) {
+                    bot.kickMember(user, message.server);
                     console.log(cmand(message.sender.username + " executed: kick against " + user.name));
                     bot.reply(message, user + " has been kicked.");
 					var reason = message.content.split(" ").splice(2).join(" ")
@@ -406,7 +407,7 @@ bot.on("message", function(message) {
         bot.reply(message, say);
     } else if (message.content.startsWith(prefix + "stats")) {
         console.log(cmand(message.sender.username + " executed: stats"));
-        bot.sendMessage(message, "Stats for ASIANBOIBOT: \n``" + bot.users.length + " Users\n" + bot.channels.length + " Channels\n" + bot.servers.length + " Servers``");
+        bot.sendMessage(message, "Stats for ASIANBOT: \n``" + bot.users.length + " Users\n" + bot.channels.length + " Channels\n" + bot.servers.length + " Servers``");
     } else if (message.content === prefix + "help") {
         console.log(cmand(message.sender.username + " executed: help"));
         bot.sendMessage(message,
@@ -426,10 +427,7 @@ bot.on("message", function(message) {
             "\nYou should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.");
     }
 
-    if (message.content === "AsianboiBOT What's your prefix?") {
-        console.log(cmand(message.sender.username + " executed: prefix"));
-        bot.sendMessage(message, "Hello, my prefix is " + prefix);
-    } else if (message.content === prefix + "ping") {
+	if (message.content === prefix + "ping") {
         var start = new Date(message.timestamp).getTime();
         bot.sendMessage(message, "Pong!", (error, botMessage) => {
             var end = new Date(botMessage.timestamp).getTime();
@@ -466,9 +464,9 @@ bot.on("message", function(message) {
             var code = message.content.split(" ").splice(1).join(" ");
 
             try {
-                if(code.contains("token") && code.contains("internal")) {
+                if(code.includes("token") && code.includes("internal")) {
                     bot.sendMessage(message, "You're not getting my token xDDDDD");
-                } if(eval(code).toUpperCase.contains(bot.internal.token.toUpperCase)) {
+                } if(eval(code).toUpperCase.includes(bot.internal.token.toUpperCase)) {
                     bot.sendMessage(message, "You're not getting my token xDDDDD");
                 } else{
                     bot.sendMessage(message, "Code: ``" + code + "``\nOutput: ``" + eval(code) + "``");
