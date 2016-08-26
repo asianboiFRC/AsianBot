@@ -1,5 +1,5 @@
 /*AsianBot v1.3
- *August 22, 2016
+ *August 25, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
 var Discord = require("discord.js");
@@ -7,14 +7,11 @@ var bot = new Discord.Client({
   disableEveryone: true
 });
 
-var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793", "171319044715053057"];
+var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
 
 var prefix = "~";
-var version = "1.3"
-var whatsnew = "Custom commands for FRC! Upcoming: Support command!"
-
-var initTBA = require('thebluealliance');
-var tba = initTBA('node-thebluealliance', 'Node.js wrapper library for the TBA v2 API', '1.1.1');
+var version = "1.4"
+var whatsnew = "Support command! Upcoming: database stuff!"
 
 var Cleverbot = require('cleverbot-node');
 var cleverbot = new Cleverbot;
@@ -60,8 +57,6 @@ bot.on('debug', e => {
 
 var replyTextToMentions = "Hi! I'm AsianBOT. Use " + prefix + "help to see a list of my commands.";
 
-disableEveryone: true
-
 /*var stdin = process.openStdin();
 
 stdin.addListener("data", function(d) {
@@ -96,7 +91,7 @@ bot.on('serverNewMember', function(server, user) {
 												"a place for you to talk to fellow FRC students and enthusiasts about more or less anything! " + 
 												"Please pay attention to the rules posted in #rules and have fun! Don't hesitate to ping a mod or an admin " + 
 												"if you have any questions! `(Please change your nick with '/nick (name) - (team #)' to reflect your team number!)`");
-		bot.sendMessage("200090417809719296", user + "joined FIRST Robotics Competition");
+		bot.sendMessage("200090417809719296", user + " joined FIRST Robotics Competition");
 		var username = user.username;
 		bot.setNickname(server, username + " - (SET TEAM#)", user);
 		setTimeout(function() {
@@ -111,6 +106,7 @@ bot.on('serverNewMember', function(server, user) {
 bot.on('serverMemberRemoved', function(server, user) {
 	if(server.id === "176186766946992128")
 	{
+		bot.sendMessage(server.defaultChannel, user.username + " left the server. RIP " + user.username + ".");
 		bot.sendMessage("200090417809719296", user.username + " left FIRST Robotics Competition");
 	}
     else if (server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
@@ -394,6 +390,7 @@ bot.on("message", function(message) {
     } else if (message.content.startsWith(prefix + "sudoinvite")) {
         if (message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1) {
             console.log(cmand(message.sender.username + " executed: sudoinvite"));
+			bot.sendMessage(message, "Alright I am sending you an invite to " + servertoinvite + "!");
             const serverToInvite = message.content.split(" ").splice(1).join(" ");
             bot.createInvite(bot.servers.get("name", serverToInvite).generalChannel, {
                     maxAge: 60,
@@ -469,9 +466,11 @@ bot.on("message", function(message) {
             var code = message.content.split(" ").splice(1).join(" ");
 
             try {
-                if (code.startsWith(prefix + "eval bot.internal.token") || code.startsWith(prefix + "eval eval")) {
-                    bot.sendMessage(message, "You're not getting my token");
-                } else {
+                if(code.contains("token") && code.contains("internal")) {
+                    bot.sendMessage(message, "You're not getting my token xDDDDD");
+                } if(eval(code).toUpperCase.contains(bot.internal.token.toUpperCase)) {
+                    bot.sendMessage(message, "You're not getting my token xDDDDD");
+                } else{
                     bot.sendMessage(message, "Code: ``" + code + "``\nOutput: ``" + eval(code) + "``");
                 }
             } catch (err) {
@@ -480,7 +479,14 @@ bot.on("message", function(message) {
         } else {
             bot.sendMessage(message, "You do not have permission to use this command");
         }
-    }
+    } else if (message.content.startsWith(prefix + "support")){
+		console.log(server(message.sender.username + " executed: support"));
+		var supportmsg = message.content.split(" ").splice(1).join(" ");
+		bot.sendMessage("171319044715053057", message.author.username + " needs your help!" + 
+												"\nServer: " + message.server.name +
+												"\nChannel: #" + message.channel.name + 
+												"\nMessage: " + supportmsg);
+	}
 	
 	var cmds = require('./commands.json');
 	
