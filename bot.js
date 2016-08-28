@@ -1,4 +1,4 @@
-/*AsianBot v1.3
+/*AsianBot v1.4
  *August 25, 2016
  *Programmed by Michael Cao (ASIANBOI)*/
 
@@ -464,9 +464,9 @@ bot.on("message", function(message) {
             var code = message.content.split(" ").splice(1).join(" ");
 
             try {
-                if(code.includes("token") && code.includes("internal")) {
+                if(code.contains("token") && code.contains("internal")) {
                     bot.sendMessage(message, "You're not getting my token xDDDDD");
-                } if(eval(code).toUpperCase.includes(bot.internal.token.toUpperCase)) {
+                } if(eval(code).toUpperCase.contains(bot.internal.token.toUpperCase)) {
                     bot.sendMessage(message, "You're not getting my token xDDDDD");
                 } else{
                     bot.sendMessage(message, "Code: ``" + code + "``\nOutput: ``" + eval(code) + "``");
