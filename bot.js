@@ -451,7 +451,7 @@ bot.on("message", function(message) {
             } else if (message.sender.id === "183678606705164288") {
                 bot.sendMessage(message, message.sender.username + " :white_check_mark: You have been verified as someone who likes poutine :D.");
             } else {
-                bot.sendMessage(message, message.sender.username + " :white_check_mark: You have been verified as: Nobody");
+                bot.sendMessage(message, message.sender.username + " :negative_squared_cross_mark: You have not been verified");
             }
         } catch (err) {
             bot.sendMessage(message, "ERROR: ERROR IN ~VERIFY");
@@ -461,15 +461,13 @@ bot.on("message", function(message) {
         console.log(server(message.sender.username + " executed: eval"));
         if (message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1) {
             // gets code to run
-            var code = message.content.split(" ").splice(1).join(" ");
+            var evalcode = message.content.split(" ").splice(1).join(" ");
 
             try {
-                if(code.contains("token") && code.contains("internal")) {
-                    bot.sendMessage(message, "You're not getting my token xDDDDD");
-                } if(eval(code).toUpperCase.contains(bot.internal.token.toUpperCase)) {
-                    bot.sendMessage(message, "You're not getting my token xDDDDD");
+                if (evalcode.startsWith(prefix + "eval bot.internal.token") || evalcode.startsWith(prefix + "eval eval")) {
+                    bot.sendMessage(message, "You're not getting my token");
                 } else{
-                    bot.sendMessage(message, "Code: ``" + code + "``\nOutput: ``" + eval(code) + "``");
+                    bot.sendMessage(message, "Code: ``" + evalcode + "``\nOutput: ``" + eval(evalcode) + "``");
                 }
             } catch (err) {
                 bot.sendMessage(message, "Error: " + err);
