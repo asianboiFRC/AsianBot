@@ -1,6 +1,6 @@
-/*AsianBot v1.4
- *August 25, 2016
- *Programmed by Michael Cao (ASIANBOI)*/
+/*AsianBot v1.5
+ *August 28, 2016
+ *Created by Michael Cao (ASIANBOI)*/
 
 var Discord = require("discord.js");
 var bot = new Discord.Client({
@@ -10,8 +10,8 @@ var bot = new Discord.Client({
 var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
 
 var prefix = "~";
-var version = "1.4"
-var whatsnew = "Support command! Upcoming: database stuff!"
+var version = "1.5"
+var whatsnew = "Give/take roles and prune!"
 
 var Cleverbot = require('cleverbot-node');
 var cleverbot = new Cleverbot;
@@ -290,10 +290,10 @@ bot.on("message", function(message) {
 					role = createdRole;
 				}).catch(console.log);
 			}
-                bot.addMemberToRole(user.id, role);
-                bot.reply(message, ": " + user + " has been muted.");
-                var reason = message.content.split(" ").splice(2).join(" ")
-                bot.sendMessage(message, "ACTION: MUTE\nUSER: " + user.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
+            bot.addMemberToRole(user.id, role);
+            bot.reply(message, ": " + user + " has been muted.");
+            var reason = message.content.split(" ").splice(2).join(" ")
+            bot.sendMessage(message, "ACTION: MUTE\nUSER: " + user.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
         } else {
             bot.reply(message, "U NO BOT COMMANDER!!!");
         }
@@ -391,8 +391,8 @@ bot.on("message", function(message) {
     } else if (message.content.startsWith(prefix + "sudoinvite")) {
         if (message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1) {
             console.log(cmand(message.sender.username + " executed: sudoinvite"));
+			const serverToInvite = message.content.split(" ").splice(1).join(" ");
 			bot.sendMessage(message, "Alright I am sending you an invite to " + servertoinvite + "!");
-            const serverToInvite = message.content.split(" ").splice(1).join(" ");
             bot.createInvite(bot.servers.get("name", serverToInvite).generalChannel, {
                     maxAge: 60,
                     maxUses: 1
@@ -482,6 +482,45 @@ bot.on("message", function(message) {
 												"\nServer: " + message.server.name +
 												"\nChannel: #" + message.channel.name + 
 												"\nMessage: " + supportmsg);
+	} else if (message.content.startsWith(prefix + "prune")) {
+		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1){
+			console.log(server(message.sender.username + " executed: prune"));
+			var num = message.content.split(" ").splice(1).join(" ");
+			if(!isNaN(num)){
+				bot.getChannelLogs(message.channel, num, (err, messages) => {
+					bot.deleteMessages(messages)
+					if (err) {
+						bot.sendMessage(message, "I don't have permission to delete message.")
+					} else {
+						bot.sendMessage(message, "Deleted " + num + " messages under request of <@" + message.author.id + ">");
+					}
+				})
+			}
+		}
+	} else if (message.content.startsWith(prefix + "give")) {
+		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1){
+			console.log(cmand(message.sender.username + " executed: give role"));
+			var user = message.mentions[0];
+			var roleToGive = message.content.split(" ").splice(2).join(" ");
+			var role = message.server.roles.get("name", roleToGive);
+			if (!role) {
+				bot.sendMessage(message, "Role does not exist.")
+			}
+			bot.addMemberToRole(user.id, role);
+			bot.sendMessage(message, "Successfully added role " + roleToGive + " to " + user.username + ".");
+		}
+	} else if (message.content.startsWith(prefix + "take") && isCommander.indexOf(message.sender.id) > -1) {
+		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1){
+			console.log(cmand(message.sender.username + " executed: take role"));
+			var user = message.mentions[0];
+			var roleToTake = message.content.split(" ").splice(2).join(" ");
+			var role = message.server.roles.get("name", roleToTake);
+			if (!role) {
+				bot.sendMessage(message, "Role does not exist.")
+			}
+			bot.removeMemberFromRole(user.id, role);
+			bot.sendMessage(message, "Successfully removed role " + roleToTake + " from " + user.username + ".");
+		}
 	}
 	
 	var cmds = require('./commands.json');
