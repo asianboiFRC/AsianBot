@@ -411,8 +411,8 @@ bot.on("message", function(message) {
     } else if (message.content === prefix + "help") {
         console.log(cmand(message.sender.username + " executed: help"));
         bot.sendMessage(message,
-            "AsianBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user, talk." +
-            "\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute, kick" +
+            "AsianBOT " + version + " (IN DEVELOPMENT)\nCommand list: git, ping, invite, help, stats, say, server, user, talk, support." +
+            "\nFOR BOT COMMANDERS: warn, ban, verify, mute, unmute, kick, prune, give, take" +
             "\nFOR ADMINS: eval, type, stoptype, sudosay, sudoinvite" +
             "\nMusic Commands: summon, play, np, disconnect, queue, clear, clean, restart, search, resume, skip, pause, setname, setnick, shuffle" +
             "\nType ~license for the software license." +
@@ -504,7 +504,8 @@ bot.on("message", function(message) {
 			var roleToGive = message.content.split(" ").splice(2).join(" ");
 			var role = message.server.roles.get("name", roleToGive);
 			if (!role) {
-				bot.sendMessage(message, "Role does not exist.")
+				bot.sendMessage(message, "Role does not exist.");
+				return;
 			}
 			bot.addMemberToRole(user.id, role);
 			bot.sendMessage(message, "Successfully added role " + roleToGive + " to " + user.username + ".");
@@ -516,7 +517,8 @@ bot.on("message", function(message) {
 			var roleToTake = message.content.split(" ").splice(2).join(" ");
 			var role = message.server.roles.get("name", roleToTake);
 			if (!role) {
-				bot.sendMessage(message, "Role does not exist.")
+				bot.sendMessage(message, "Role does not exist.");
+				return;
 			}
 			bot.removeMemberFromRole(user.id, role);
 			bot.sendMessage(message, "Successfully removed role " + roleToTake + " from " + user.username + ".");
