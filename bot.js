@@ -26,6 +26,9 @@ var usr = chalk.bold.blue;
 var cmand = chalk.bgRed;
 var gray = chalk.gray;
 
+var Pusher = require('pusher-js/node');
+var pusher = new Pusher("50ed18dd967b455393ed");
+
 var mysql = require('mysql');
 var config = require('./sql.json');
 
@@ -587,4 +590,13 @@ bot.on("message", function(message) {
 			bot.sendMessage(message, cmds.aasher);
 			break;
 	}
+});
+
+var subredditChannel = pusher.subscribe("frc");
+
+subredditChannel.bind("new-listing", function(listing) {
+	console.log(listing);
+	bot.sendMessage("176186766946992128", "``New post from /r/" + listing.subreddit + "``" +
+											"\n\n**" + listing.title + "** by " + listing.author + 
+											"\n\nLink: " + listing.url);
 });
