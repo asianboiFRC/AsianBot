@@ -395,7 +395,7 @@ bot.on("message", function(message) {
         if (message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1) {
             console.log(cmand(message.sender.username + " executed: sudoinvite"));
 			const serverToInvite = message.content.split(" ").splice(1).join(" ");
-			bot.sendMessage(message, "Alright I am sending you an invite to " + servertoinvite + "!");
+			bot.sendMessage(message, "Alright I am sending you an invite to " + serverToInvite + "!");
             bot.createInvite(bot.servers.get("name", serverToInvite).generalChannel, {
                     maxAge: 60,
                     maxUses: 1
