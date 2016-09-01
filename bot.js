@@ -1,5 +1,5 @@
 /*AsianBot v1.6
- *August 31, 2016
+ *September 1, 2016
  *Created by Michael Cao (ASIANBOI)*/
 
 'use strict';
@@ -29,14 +29,6 @@ var gray = chalk.gray;
 let bot = new Discord.Client({
   disableEveryone: true
 });
-
-var connection = mysql.createConnection({
-    host: config.host,
-    user: config.user,
-    password: config.password,
-    database: config.database
-});
-connection.connect();
 
 var replyTextToMentions = "Hi! I'm AsianBOT. Use " + PREFIX + "help to see a list of my commands.";
 
@@ -93,7 +85,7 @@ bot.on('message', function(msg) {
 	str += hours + ":" + minutes + ":" + seconds;
 	
 	try {
-		if (msg.server.id != 110373943822540800) {
+		if (msg.server.id != "110373943822540800") {
 			bot.sendMessage("221038566308839426", "[" + str + "] " + msg.server + " | " + msg.channel.name + " | " + msg.sender.username + ": " + msg.cleanContent);
 			console.log(gray("[" + str + "] ") + server(msg.server) + " | " + chan(msg.channel.name) + " | " + usr(msg.sender.username) + ": " + message(msg.cleanContent));
 		}
@@ -142,47 +134,31 @@ bot.on('userBanned', function(server, user) {
 });
 
 bot.on("messageDeleted", function(message) {
-    try {
-        console.log(server(msg.sender.username + "'s message was deleted!\n Old message: " + msg.content));
-    } catch (err) {
-        console.log(server("ERR: MESSAGE NOT ARCHIVED"));
-    }
+	if (msg.server.id != "110373943822540800") {
+		try {
+			console.log(server(msg.sender.username + "'s message was deleted!\n Old message: " + msg.content));
+			bot.sendMessage("214876995375464448", msg.sender.username + "'s message was deleted!\n Old message: " + msg.content);
+		} catch (err) {
+			console.log(server("ERR: MESSAGE NOT ARCHIVED"));
+			bot.sendMessage("214876995375464448", "ERR: MESSAGE NOT ARCHIVED");
+		}
+	}
 });
 
 bot.on("messageUpdated", function(message1, message2) {
-    if (server.id === "176186766946992128") {
+    if (msg.server.id != "110373943822540800") {
+		bot.sendMessage("214876995375464448", message1.sender.username + "'s message was edited!\n Old message: " + message1.content);
         console.log(server(message1.sender.username + "'s message was edited!\n Old message: " + message1.content));
     }
 });
 
 bot.on("serverDeleted", function(server) {
-    console.log("Attempting to remove " + server.name + " from the database!");
-    connection.query("DELETE FROM servers WHERE serverid = '" + server.id + "'", function(error) {
-        if (error) {
-            console.log(error);
-            return;
-        }
-        console.log("Server Removed!");
-    })
+    console.log(server.name + " kicked me!");
+	bot.sendMessage("214876995375464448", server.name + " kicked me!");
 })
 
 bot.on("serverCreated", function(svr) {
-    console.log("Trying to insert server " + svr.name + " into database");
-    var info = {
-        "servername": "'" + svr.name + "'",
-        "serverid": svr.id,
-        "ownerid": svr.owner.id,
-        "PREFIX": "~"
-    }
-
-    connection.query("INSERT INTO servers SET ?", info, function(error) {
-        if (error) {
-            console.log(error);
-            return;
-        }
-        console.log("Server Inserted!");
-    })
-
     console.log(server("Bot added to " + svr.name));
+bot.sendMessage("214876995375464448", "Bot added to " + svr.name);
     bot.sendMessage(svr.defaultChannel, "Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage server, and administrator.");
 });
