@@ -6,7 +6,7 @@ module.exports = {
 				bot.kickMember(kickee.id, message.server);
 				bot.reply(message, ': ' + kickee + ' has been kicked.');
 				var reason = message.content.split(" ").splice(2).join(" ")
-				bot.sendMessage(message, "ACTION: KICK\nUSER: " + user.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
+				bot.sendMessage(message, "ACTION: KICK\nUSER: " + kickee.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
 			} catch (e) {
 				console.log(e);
 			}

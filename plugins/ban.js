@@ -5,6 +5,8 @@ module.exports = {
 			try {
 				bot.banMember(banee.id, message.server);
 				bot.reply(message, ': ' + banee + ' has been banned.');
+				var reason = message.content.split(" ").splice(2).join(" ")
+				bot.sendMessage(message, "ACTION: BAN\nUSER: " + banee.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
 			} catch (e) {
 				console.log(e);
 			}
