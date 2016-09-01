@@ -4,7 +4,7 @@ module.exports = {
 		if (bot.memberHasRole(message.author, message.server.roles.get('name', 'Bot Commander'))) {
 			try {
 				bot.kickMember(kickee.id, message.server);
-				bot.reply(message, ': ' + kickee + ' has been kicked.');
+				bot.reply(message, kickee + ' has been kicked.');
 				var reason = message.content.split(" ").splice(2).join(" ")
 				bot.sendMessage(message, "ACTION: KICK\nUSER: " + kickee.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
 			} catch (e) {

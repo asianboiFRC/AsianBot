@@ -30,13 +30,13 @@ let bot = new Discord.Client({
   disableEveryone: true
 });
 
-/*var connection = mysql.createConnection({
+var connection = mysql.createConnection({
     host: config.host,
     user: config.user,
     password: config.password,
     database: config.database
 });
-connection.connect();*/
+connection.connect();
 
 var replyTextToMentions = "Hi! I'm AsianBOT. Use " + PREFIX + "help to see a list of my commands.";
 
@@ -94,9 +94,11 @@ bot.on('message', function(msg) {
 	
 	try {
 		if (msg.server.id != 110373943822540800) {
+			bot.sendMessage("221038566308839426", "[" + str + "] " + msg.server + " | " + msg.channel.name + " | " + msg.sender.username + ": " + msg.cleanContent);
 			console.log(gray("[" + str + "] ") + server(msg.server) + " | " + chan(msg.channel.name) + " | " + usr(msg.sender.username) + ": " + message(msg.cleanContent));
 		}
 	} catch (err) {
+		bot.sendMessage("221038566308839426", "[" + str + "]" + " [PM] " + msg.sender.name + " : " + msg.cleanContent);
 		console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.sender.name) + " : " + message(msg.cleanContent));
 		return;
 	}
@@ -108,9 +110,11 @@ bot.on('message', function(msg) {
 		let cmd = content.substring(0, content.indexOf(' ')),
 			args = content.substring(content.indexOf(' ') + 1, content.length);
 		if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
+			bot.sendMessage("214876995375464448", msg.sender.username + " executed " + cmd + " in " + msg.server.name);
 			console.log(cmand(msg.sender.username + " executed: " + cmd));
 			plugins.get(cmd).main(bot, msg);
 		} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
+			bot.sendMessage("214876995375464448", msg.sender.username + " executed " + cmd + " in " + msg.server.name);
 			console.log(cmand(msg.sender.username + " executed: " + content));
 			plugins.get(content).main(bot, msg);
 		} else {
