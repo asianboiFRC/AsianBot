@@ -92,7 +92,7 @@ bot.on('message', function(msg) {
 	}
 	str += hours + ":" + minutes + ":" + seconds;
 	
-	if (message.server.id != 110373943822540800) {
+	if (msg.server.id != 110373943822540800) {
 		try {
 			console.log(gray("[" + str + "] ") + server(msg.server) + " | " + chan(msg.channel.name) + " | " + usr(msg.sender.username) + ": " + message(msg.cleanContent));
 		} catch (err) {
