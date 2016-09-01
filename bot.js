@@ -58,7 +58,7 @@ function loadPlugins() {
 }
 
 bot.on('ready', function() {
-	console.log('RoBot is ready! Loading plugins...');
+	console.log('AsianBot is ready! Loading plugins...');
 	loadPlugins();
 	
 	var str = "";
@@ -92,11 +92,13 @@ bot.on('message', function(msg) {
 	}
 	str += hours + ":" + minutes + ":" + seconds;
 	
-	try {
-        console.log(gray("[" + str + "] ") + server(msg.server) + " | " + chan(msg.channel.name) + " | " + usr(msg.sender.username) + ": " + message(msg.cleanContent));
-    } catch (err) {
-        console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.sender.name) + " : " + message(msg.cleanContent));
-    }
+	if (message.server.id != 110373943822540800) {
+		try {
+			console.log(gray("[" + str + "] ") + server(msg.server) + " | " + chan(msg.channel.name) + " | " + usr(msg.sender.username) + ": " + message(msg.cleanContent));
+		} catch (err) {
+			console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.sender.name) + " : " + message(msg.cleanContent));
+		}
+	}
 	
 	if (msg.author.bot) return;
 	
@@ -113,59 +115,6 @@ bot.on('message', function(msg) {
 		} else {
 			console.log('ERROR:' + content);
 		}
-	}
-	
-	var cmds = require('./commands.json');
-	
-	switch (msg.content) {
-		case (PREFIX) + "consolegaming":
-			bot.sendMessage(message, cmds.consolegaming);
-			break;
-		case (PREFIX) + "boxcutters":
-			bot.sendMessage(message, cmds.boxcutters);
-			break;
-		case (PREFIX) + "datboi":
-			bot.sendMessage(message, cmds.datboi);
-			break;
-		case (PREFIX) + "doktor":
-			bot.sendMessage(message, cmds.doktor);
-			break;
-		case (PREFIX) + "english":
-			bot.sendMessage(message, cmds.english);
-			break;
-		case (PREFIX) + "fitnessgram":
-			bot.sendMessage(message, cmds.fitnessgram);
-			break;
-		case (PREFIX) + "goodshit":
-			bot.sendMessage(message, cmds.goodshit);
-			break;
-		case (PREFIX) + "umso":
-			bot.sendMessage(message, cmds.umso);
-			break;
-		case (PREFIX) + "pcmasterrace":
-			bot.sendMessage(message, cmds.pcmasterrace);
-			break;
-		case (PREFIX) + "wtf":
-			bot.sendMessage(message, cmds.wtf);
-			break;
-		case (PREFIX) + "wtf2":
-			bot.sendMessage(message, cmds.wtf2);
-			break;
-		case (PREFIX) + "wtf3":
-			bot.sendMessage(message, cmds.wtf3);
-			break;
-		case (PREFIX) + "poke":
-			bot.sendMessage(message, cmds.poke);
-			break;
-		case (PREFIX) + "tsimfd":
-			bot.sendMessage(message, cmds.tsimfd);
-			break;
-		case (PREFIX) + "watergame":
-			bot.sendMessage(message, cmds.watergame);
-			break;
-		case (PREFIX) + "aasher":
-			bot.sendMessage(message, cmds.aasher);
-			break;
 	}
 });
 
@@ -203,13 +152,13 @@ bot.on("messageUpdated", function(message1, message2) {
 
 bot.on("serverDeleted", function(server) {
     console.log("Attempting to remove " + server.name + " from the database!");
-    /*connection.query("DELETE FROM servers WHERE serverid = '" + server.id + "'", function(error) {
+    connection.query("DELETE FROM servers WHERE serverid = '" + server.id + "'", function(error) {
         if (error) {
             console.log(error);
             return;
         }
         console.log("Server Removed!");
-    })*/
+    })
 })
 
 bot.on("serverCreated", function(svr) {
@@ -221,13 +170,13 @@ bot.on("serverCreated", function(svr) {
         "PREFIX": "~"
     }
 
-    /*connection.query("INSERT INTO servers SET ?", info, function(error) {
+    connection.query("INSERT INTO servers SET ?", info, function(error) {
         if (error) {
             console.log(error);
             return;
         }
         console.log("Server Inserted!");
-    })*/
+    })
 
     console.log(server("Bot added to " + svr.name));
     bot.sendMessage(svr.defaultChannel, "Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage server, and administrator.");
