@@ -92,12 +92,13 @@ bot.on('message', function(msg) {
 	}
 	str += hours + ":" + minutes + ":" + seconds;
 	
-	if (msg.server.id != 110373943822540800) {
-		try {
+	try {
+		if (msg.server.id != 110373943822540800) {
 			console.log(gray("[" + str + "] ") + server(msg.server) + " | " + chan(msg.channel.name) + " | " + usr(msg.sender.username) + ": " + message(msg.cleanContent));
-		} catch (err) {
-			console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.sender.name) + " : " + message(msg.cleanContent));
 		}
+	} catch (err) {
+		console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.sender.name) + " : " + message(msg.cleanContent));
+		return;
 	}
 	
 	if (msg.author.bot) return;
