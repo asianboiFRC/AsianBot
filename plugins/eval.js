@@ -1,7 +1,7 @@
 module.exports = {
 	main: function(bot, message) {
 		if (message.sender.id === "171319044715053057") {
-            // gets code to run
+            //Runs code
             var evalcode = message.content.split(" ").splice(1).join(" ");
 
             try {
