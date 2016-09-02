@@ -134,14 +134,14 @@ bot.on('userBanned', function(server, user) {
 });
 
 bot.on("messageDeleted", function(message) {
-	if (message.server.id != "110373943822540800") {
-		try {
+	try {
+		if (message.server.id != "110373943822540800") {
 			console.log(server(msg.sender.username + "'s message was deleted!\n Old message: " + msg.content));
 			bot.sendMessage("214876995375464448", msg.sender.username + "'s message was deleted!\n Old message: " + msg.content);
-		} catch (err) {
-			console.log(server("ERR: MESSAGE NOT ARCHIVED"));
-			bot.sendMessage("214876995375464448", "ERR: MESSAGE NOT ARCHIVED");
 		}
+	} catch (err) {
+		console.log(server("ERR: MESSAGE NOT ARCHIVED"));
+		bot.sendMessage("214876995375464448", "ERR: MESSAGE NOT ARCHIVED");
 	}
 });
 
