@@ -134,7 +134,7 @@ bot.on('userBanned', function(server, user) {
 });
 
 bot.on("messageDeleted", function(message) {
-	if (msg.server.id != "110373943822540800") {
+	if (message.server.id != "110373943822540800") {
 		try {
 			console.log(server(msg.sender.username + "'s message was deleted!\n Old message: " + msg.content));
 			bot.sendMessage("214876995375464448", msg.sender.username + "'s message was deleted!\n Old message: " + msg.content);
