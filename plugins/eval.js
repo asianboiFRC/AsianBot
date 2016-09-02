@@ -1,6 +1,7 @@
 module.exports = {
 	main: function(bot, message) {
-		if (message.sender.id === "171319044715053057") {
+		var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
+		if (message.sender.id === "171319044715053057" || isCommander.indexOf(message.sender.id) > -1) {
             //Runs code
             var evalcode = message.content.split(" ").splice(1).join(" ");
 
