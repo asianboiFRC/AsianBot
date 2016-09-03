@@ -146,7 +146,7 @@ bot.on("messageDeleted", function(message) {
 });
 
 bot.on("messageUpdated", function(message1, message2) {
-    if (msg.server.id != "110373943822540800") {
+    if (message1.server.id != "110373943822540800") {
 		bot.sendMessage("214876995375464448", message1.sender.username + "'s message was edited!\n Old message: " + message1.content);
         console.log(server(message1.sender.username + "'s message was edited!\n Old message: " + message1.content));
     }
@@ -159,6 +159,6 @@ bot.on("serverDeleted", function(server) {
 
 bot.on("serverCreated", function(svr) {
     console.log(server("Bot added to " + svr.name));
-bot.sendMessage("214876995375464448", "Bot added to " + svr.name);
+	bot.sendMessage("214876995375464448", "Bot added to " + svr.name);
     bot.sendMessage(svr.defaultChannel, "Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage server, and administrator.");
 });
