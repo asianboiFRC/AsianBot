@@ -18,6 +18,7 @@ fs.readFile('token.txt', 'utf8', function(err, token) {
 });
 
 var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
+var serversToAnnounce = ["209467012684972034", "214850991089123328", "215965218449260544", "221663485073817602"];
 
 var chalk = require('chalk');
 var server = chalk.bold.red;
@@ -85,7 +86,7 @@ bot.on('message', function(msg) {
 	str += hours + ":" + minutes + ":" + seconds;
 	
 	try {
-		if (msg.server.id != "110373943822540800" && msg.server.id != "185858769895424001") {
+		if (msg.server.id != "110373943822540800" && msg.server.id != "185858769895424001" && msg.channel.id != "221664440750309377") {
 			bot.sendMessage("221038566308839426", "[" + str + "] " + msg.server + " | " + msg.channel.name + " | " + msg.sender.username + ": " + msg.cleanContent);
 			console.log(gray("[" + str + "] ") + server(msg.server) + " | " + chan(msg.channel.name) + " | " + usr(msg.sender.username) + ": " + message(msg.cleanContent));
 		}
@@ -113,22 +114,28 @@ bot.on('message', function(msg) {
 			console.log('ERROR:' + content);
 		}
 	}
+	
+	if(msg.content.indexOf("name") > -1 && msg.channel.id === "221664440750309377")
+	{
+		bot.sendMessage("221663485073817602", "Restarting.");
+		bot.sendMessage(msg, "SUDORESTART");
+	}
 });
 
 bot.on('serverNewMember', function(server, user) {
-	if (server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
+	if (serversToAnnounce.indexOf(server.id) > -1) {
         bot.sendMessage(server.defaultChannel, ":wave: " + user.username + " joined the server.");
     }
 });
 
 bot.on('serverMemberRemoved', function(server, user) {
-	if (server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
+	if (serversToAnnounce.indexOf(server.id) > -1) {
         bot.sendMessage(server.defaultChannel, user.username + " left the server. RIP " + user.username + ".");
     }
 });
 
 bot.on('userBanned', function(server, user) {
-    if (server.id === "209467012684972034" || server.id === "214850991089123328" || server.id === "215965218449260544") {
+    if (serversToAnnounce.indexOf(server.id) > -1) {
         bot.sendMessage(server.defaultChannel, ":hammer: " + user.username + " was banned.");
     }
 });
