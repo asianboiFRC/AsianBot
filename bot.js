@@ -153,10 +153,15 @@ bot.on("messageDeleted", function(message) {
 });
 
 bot.on("messageUpdated", function(message1, message2) {
-    if (message1.server.id != "110373943822540800") {
-		bot.sendMessage("214876995375464448", message1.sender.username + "'s message was edited!\n Old message: " + message1.content);
-        console.log(server(message1.sender.username + "'s message was edited!\n Old message: " + message1.content));
-    }
+	try {
+		if (message1.server.id != "110373943822540800") {
+			bot.sendMessage("214876995375464448", message1.sender.username + "'s message was edited!\n Old message: " + message1.content);
+			console.log(server(message1.sender.username + "'s message was edited!\n Old message: " + message1.content));
+		}
+	}
+	catch(err) {
+		console.log(server("ERROR UPDATED MESSAGE");
+	}
 });
 
 bot.on("serverDeleted", function(server) {
