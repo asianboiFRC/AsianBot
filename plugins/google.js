@@ -8,14 +8,19 @@ module.exports = {
         google(search, function(err, res) {
             if (err) {
                 console.error(err)
-                bot.sendMessage(message, "ERROR: Search failed");
+                message.channel.sendMessage("ERROR: Search failed");
             }
+			
+			if (res === null) {
+				message.channel.sendMessage("I might be ratelimited right now");
+				return;
+			}
 
             var link = res.links[0];
             var title = link.title;
             var url = link.href;
             var desc = link.description;
-            bot.sendMessage(message, "**Result: **" + title + "\n**Link: **" + url + "\n**Description: **" + desc);
+            message.channel.sendMessage("**Result: **" + title + "\n**Link: **" + url + "\n**Description: **" + desc);
         })
 	}
 };

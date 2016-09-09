@@ -1,5 +1,6 @@
 module.exports = {
 	main: function(bot, message) {
-		bot.startTyping(message.server.id);
+		var channel = bot.channels.find('id', message.guild.id);
+		channel.startTyping();
 	}
 };

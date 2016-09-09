@@ -1,7 +1,9 @@
 module.exports = {
 	main: function(bot, message) {
-		var game = message.content.split(" ").splice(1).join(" ");
-        bot.setPlayingGame(game);
-        bot.reply(message, "Successfully set game to " + game);
+		if(msg.author.id === "171319044715053057") {
+			var game = message.content.split(" ").splice(1).join(" ");
+			bot.user.setStatus('online', game);
+			message.reply("Successfully set game to " + game);
+		}
 	}
 };

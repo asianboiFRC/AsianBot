@@ -1,19 +1,18 @@
 module.exports = {
 	main: function(bot, message) {
-		var banee = message.mentions[0];
-		if (bot.memberHasRole(message.author, message.server.roles.get('name', 'Bot Commander'))) {
+		var banee = message.mentions.users.array()[0];
+		if (message.member.roles.exists('name', 'Bot Commander')) {
 			try {
-				bot.banMember(banee.id, message.server);
-				bot.reply(message, banee + ' has been banned.');
+				var banned = message.guild.members.get(banee.id);
+				banned.ban();
+				message.reply(banee + ' has been banned.');
 				var reason = message.content.split(" ").splice(2).join(" ")
-				bot.sendMessage(message, "ACTION: BAN\nUSER: " + banee.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
+				message.channel.sendMessage("ACTION: BAN\nUSER: " + banned.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
 			} catch (e) {
 				console.log(e);
 			}
-
 		} else {
-			bot.reply(message, ': you do not have the proper roles for this action');
+			message.reply(': you do not have the proper roles for this action');
 		}
-
 	}
 };

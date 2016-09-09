@@ -1,7 +1,7 @@
 module.exports = {
 	main: function(bot, message) {
-		var version = "1.6"
-		var whatsnew = "Rewrite!"
-		bot.sendMessage(message, "ASIANBOT " + version + ": " + whatsnew);
+		var version = "2.0"
+		var whatsnew = "Rewrite for Discord.js v9!"
+		message.channel.sendMessage("ASIANBOT " + version + ": " + whatsnew);
 	}
 };

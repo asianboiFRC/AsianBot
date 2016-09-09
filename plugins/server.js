@@ -1,14 +1,13 @@
 module.exports = {
 	main: function(bot, message) {
-		bot.sendMessage(message,
-            "╠═►Server: " + message.server.name +
-            "\n╠═►Owner: " + message.server.owner.name +
-            "\n╠═►Created: " + message.server.createdAt +
-            "\n╠═►Region: " + message.server.region +
-            "\n╠═►Server ID: " + message.server.id +
-            "\n╠═►Members: " + message.server.members.length +
-            "\n╠═►Channels: " + message.server.channels.length +
-            "\n╠═►Roles: " + message.server.roles.map(r => r.name).join(", ") +
-            "\n╠═►Icon: " + message.server.iconURL);
+		message.channel.sendMessage(
+            "```╠═►Server: " + message.guild.name +
+            "\n╠═►Owner: " + message.guild.owner.user.username +
+            "\n╠═►Region: " + message.guild.region +
+            "\n╠═►Server ID: " + message.guild.id +
+            "\n╠═►Members: " + message.guild.members.size +
+            "\n╠═►Channels: " + message.guild.channels.size +
+            "\n╠═►Roles: " + message.guild.roles.map(r => r.name).join(", ") +
+            "\n╠═►Icon: " + message.guild.iconURL + "```");
 	}
 };

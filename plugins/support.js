@@ -1,8 +1,9 @@
 module.exports = {
 	main: function(bot, message) {
+		const ASIANBOI = bot.users.get("171319044715053057");
 		var supportmsg = message.content.split(" ").splice(1).join(" ");
-		bot.sendMessage("171319044715053057", message.author.username + " needs your help!" + 
-												"\nServer: " + message.server.name +
+		ASIANBOI.sendMessage(message.author.username + " needs your help!" + 
+												"\nServer: " + message.guild.name +
 												"\nChannel: #" + message.channel.name + 
 												"\nMessage: " + supportmsg);
 	}

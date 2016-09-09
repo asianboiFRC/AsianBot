@@ -7,7 +7,7 @@ module.exports = {
 
         Cleverbot.prepare(function() {
             cleverbot.write(cleverMessage, function(response) {
-                bot.sendMessage(message, response.message);
+                message.channel.sendMessage(response.message);
             });
         });
 	}
