@@ -1,6 +1,6 @@
 module.exports = {
 	main: function(bot, message) {
-		var say = message.content.split(" ").splice(1).join(" ");
+		var say = message.content;
         message.reply(say);
 	}
 };

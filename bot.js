@@ -30,7 +30,7 @@ fs.readFile('token.txt', 'utf8', (err, token) => {
     if (err) {
         return console.log(err);
     }
-    bot.login("Bot " + token);
+    bot.login(token);
 });
 
 const replyTextToMentions = "Hi! I'm AsianBOT. Use " + PREFIX + "help to see a list of my commands.";
@@ -56,7 +56,6 @@ function loadPlugins() {
 
 bot.on('ready', () => {
 	const logChannel = bot.channels.get("214876995375464448");
-	const msgChannel = bot.channels.get("221038566308839426");
 	
 	console.log('AsianBot is ready! Loading plugins...');
 	loadPlugins();
@@ -76,36 +75,37 @@ bot.on('message', (msg) => {
 	
 	var n = msg.timestamp.toTimeString();
 	var str = n.substring(0, n.indexOf(' '));
-	
-	if(msg.channel.type === "text") {
-		if (msg.guild.id != "110373943822540800" && msg.guild.id != "185858769895424001" && msg.channel.id != "221664440750309377") {
-			msgChannel.sendMessage("[" + str + "] " + msg.guild + " | " + msg.channel.name + " | " + msg.author.username + ": " + msg.content);
-			console.log(gray("[" + str + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.content));
-		}
-	}
+		
 	if(msg.channel.type === "dm" || msg.channel.type === "group") {
 		msgChannel.sendMessage("[" + str + "]" + " [PM] " + msg.author.name + " : " + msg.content);
 		console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 		return;
 	}
 	
-	if (msg.author.bot) return;
-	if (msg.system) return;
-	
-	if (msg.content.startsWith(PREFIX)) {
-		let content = msg.content.split(PREFIX)[1];
-		let cmd = content.substring(0, content.indexOf(' ')),
-			args = content.substring(content.indexOf(' ') + 1, content.length);
-		if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
-			logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
-			console.log(cmand(msg.author.username + " executed: " + cmd));
-			plugins.get(cmd).main(bot, msg);
-		} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
-			logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
-			console.log(cmand(msg.author.username + " executed: " + content));
-			plugins.get(content).main(bot, msg);
-		} else {
-			console.log('ERROR:' + content);
+	if(msg.channel.type === "text") {
+		if (msg.guild.id != "110373943822540800" && msg.guild.id != "185858769895424001" && msg.channel.id != "221664440750309377") {
+			msgChannel.sendMessage("[" + str + "] " + msg.guild + " | " + msg.channel.name + " | " + msg.author.username + ": " + msg.content);
+			console.log(gray("[" + str + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.content));
+		}
+		
+		if (msg.author.bot) return;
+		
+		if (msg.content.startsWith(PREFIX)) {
+			let content = msg.content.split(PREFIX)[1];
+			let cmd = content.substring(0, content.indexOf(' ')),
+				args = content.substring(content.indexOf(' ') + 1, content.length);
+			if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
+				logChannel.sendMessage(msg.author.username + " executed " + cmd + " " + args + " in " + msg.guild.name);
+				console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
+				msg.content = args;
+				plugins.get(cmd).main(bot, msg);
+			} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
+				logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
+				console.log(cmand(msg.author.username + " executed: " + content));
+				plugins.get(content).main(bot, msg);
+			} else {
+				console.log('BROKEN:' + content);
+			}
 		}
 	}
 });
@@ -113,21 +113,21 @@ bot.on('message', (msg) => {
 bot.on('guildMemberAdd', (guild, user) => {
 	if (guildsToAnnounce.indexOf(guild.id) > -1) {
 		var defaultChannel = bot.channels.get(guild.id);
-        defaultChannel.sendMessage("👋 " + user.username + " joined the server.");
+        defaultChannel.sendMessage("👋 " + user.user.username + " joined the server.");
     }
 });
 
 bot.on('guildBanAdd', (guild, user) => {
 	if (guildsToAnnounce.indexOf(guild.id) > -1) {
 		var defaultChannel = bot.channels.get(guild.id);
-        defaultChannel.sendMessage("🔨 " + user.username + " was banned.");
+        defaultChannel.sendMessage("🔨 " + user.user.username + " was banned.");
     }
 });
 
 bot.on('guildMemberRemove', (guild, user) => {
 	if (guildsToAnnounce.indexOf(guild.id) > -1) {
 		var defaultChannel = bot.channels.get(guild.id);
-        defaultChannel.sendMessage(user.username + " left the server. RIP " + user.username + ".");
+        defaultChannel.sendMessage(user.user.username + " left the server. RIP " + user.user.username + ".");
     }
 });
 

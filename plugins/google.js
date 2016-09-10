@@ -2,7 +2,7 @@ var google = require('google');
 
 module.exports = {
 	main: function(bot, message) {
-        var search = message.content.split(" ").splice(1).join(" ");
+        var search = message.content;
         var nextCounter = 0;
         google.resultsPerPage = 5
         google(search, function(err, res) {

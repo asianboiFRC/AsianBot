@@ -1,7 +1,7 @@
 module.exports = {
 	main: function(bot, message) {
 		if (message.author.id === "171319044715053057") {
-			const serverToInvite = message.content.split(" ").splice(1).join(" ");
+			const serverToInvite = message.content;
 			message.channel.sendMessage("Alright I am sending you an invite to " + serverToInvite + "!");
 			try {
 				var server = bot.guilds.find('name', serverToInvite);

@@ -6,7 +6,7 @@ module.exports = {
 				var kicked = message.guild.members.find('id', kickee.id);
 				kicked.kick();
 				message.channel.sendMessage(kickee + ' has been kicked.');
-				var reason = message.content.split(" ").splice(2).join(" ")
+				var reason = message.content.split(" ").splice(1).join(" ")
 				try{
 					var log = message.guild.channels.find('name', 'mod-log');
 					message.channel.sendMessage("ACTION: KICK\nUSER: " + kickee.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
