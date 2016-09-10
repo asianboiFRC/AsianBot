@@ -4,12 +4,9 @@ module.exports = {
 			var num = message.content;
 			if(!isNaN(num)){
 				message.channel.fetchMessages({limit: num})
-					.then(messages => message.channel.bulkDelete(messages));
-					if (err) {
-						message.channel.sendMessage("I don't have permission to delete message.")
-					} else {
-						message.channel.sendMessage("Deleted " + num + " messages under request of <@" + message.author.id + ">");
-					}
+				.then(messages => message.channel.bulkDelete(messages));
+				.catch(message.channel.sendMessage("I don't have perms"); return;);
+				message.channel.sendMessage("Deleted " + num + " messages under request of <@" + message.author.id + ">");
 			}
 			else {
 				message.channel.sendMessage("Please specify a number");

@@ -1,5 +1,5 @@
 /*AsianBot v2.0
- *September 8, 2016
+ *September 9, 2016
  *Created by Michael Cao (ASIANBOI)*/
 
 'use strict';
