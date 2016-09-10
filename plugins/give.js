@@ -9,7 +9,7 @@ module.exports = {
 				return;
 			}
 			var member = message.guild.members.find('id', user.id);
-			member.addRole(roleToGive);
+			member.addRole(role);
 			message.channel.sendMessage("Successfully added role " + roleToGive + " to " + user.username + ".");
 		}
 	}

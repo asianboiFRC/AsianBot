@@ -6,7 +6,7 @@
 
 const Discord = require('discord.js');
 const fse = require('fs-extra');
-const PREFIX = "|";
+const PREFIX = "~";
 const version = "2.0"
 const whatsnew = "Rewrite for Discord.js v9!"
 const fs = require('fs')
