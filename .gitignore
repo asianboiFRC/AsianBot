@@ -1,5 +1,6 @@
 token.txt
 sql.json
+config.json
 # Logs
 logs
 *.log

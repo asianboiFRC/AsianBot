@@ -5,11 +5,12 @@
 'use strict';
 
 const Discord = require('discord.js');
+var config = require('./config.json');
 const fse = require('fs-extra');
-const PREFIX = "~";
+const PREFIX = config.prefix;
 const version = "2.0"
 const whatsnew = "Rewrite for Discord.js v9!"
-const fs = require('fs')
+const fs = require('fs');
 
 const isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
 const guildsToAnnounce = ["209467012684972034", "214850991089123328", "215965218449260544", "221663485073817602"];
@@ -26,12 +27,7 @@ let bot = new Discord.Client({
   disableEveryone: true
 });
 
-fs.readFile('token.txt', 'utf8', (err, token) => {
-    if (err) {
-        return console.log(err);
-    }
-    bot.login(token);
-});
+bot.login(config.token);
 
 const replyTextToMentions = "Hi! I'm AsianBOT. Use " + PREFIX + "help to see a list of my commands.";
 const logChannel = bot.channels.get("214876995375464448");
