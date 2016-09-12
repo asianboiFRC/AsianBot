@@ -1,7 +1,8 @@
 module.exports = {
 	main: function(bot, message) {
-		var version = "2.0"
-		var whatsnew = "Rewrite for Discord.js v9!"
+		var news = require('../news.json');
+		var version = news.version;
+		var whatsnew = news.whatsnew;
 		message.channel.sendMessage("ASIANBOT " + version + ": " + whatsnew);
 	}
 };

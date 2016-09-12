@@ -3,9 +3,6 @@
   "version": "2.0.0",
   "description": "A useful Discord bot",
   "author": "Michael Cao <mike.x.cao@gmail.com>",
-  "scripts": {
-    "start": "supervisor bot.js",
-  },
   "main": "bot.js",
   "repository": {
   "type": "git",
@@ -27,6 +24,5 @@
     "eightball": "*",
     "google": "*"
   },
-
   "license": "MIT"
 }
