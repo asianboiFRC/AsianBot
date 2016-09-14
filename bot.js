@@ -129,8 +129,8 @@ bot.on('message', (msg) => {
 					}
 				});
 			}
-			if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${prefix}add`);
-    		if (!bot.voiceConnections.exists('channel', msg.member.voiceChannel)) return msg.channel.sendMessage(`Join me to a voice channel with ${prefix}summon first`);
+			if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${PREFIX}add`);
+    		if (!bot.voiceConnections.exists('channel', msg.member.voiceChannel)) return msg.channel.sendMessage(`Join me to a voice channel with ${PREFIX}summon first`);
     		if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Already Playing');
     		let voiceChannel = bot.voiceConnections.find('channel', msg.member.voiceChannel);
     		let dispatcher;
@@ -145,11 +145,11 @@ bot.on('message', (msg) => {
     			dispatcher = voiceChannel.playStream(yt(song.url, { audioonly: true }), { passes : passes });
     			let collector = msg.channel.createCollector(m => m);
     			collector.on('msg', m => {
-    				if (m.content.startsWith(prefix + 'pause')) {
+    				if (m.content.startsWith(PREFIX + 'pause')) {
     					msg.channel.sendMessage('paused').then(() => {dispatcher.pause();});
-    				} else if (m.content.startsWith(prefix + 'resume')){
+    				} else if (m.content.startsWith(PREFIX + 'resume')){
     					msg.channel.sendMessage('resumed').then(() => {dispatcher.resume();});
-    				} else if (m.content.startsWith(prefix + 'skip')){
+    				} else if (m.content.startsWith(PREFIX + 'skip')){
     					msg.channel.sendMessage('skipped').then(() => {dispatcher.end();});
     				} else if (m.content.startsWith('volume+')){
     					if (Math.round(dispatcher.volume*50) >= 100) return msg.channel.sendmsg(`Volume: ${Math.round(dispatcher.volume*50)}%`);
