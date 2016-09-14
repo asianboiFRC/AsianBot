@@ -98,7 +98,7 @@ bot.on('message', (msg) => {
 		if (msg.author.bot) return;
 		
 		if(msg.content.startsWith(PREFIX + "play")) {
-			/*let input = msg.content.slice(6);
+			let input = msg.content.slice(6);
 			if(input != null) {
 				msg.channel.sendMessage('Searching for video...');
 				search(input, opts, function(err, results) {
@@ -114,27 +114,29 @@ bot.on('message', (msg) => {
 						msg.channel.sendMessage(`added **${info.title}** to the queue`);
 					});
 					
-					const voiceChannel = msg.member.voiceChannel;
-					let dispatcher;
-					if (!voiceChannel) {
-						return message.reply(`Please be in a voice channel first!`);
+					if (!queue[msg.guild.id].playing) {
+						const voiceChannel = msg.member.voiceChannel;
+						let dispatcher;
+						if (!voiceChannel) {
+							return message.reply(`Please be in a voice channel first!`);
+						}
+						var song = {url: url, title: info.title, requester: msg.author.username};
+						console.log(song);
+						if (song === undefined) return msg.channel.sendMessage('Queue is empty');
+						let stream = yt(song.url, { audioonly: true }, { passes : passes });
+						dispatcher = connnection.playStream(stream);
+						msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
 					}
-					var song = {url: url, title: info.title, requester: msg.author.username};
-					console.log(song);
-					if (song === undefined) return msg.channel.sendMessage('Queue is empty');
-					let stream = yt(song.url, { audioonly: true }, { passes : passes });
-					dispatcher = connnection.playStream(stream);
-					msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
 				});
-			}*/
+			}
 			if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${prefix}add`);
-    		if (!bot.voiceConnections.exists('channel', msg.member.voiceChannel)) return msg.channel.sendMessage(`Join me to a voice channel with ${prefix}join first`);
+    		if (!bot.voiceConnections.exists('channel', msg.member.voiceChannel)) return msg.channel.sendMessage(`Join me to a voice channel with ${prefix}summon first`);
     		if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Already Playing');
     		let voiceChannel = bot.voiceConnections.find('channel', msg.member.voiceChannel);
     		let dispatcher;
     		queue[msg.guild.id].playing = true;
 
-        console.log(queue);
+			console.log(queue);
     		(function play(song) {
     			console.log(song);
     			if (song === undefined) return msg.channel.sendMessage('Queue is empty');
