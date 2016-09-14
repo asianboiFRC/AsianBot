@@ -12,6 +12,7 @@
   "type": "git",
   "url": "https://github.com/asianboiFRC/AsianBot"
 },
+  "license": "MIT",
   "bugs": {
   "url": "https://github.com/asianboiFRC/AsianBot/issues"
 },
@@ -31,6 +32,5 @@
 	"fs-extra": "*",
 	"google-search": "*",
 	"leetspeak": "*",
-  },
-  "license": "MIT"
+  }
 }
