@@ -31,6 +31,6 @@
 	"youtube-search": "*",
 	"fs-extra": "*",
 	"google-search": "*",
-	"leetspeak": "*",
+	"leetspeak": "*"
   }
 }
