@@ -127,7 +127,8 @@ bot.on('message', (msg) => {
 								return msg.channel.sendMessage('Queue is empty');
 							}
 							let stream = yt(song.url, { audioonly: true }, { passes : passes });
-							queue[msg.guild.id].dispatcher = connnection.playStream(stream);
+							let connection = bot.voiceConnections.find('channel', msg.member.voiceChannel);
+							queue[msg.guild.id].dispatcher = connection.playStream(stream);
 							msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
 						}
 						return;
@@ -138,15 +139,36 @@ bot.on('message', (msg) => {
 			if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${PREFIX}add`);
     		if (!bot.voiceConnections.exists('channel', msg.member.voiceChannel)) return msg.channel.sendMessage(`Join me to a voice channel with ${PREFIX}summon first`);
     		if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Already Playing');
-    		let voiceChannel = bot.voiceConnections.find('channel', msg.member.voiceChannel);
 
 			if (!queue[msg.guild.id].playing) {
-				const voiceChannel = msg.member.voiceChannel;
+				let voiceChannel = msg.member.voiceChannel;
 				if (!voiceChannel) {
 					return message.reply(`Please be in a voice channel first!`);
 				}
-				var song = {url: url, title: info.title, requester: msg.author.username};
-				play(song);
+				
+				voiceChannel = bot.voiceConnections.find('channel', msg.member.voiceChannel);
+				var song = queue[msg.guild.id].songs[0];
+				if (song === undefined) {
+					queue[msg.guild.id].playing = false;
+					return msg.channel.sendMessage('Queue is empty');
+				}
+
+    			msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
+				var songToPlay = queue[msg.guild.id].songs[0];
+    			queue[msg.guild.id].dispatcher = voiceChannel.playStream(yt(songToPlay.url, { audioonly: true }), { passes : passes });
+				
+    			queue[msg.guild.id].dispatcher.on('end', () => {
+    				collector.stop();
+    				queue[msg.guild.id].songs.shift();
+    				play(queue[msg.guild.id].songs[0]);
+    			});
+    			queue[msg.guild.id].dispatcher.on('error', (err) => {
+    				return msg.channel.sendMessage('error: ' + err).then(() => {
+    					collector.stop();
+    					queue[msg.guild.id].songs.shift();
+    					play(queue[msg.guild.id].songs[0]);
+    				});
+    			});
 			}
 			
 			console.log(queue);
@@ -158,7 +180,8 @@ bot.on('message', (msg) => {
 				}
 
     			msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
-    			queue[msg.guild.id].dispatcher = voiceChannel.playStream(yt(song.url, { audioonly: true }), { passes : passes });
+				var songToPlay = queue[msg.guild.id].songs[0];
+    			queue[msg.guild.id].dispatcher = voiceChannel.playStream(yt(songToPlay.url, { audioonly: true }), { passes : passes });
 				
     			queue[msg.guild.id].dispatcher.on('end', () => {
     				collector.stop();
