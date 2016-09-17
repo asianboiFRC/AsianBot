@@ -1,5 +1,5 @@
-/*AsianBot v2.0
- *September 9, 2016
+/*AsianBot v2.4
+ *September 16, 2016
  *Created by Michael Cao (ASIANBOI)*/
 
 'use strict';
@@ -74,6 +74,9 @@ bot.on('ready', () => {
     console.log("Bot Online and Ready! On " + bot.guilds.size + " Servers!");
 	logChannel.sendMessage(":stopwatch: ``" + str + "`` :mega: AsianBOT is online and ready! :white_check_mark:");
 	bot.user.setStatus("online", '~help | ' + bot.guilds.size + ' Servers');
+	
+	const ASIANBOI = bot.users.get("171319044715053057");	
+    ASIANBOI.sendMessage("AsianBot Online and Ready! On " + bot.guilds.size + " Servers!");
 });
 
 bot.on('message', (msg) => {
@@ -99,7 +102,7 @@ bot.on('message', (msg) => {
 		
 		if(msg.content.startsWith(PREFIX + "play")) {
 			let input = msg.content.slice(6);
-			if(input != null) {
+			if(input.length > 1) {
 				msg.channel.sendMessage('Searching for video...');
 				search(input, opts, function(err, results) {
 					if(err) return console.log(err);
@@ -109,64 +112,60 @@ bot.on('message', (msg) => {
 						if(err) {
 							return msg.channel.sendMessage('Invalid video: ' + err);
 						}
-						if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
+						if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [], queue[msg.guild.id].dispatcher = null;
 						queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
-						msg.channel.sendMessage(`added **${info.title}** to the queue`);
-					});
-					
-					if (!queue[msg.guild.id].playing) {
-						const voiceChannel = msg.member.voiceChannel;
-						let dispatcher;
-						if (!voiceChannel) {
-							return message.reply(`Please be in a voice channel first!`);
+						msg.channel.sendMessage(`Added **${info.title}** to the queue`);
+						if (!queue[msg.guild.id].playing) {
+							const voiceChannel = msg.member.voiceChannel;
+							if (!voiceChannel) {
+								return message.reply(`Please be in a voice channel first!`);
+							}
+							var song = {url: url, title: info.title, requester: msg.author.username};
+							console.log(song);
+							if (song === undefined) {
+								queue[msg.guild.id].playing = false;
+								return msg.channel.sendMessage('Queue is empty');
+							}
+							let stream = yt(song.url, { audioonly: true }, { passes : passes });
+							queue[msg.guild.id].dispatcher = connnection.playStream(stream);
+							msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
 						}
-						var song = {url: url, title: info.title, requester: msg.author.username};
-						console.log(song);
-						if (song === undefined) return msg.channel.sendMessage('Queue is empty');
-						let stream = yt(song.url, { audioonly: true }, { passes : passes });
-						dispatcher = connnection.playStream(stream);
-						msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
-					}
+						return;
+					});
 				});
 			}
+			
 			if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${PREFIX}add`);
     		if (!bot.voiceConnections.exists('channel', msg.member.voiceChannel)) return msg.channel.sendMessage(`Join me to a voice channel with ${PREFIX}summon first`);
     		if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Already Playing');
     		let voiceChannel = bot.voiceConnections.find('channel', msg.member.voiceChannel);
-    		let dispatcher;
-    		queue[msg.guild.id].playing = true;
 
+			if (!queue[msg.guild.id].playing) {
+				const voiceChannel = msg.member.voiceChannel;
+				if (!voiceChannel) {
+					return message.reply(`Please be in a voice channel first!`);
+				}
+				var song = {url: url, title: info.title, requester: msg.author.username};
+				play(song);
+			}
+			
 			console.log(queue);
     		(function play(song) {
     			console.log(song);
-    			if (song === undefined) return msg.channel.sendMessage('Queue is empty');
+    			if (song === undefined) {
+					queue[msg.guild.id].playing = false;
+					return msg.channel.sendMessage('Queue is empty');
+				}
 
     			msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
-    			dispatcher = voiceChannel.playStream(yt(song.url, { audioonly: true }), { passes : passes });
-    			let collector = msg.channel.createCollector(m => m);
-    			collector.on('msg', m => {
-    				if (m.content.startsWith(PREFIX + 'pause')) {
-    					msg.channel.sendMessage('paused').then(() => {dispatcher.pause();});
-    				} else if (m.content.startsWith(PREFIX + 'resume')){
-    					msg.channel.sendMessage('resumed').then(() => {dispatcher.resume();});
-    				} else if (m.content.startsWith(PREFIX + 'skip')){
-    					msg.channel.sendMessage('skipped').then(() => {dispatcher.end();});
-    				} else if (m.content.startsWith('volume+')){
-    					if (Math.round(dispatcher.volume*50) >= 100) return msg.channel.sendmsg(`Volume: ${Math.round(dispatcher.volume*50)}%`);
-    					dispatcher.setVolume(Math.min((dispatcher.volume*50 + (2*(m.content.split('+').length-1)))/50,2));
-    					msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
-    				} else if (m.content.startsWith('volume-')){
-    					if (Math.round(dispatcher.volume*50) <= 0) return msg.channel.sendmsg(`Volume: ${Math.round(dispatcher.volume*50)}%`);
-    					dispatcher.setVolume(Math.max((dispatcher.volume*50 - (2*(m.content.split('-').length-1)))/50,0));
-    					msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
-    				}
-    			});
-    			dispatcher.on('end', () => {
+    			queue[msg.guild.id].dispatcher = voiceChannel.playStream(yt(song.url, { audioonly: true }), { passes : passes });
+				
+    			queue[msg.guild.id].dispatcher.on('end', () => {
     				collector.stop();
     				queue[msg.guild.id].songs.shift();
     				play(queue[msg.guild.id].songs[0]);
     			});
-    			dispatcher.on('error', (err) => {
+    			queue[msg.guild.id].dispatcher.on('error', (err) => {
     				return msg.channel.sendMessage('error: ' + err).then(() => {
     					collector.stop();
     					queue[msg.guild.id].songs.shift();
@@ -195,7 +194,22 @@ bot.on('message', (msg) => {
 					msg.channel.sendMessage(`added **${info.title}** to the queue`);
 				});
 			});
-		}
+		} else if (msg.content.startsWith(PREFIX + 'pause')) {
+			if(queue[msg.guild.id].dispatcher != null) {
+				msg.channel.sendMessage('Music paused!');
+				queue[msg.guild.id].dispatcher.pause();
+			}
+    	} else if (msg.content.startsWith(PREFIX + 'resume')){
+			if(queue[msg.guild.id].dispatcher != null) {
+				msg.channel.sendMessage('Music resumed!');
+				queue[msg.guild.id].dispatcher.resume();
+			}
+    	} else if (msg.content.startsWith(PREFIX + 'skip')){
+			if(queue[msg.guild.id].dispatcher != null) {
+				msg.channel.sendMessage('Music skipped!');
+				queue[msg.guild.id].dispatcher.end();
+			}
+    	}
 		
 		else if (msg.content.startsWith(PREFIX)) {
 			let content = msg.content.split(PREFIX)[1];
@@ -241,7 +255,6 @@ bot.on('guildMemberRemove', (guild, user) => {
 bot.on("messageDelete", (message) => {
 	const logChannel = bot.channels.get("214876995375464448");
 	const msgChannel = bot.channels.get("221038566308839426");
-	const ASIANBOI = bot.users.get("171319044715053057");
 	try {
 		if (message.guild.id != "110373943822540800") {
 			console.log(server(msg.author.username + "'s message was deleted!\n Old message: " + msg.content));
@@ -256,7 +269,6 @@ bot.on("messageDelete", (message) => {
 bot.on("messageUpdate", (message1, message2) => {
 	const logChannel = bot.channels.get("214876995375464448");
 	const msgChannel = bot.channels.get("221038566308839426");
-	const ASIANBOI = bot.users.get("171319044715053057");
 	try {
 		if (message1.guild.id != "110373943822540800") {
 			logChannel.sendMessage(message1.author.username + "'s message was edited!\n Old message: " + message1.content);
