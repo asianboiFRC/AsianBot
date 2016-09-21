@@ -16,6 +16,8 @@ support <msg>: Sends ASIANBOI a message!
 xkcd: Returns a XKCD comic.
 google <search>: Googles the inputted info.
 emoji: Returns a random emoji.
+leet <text>: transforms text into leetspeak.
+remindme <number> <timeunit> - <remindertext>: pms you a reminder to do something after the amount of time specified.
 
 join: Join Voice channel of msg sender
 add: Add a valid youtube link to the queue

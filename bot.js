@@ -23,7 +23,6 @@ var opts = {
   key: config.ytkey
 };
 
-const isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
 const guildsToAnnounce = ["209467012684972034", "214850991089123328", "215965218449260544", "221663485073817602"];
 
 var chalk = require('chalk');
@@ -200,6 +199,10 @@ bot.on('message', (msg) => {
 			const voiceChannel = msg.member.voiceChannel;
 			if (!voiceChannel || voiceChannel.type !== 'voice') return msg.reply('I couldn\'t connect to your voice channel...');
 			voiceChannel.join();
+		} else if(msg.content.startsWith(PREFIX + "disconnect")) {
+			const voiceChannel = msg.member.voiceChannel;
+			if (!voiceChannel || voiceChannel.type !== 'voice') return msg.reply('I couldn\'t leave your voice channel...');
+			voiceChannel.leave();
 		} else if(msg.content.startsWith(PREFIX + "queue")) {
 			let input = msg.content.slice(5);
 			msg.channel.sendMessage('Searching for video...');
@@ -264,7 +267,7 @@ bot.on('guildMemberAdd', (guild, user) => {
 bot.on('guildBanAdd', (guild, user) => {
 	if (guildsToAnnounce.indexOf(guild.id) > -1) {
 		var defaultChannel = bot.channels.get(guild.id);
-        defaultChannel.sendMessage("🔨 " + user.user.username + " was banned.");
+        defaultChannel.sendMessage("🔨 " + user.username + " was banned.");
     }
 });
 
