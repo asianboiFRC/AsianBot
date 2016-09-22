@@ -1,5 +1,10 @@
 module.exports = {
 	main: function(bot, message) {
-		message.channel.sendMessage("Stats for AsianBOT: \n" + bot.users.size + " Users\n" + bot.channels.size + " Channels\n" + bot.guilds.size + " Servers");
+		message.channel.sendMessage("```------Stats for AsianBOT------" 
+								+ "\n> Created by: ASIANBOI#4122"
+								+ "\n> Library   : Discord.js"
+								+ "\n> Users     : " + bot.users.size
+								+ "\n> Channels  : " + bot.channels.size
+								+ "\n> Servers   : " + bot.guilds.size + "```");
 	}
 };
