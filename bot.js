@@ -1,14 +1,13 @@
 /*AsianBot v2.4
  *September 16, 2016
  *Created by Michael Cao (ASIANBOI)*/
-
 'use strict';
 
 const Discord = require('discord.js');
 var config = require('./config.json');
 var news = require('./news.json');
 const fse = require('fs-extra');
-const PREFIX = config.prefix;
+const PREFIX = config.PREFIX;
 const passes = config.passes;
 const version = news.version;
 const whatsnew = news.whatsnew;
@@ -19,8 +18,8 @@ const yt = require('ytdl-core');
 
 var search = require('youtube-search');
 var opts = {
-  maxResults: 1,
-  key: config.ytkey
+	maxResults: 1,
+	key: config.ytkey
 };
 
 const guildsToAnnounce = ["209467012684972034", "214850991089123328", "215965218449260544", "221663485073817602"];
@@ -34,7 +33,7 @@ var cmand = chalk.bgRed;
 var gray = chalk.gray;
 
 let bot = new Discord.Client({
-  disableEveryone: true
+	disableEveryone: true
 });
 
 bot.login(config.token);
@@ -57,49 +56,50 @@ function loadPlugins() {
 			console.log(plugin);
 		}
 	}
-    console.log('Plugins loaded.');
+	console.log('Plugins loaded.');
 }
 
 bot.on('ready', () => {
 	const logChannel = bot.channels.get("214876995375464448");
-	
+
 	console.log('AsianBot is ready! Loading plugins...');
 	loadPlugins();
-	
-    var currentTime = new Date()
-    var n = currentTime.toTimeString();
+
+	var currentTime = new Date()
+	var n = currentTime.toTimeString();
 	var str = n.substring(0, n.indexOf(' '));
-	
-    console.log("Bot Online and Ready! On " + bot.guilds.size + " Servers!");
+
+	console.log("Bot Online and Ready! On " + bot.guilds.size + " Servers!");
 	logChannel.sendMessage(":stopwatch: ``" + str + "`` :mega: AsianBOT is online and ready! :white_check_mark:");
 	bot.user.setStatus("online", '~help | ' + bot.guilds.size + ' Servers');
-	
-	const ASIANBOI = bot.users.get("171319044715053057");	
-    ASIANBOI.sendMessage("AsianBot Online and Ready! On " + bot.guilds.size + " Servers!");
+
+	const ASIANBOI = bot.users.get("171319044715053057");
+	ASIANBOI.sendMessage(bot.user.username + " Online and Ready! On " + bot.guilds.size + " Servers!");
 });
 
 bot.on('message', (msg) => {
 	const logChannel = bot.channels.get("214876995375464448");
 	const msgChannel = bot.channels.get("221038566308839426");
-	
+
 	var n = msg.timestamp.toTimeString();
 	var str = n.substring(0, n.indexOf(' '));
-		
-	if(msg.channel.type === "dm" || msg.channel.type === "group") {
+
+	if (msg.channel.type === "dm" || msg.channel.type === "group") {
 		msgChannel.sendMessage("[" + str + "]" + " [PM] " + msg.author.name + " : " + msg.content);
 		console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 		return;
 	}
-	
-	if(msg.channel.type === "text") {
+
+	if (msg.channel.type === "text") {
 		if (msg.guild.id != "110373943822540800" && msg.guild.id != "185858769895424001" && msg.channel.id != "221664440750309377") {
 			msgChannel.sendMessage("[" + str + "] " + msg.guild + " | " + msg.channel.name + " | " + msg.author.username + ": " + msg.content);
 			console.log(gray("[" + str + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.content));
 		}
-		
-		if (msg.author.bot) return;
-		
-		if(msg.content.startsWith(PREFIX + "play")) {
+	}
+
+	if (msg.author.bot) return;
+
+	if(msg.content.startsWith(PREFIX + "play")) {
 			let input = msg.content.slice(6);
 			if(input.length > 1) {
 				msg.channel.sendMessage('Searching for video...');
@@ -236,23 +236,22 @@ bot.on('message', (msg) => {
 				queue[msg.guild.id].dispatcher.end();
 			}
     	}
-		
-		else if (msg.content.startsWith(PREFIX)) {
-			let content = msg.content.split(PREFIX)[1];
-			let cmd = content.substring(0, content.indexOf(' ')),
-				args = content.substring(content.indexOf(' ') + 1, content.length);
-			if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
-				logChannel.sendMessage(msg.author.username + " executed " + cmd + " " + args + " in " + msg.guild.name);
-				console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
-				msg.content = args;
-				plugins.get(cmd).main(bot, msg);
-			} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
-				logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
-				console.log(cmand(msg.author.username + " executed: " + content));
-				plugins.get(content).main(bot, msg);
-			} else {
-				console.log('BROKEN:' + content);
-			}
+	
+	 else if (msg.content.startsWith(PREFIX)) {
+		let content = msg.content.split(PREFIX)[1];
+		let cmd = content.substring(0, content.indexOf(' ')),
+			args = content.substring(content.indexOf(' ') + 1, content.length);
+		if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
+			logChannel.sendMessage(msg.author.username + " executed " + cmd + " " + args + " in " + msg.guild.name);
+			console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
+			msg.content = args;
+			plugins.get(cmd).main(bot, msg);
+		} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
+			logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
+			console.log(cmand(msg.author.username + " executed: " + content));
+			plugins.get(content).main(bot, msg);
+		} else {
+			console.log('BROKEN:' + content);
 		}
 	}
 });
@@ -260,27 +259,26 @@ bot.on('message', (msg) => {
 bot.on('guildMemberAdd', (guild, user) => {
 	if (guildsToAnnounce.indexOf(guild.id) > -1) {
 		var defaultChannel = bot.channels.get(guild.id);
-        defaultChannel.sendMessage("👋 " + user.user.username + " joined the server.");
-    }
+		defaultChannel.sendMessage(":wave: " + user.user.username + " joined the server.");
+	}
 });
 
 bot.on('guildBanAdd', (guild, user) => {
 	if (guildsToAnnounce.indexOf(guild.id) > -1) {
 		var defaultChannel = bot.channels.get(guild.id);
-        defaultChannel.sendMessage("🔨 " + user.username + " was banned.");
-    }
+		defaultChannel.sendMessage(":hammer: " + user.username + " was banned.");
+	}
 });
 
 bot.on('guildMemberRemove', (guild, user) => {
 	if (guildsToAnnounce.indexOf(guild.id) > -1) {
 		var defaultChannel = bot.channels.get(guild.id);
-        defaultChannel.sendMessage(user.user.username + " left the server. RIP " + user.user.username + ".");
-    }
+		defaultChannel.sendMessage(user.user.username + " left the server. RIP " + user.user.username + ".");
+	}
 });
 
-bot.on("messageDelete", (message) => {
+bot.on("Delete", (message) => {
 	const logChannel = bot.channels.get("214876995375464448");
-	const msgChannel = bot.channels.get("221038566308839426");
 	try {
 		if (message.guild.id != "110373943822540800") {
 			console.log(server(msg.author.username + "'s message was deleted!\n Old message: " + msg.content));
@@ -293,32 +291,39 @@ bot.on("messageDelete", (message) => {
 });
 
 bot.on("messageUpdate", (message1, message2) => {
+	if(message1.author.id == bot.user.id) return;
+	if(message1.author.bot) return;
+
 	const logChannel = bot.channels.get("214876995375464448");
-	const msgChannel = bot.channels.get("221038566308839426");
 	try {
 		if (message1.guild.id != "110373943822540800") {
 			logChannel.sendMessage(message1.author.username + "'s message was edited!\n Old message: " + message1.content);
 			console.log(server(message1.author.username + "'s message was edited!\n Old message: " + message1.content));
 		}
-	}
-	catch(err) {
+	} catch (err) {
 		console.log(server("ERROR UPDATED MESSAGE"));
 	}
 });
 
 bot.on("guildDelete", (guild) => {
 	const logChannel = bot.channels.get("214876995375464448");
-	const msgChannel = bot.channels.get("221038566308839426");
 	const ASIANBOI = bot.users.get("171319044715053057");
-    console.log("I left " + guild.name);
+	console.log("I left " + guild.name);
 	logChannel.sendMessage("I left " + guild.name);
 	ASIANBOI.sendMessage("I left " + guild.name);
 })
 
 bot.on("guildCreate", (guild) => {
-    console.log(server("Bot added to " + guild.name));
-	logChannel.sendMessage("Bot added to " + guild.name);
+	console.log(server("Bot added to " + guild.name));
 	var defaultChannel = bot.channels.get(guild.id);
-    defaultChannel.sendMessage("Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage guild, and administrator.");
+	defaultChannel.sendMessage("Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage guild, and administrator.");
 	ASIANBOI.sendMessage("I joined " + guild.name);
 });
+
+function getQueue(guild) {
+	if (!guild) return
+	if (typeof guild == 'object') guild = guild.id
+	if (queues[guild]) return queues[guild]
+	else queues[guild] = []
+	return queues[guild]
+}

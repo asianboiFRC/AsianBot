@@ -19,6 +19,9 @@ emoji: Returns a random emoji.
 leet <text>: transforms text into leetspeak.
 remindme <number> <timeunit> - <remindertext>: pms you a reminder to do something after the amount of time specified.
 uptime: Shows bot uptime.
+kickoff: Shows the time until FRC's Kickoff.
+timeuntil <date>: Shows the time until that date.
+timesince <date>: Shows the time since that date.
 
 join: Join Voice channel of msg sender
 add: Add a valid youtube link to the queue
