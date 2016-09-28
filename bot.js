@@ -99,7 +99,7 @@ bot.on('message', (msg) => {
 
 	if (msg.author.bot) return;
 
-	if(msg.content.startsWith(PREFIX + "play")) {
+	/*if(msg.content.startsWith(PREFIX + "play")) {
 			let input = msg.content.slice(6);
 			if(input.length > 1) {
 				msg.channel.sendMessage('Searching for video...');
@@ -235,7 +235,7 @@ bot.on('message', (msg) => {
 				msg.channel.sendMessage('Music skipped!');
 				queue[msg.guild.id].dispatcher.end();
 			}
-    	}
+    	}*/
 	
 	 if (msg.content.startsWith(PREFIX)) {
 		let content = msg.content.split(PREFIX)[1];
