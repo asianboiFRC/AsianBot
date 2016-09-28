@@ -1,5 +1,5 @@
-/*AsianBot v2.4
- *September 16, 2016
+/*AsianBot v2.5
+ *September 27, 2016
  *Created by Michael Cao (ASIANBOI)*/
 'use strict';
 
@@ -22,7 +22,7 @@ var opts = {
 	key: config.ytkey
 };
 
-const guildsToAnnounce = ["209467012684972034", "214850991089123328", "215965218449260544", "221663485073817602"];
+const guildsToAnnounce = ["209467012684972034", "214850991089123328", "215965218449260544", "221663485073817602", "185858769895424001"];
 
 var chalk = require('chalk');
 var server = chalk.bold.red;
@@ -237,7 +237,7 @@ bot.on('message', (msg) => {
 			}
     	}
 	
-	 else if (msg.content.startsWith(PREFIX)) {
+	 if (msg.content.startsWith(PREFIX)) {
 		let content = msg.content.split(PREFIX)[1];
 		let cmd = content.substring(0, content.indexOf(' ')),
 			args = content.substring(content.indexOf(' ') + 1, content.length);
@@ -253,6 +253,10 @@ bot.on('message', (msg) => {
 		} else {
 			console.log('BROKEN:' + content);
 		}
+	}
+	
+	if(message.content == "<@204301419828871168>") {
+		message.channel.sendMessage(replyTextToMentions);
 	}
 });
 
