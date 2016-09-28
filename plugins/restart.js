@@ -8,7 +8,7 @@ module.exports = {
 			if(message.content != "~restart")
 				logChannel.sendMessage("AsianBot is restarting because of " + reason);
 			setTimeout(function() {
-				bot.logout()
+				bot.destroy()
 			}, 1000)
 			setTimeout(function() {
 				process.exit()

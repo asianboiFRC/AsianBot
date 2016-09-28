@@ -41,7 +41,7 @@ bot.login(config.token);
 const replyTextToMentions = "Hi! I'm AsianBOT. Use " + PREFIX + "help to see a list of my commands.";
 const logChannel = bot.channels.get("214876995375464448");
 const msgChannel = bot.channels.get("221038566308839426");
-const ASIANBOI = bot.users.get("171319044715053057");
+const owner = bot.users.get(config.owner);
 
 let plugins = new Map();
 
@@ -73,8 +73,8 @@ bot.on('ready', () => {
 	logChannel.sendMessage(":stopwatch: ``" + str + "`` :mega: AsianBOT is online and ready! :white_check_mark:");
 	bot.user.setStatus("online", '~help | ' + bot.guilds.size + ' Servers');
 
-	const ASIANBOI = bot.users.get("171319044715053057");
-	ASIANBOI.sendMessage(bot.user.username + " Online and Ready! On " + bot.guilds.size + " Servers!");
+	const owner = bot.users.get(config.owner);
+	owner.sendMessage(bot.user.username + " Online and Ready! On " + bot.guilds.size + " Servers!");
 });
 
 bot.on('message', (msg) => {
@@ -97,7 +97,7 @@ bot.on('message', (msg) => {
 		}
 	}
 
-	if (msg.author.bot) return;
+	if (msg.author.bot) {return;}
 
 	/*if(msg.content.startsWith(PREFIX + "play")) {
 			let input = msg.content.slice(6);
@@ -237,7 +237,7 @@ bot.on('message', (msg) => {
 			}
     	}*/
 	
-	 if (msg.content.startsWith(PREFIX)) {
+	if (msg.content.startsWith(PREFIX)) {
 		let content = msg.content.split(PREFIX)[1];
 		let cmd = content.substring(0, content.indexOf(' ')),
 			args = content.substring(content.indexOf(' ') + 1, content.length);
@@ -311,23 +311,23 @@ bot.on("messageUpdate", (message1, message2) => {
 
 bot.on("guildDelete", (guild) => {
 	const logChannel = bot.channels.get("214876995375464448");
-	const ASIANBOI = bot.users.get("171319044715053057");
+	const owner = bot.users.get(config.owner);
 	console.log("I left " + guild.name);
 	logChannel.sendMessage("I left " + guild.name);
-	ASIANBOI.sendMessage("I left " + guild.name);
+	owner.sendMessage("I left " + guild.name);
 })
 
 bot.on("guildCreate", (guild) => {
 	console.log(server("Bot added to " + guild.name));
 	var defaultChannel = bot.channels.get(guild.id);
 	defaultChannel.sendMessage("Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage guild, and administrator.");
-	ASIANBOI.sendMessage("I joined " + guild.name);
+	owner.sendMessage("I joined " + guild.name);
 });
 
-function getQueue(guild) {
+/*function getQueue(guild) {
 	if (!guild) return
 	if (typeof guild == 'object') guild = guild.id
 	if (queues[guild]) return queues[guild]
 	else queues[guild] = []
 	return queues[guild]
-}
+}*/
