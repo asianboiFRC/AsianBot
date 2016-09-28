@@ -85,7 +85,7 @@ bot.on('message', (msg) => {
 	var str = n.substring(0, n.indexOf(' '));
 
 	if (msg.channel.type === "dm" || msg.channel.type === "group") {
-		msgChannel.sendMessage("[" + str + "]" + " [PM] " + msg.author.name + " : " + msg.content);
+		msgChannel.sendMessage("[" + str + "]" + " [PM] " + msg.author.username + " : " + msg.content);
 		console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 		return;
 	}
