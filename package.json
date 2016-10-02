@@ -25,7 +25,7 @@
     "supervisor": "*",
     "discord.js": ">=9.2.0",
     "chalk": "*",
-    "xkcd-imgs": "*",
+    "xkcd": "*",
     "eightball": "*",
 	"ytdl-core" :  "github:fent/node-ytdl-core#master",
 	"youtube-search": "*",
