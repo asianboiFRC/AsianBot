@@ -4,7 +4,8 @@ module.exports = {
 		if (message.member.roles.exists('name', 'Bot Commander')) {
 			try {
 				var muted = message.guild.members.find('id', mutee.id);
-				muted.addRole('muted');
+				let role = message.guild.roles.find("name", 'muted');
+				muted.addRole(role).catch(console.error);
 				message.reply(mutee + ' has been muted.');
 				var reason = message.content.split(" ").splice(1).join(" ")
 				try{

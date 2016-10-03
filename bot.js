@@ -255,9 +255,9 @@ bot.on('message', (msg) => {
 		}
 	}
 	
-	if(message.channel.id == "185858769895424001" && message.author.id == "193000443981463552") {
+	if(msg.channel.id == "185858769895424001" && msg.author.id == "193000443981463552") {
 		var feed = bot.channels.get("232295069363732482");
-		feed.sendMessage(message.content);
+		feed.sendMessage(msg.content);
 	}
 });
 
