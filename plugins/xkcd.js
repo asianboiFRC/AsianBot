@@ -5,7 +5,7 @@ module.exports = {
 		if(message.content == "frc") {
 			xkcd(689, function (err, res) {
 				if(!err) {
-					message.channel.sendMessage("**" + res.num + "**: " + res.title + "\n" + res.alt + "\n*" + res.alt);
+					message.channel.sendMessage("**" + res.num + "**: " + res.title + "\n" + res.img + "\n*" + res.alt);
 					console.log(data);
 				}
 				
@@ -18,7 +18,7 @@ module.exports = {
 		if(message.content != "~xkcd") {
 			xkcd(message.content, function (err, res) {
 				if(!err) {
-					message.channel.sendMessage("**" + res.num + "**: " + res.title + "\n" + res.alt + "\n*" + res.alt);
+					message.channel.sendMessage("**" + res.num + "**: " + res.title + "\n" + res.img + "\n*" + res.alt);
 					console.log(data);
 				}
 				
@@ -30,7 +30,7 @@ module.exports = {
 		if(message.content == "~xkcd"){
 			xkcd(function (err, res) {
 				if(!err) {
-					message.channel.sendMessage("**" + res.num + "**: " + res.title + "\n" + res.alt + "\n*" + res.alt);
+					message.channel.sendMessage("**" + res.num + "**: " + res.title + "\n" + res.img + "\n*" + res.alt);
 					console.log(data);
 				}
 			});
