@@ -254,11 +254,6 @@ bot.on('message', (msg) => {
 			console.log('BROKEN:' + content);
 		}
 	}
-	
-	if(msg.channel.id == "185858769895424001" && msg.author.id == "193000443981463552") {
-		var feed = bot.channels.get("232295069363732482");
-		feed.sendMessage(msg.content);
-	}
 });
 
 bot.on('guildMemberAdd', (guild, user) => {
