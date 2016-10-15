@@ -173,7 +173,7 @@ bot.on('message', (msg) => {
 		
 		if (msg.content.startsWith(PREFIX)) {
 			let content = msg.content.split(PREFIX)[1];
-			let cmd = content.substring(PREFIX.length - 1, content.indexOf(' ')),
+			let cmd = content.substring(0, content.indexOf(' ')),
 				args = content.substring(content.indexOf(' ') + 1, content.length);
 			if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
 				logChannel.sendMessage(msg.author.username + " executed " + cmd + " " + args + " in " + msg.guild.name);
