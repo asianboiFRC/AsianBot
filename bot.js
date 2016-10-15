@@ -28,9 +28,15 @@ var opts = {
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
+<<<<<<< HEAD
   host: 'localhost',
   user: 'asianbot',
   password: 'discordbot!2017',
+=======
+  host: config.host,
+  user: config.sqluser,
+  password: config.sqlpassword,
+>>>>>>> 012dd36... added prefix cmd:
   database: 'asianbot'
 });
 connection.query('SET NAMES utf8mb4');
