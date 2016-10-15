@@ -96,7 +96,6 @@ bot.on('ready', () => {
 
 bot.on('message', (msg) => {
 	const logChannel = bot.channels.get(config.logchannel);
-	const msgchannel = bot.channels.get(config.msgchannel);
 
 	var n = msg.timestamp.toTimeString();
 	var str = n.substring(0, n.indexOf(' '));
@@ -113,7 +112,7 @@ bot.on('message', (msg) => {
 		var query = 'INSERT INTO `messages` SET ?';
 		
 		connection.query(query, args);
-		const msgchannel = bot.channels.get(config.msgchannel);
+		const msgChannel = bot.channels.get(config.msgchannel);
 		msgChannel.sendMessage("[" + str + "]" + " [PM] " + msg.author.username + " : " + msg.content);
 		console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 		return;
@@ -132,7 +131,7 @@ bot.on('message', (msg) => {
 			var query = 'INSERT INTO `messages` SET ?';
 			
 			connection.query(query, args);
-			const msgchannel = bot.channels.get(config.msgchannel);
+			const msgChannel = bot.channels.get(config.msgchannel);
 			msgChannel.sendMessage("[" + str + "] " + msg.guild + " | " + msg.channel.name + " | " + msg.author.username + ": " + msg.cleanContent);
 			console.log(gray("[" + str + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.cleanContent));
 		}
