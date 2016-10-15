@@ -141,6 +141,7 @@ bot.on('message', (msg) => {
 	
 	connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + msg.guild.id, function (error, results, fields) {
 		var PREFIX = results[0].prefix;
+<<<<<<< HEAD
 	});
 
 <<<<<<< HEAD
@@ -162,8 +163,27 @@ bot.on('message', (msg) => {
 			plugins.get(content).main(bot, msg);
 		} else {
 			console.log('BROKEN:' + content);
+=======
+		
+		if (msg.content.startsWith(PREFIX)) {
+			let content = msg.content.split(PREFIX)[1];
+			let cmd = content.substring(PREFIX.length - 1, content.indexOf(' ')),
+				args = content.substring(content.indexOf(' ') + 1, content.length);
+			if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
+				logChannel.sendMessage(msg.author.username + " executed " + cmd + " " + args + " in " + msg.guild.name);
+				console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
+				msg.content = args;
+				plugins.get(cmd).main(bot, msg);
+			} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
+				logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
+				console.log(cmand(msg.author.username + " executed: " + content));
+				plugins.get(content).main(bot, msg);
+			} else {
+				console.log('BROKEN:' + content);
+			}
+>>>>>>> 8becf64... THAT DIDN'T FIX IT EITHER
 		}
-	}
+	});
 });
 
 bot.on('guildMemberAdd', (guild, user) => {
