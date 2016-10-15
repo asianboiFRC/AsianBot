@@ -4,6 +4,11 @@
 'use strict';
 
 const Discord = require('discord.js');
+
+let bot = new Discord.Client({
+	disableEveryone: true
+});
+
 var config = require('./config.json');
 const fse = require('fs-extra');
 
@@ -30,7 +35,7 @@ var connection = mysql.createConnection({
 });
 connection.query('SET NAMES utf8mb4');
 
-const guildsToAnnounce = bot.channels.get(config.announce);
+const guildsToAnnounce = config.announce;
 const logChannel = config.logchannel;
 
 var chalk = require('chalk');
@@ -40,12 +45,6 @@ var message = chalk.yellow;
 var usr = chalk.bold.blue;
 var cmand = chalk.bgRed;
 var gray = chalk.gray;
-
-let bot = new Discord.Client({
-	disableEveryone: true
-});
-
-bot.login(config.token);
 
 const owner = bot.users.get(config.owner);
 
@@ -242,6 +241,11 @@ bot.on("guildCreate", (guild) => {
 	owner.sendMessage("I joined " + guild.name);
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 2d5e1bd... Moved commented code to a txt file
 =======
 >>>>>>> 770999c... Fixed head
+=======
+
+bot.login(config.token);
+>>>>>>> b54ec1a... Attempted to add prefix query
