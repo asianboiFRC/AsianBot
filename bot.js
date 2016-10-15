@@ -5,12 +5,10 @@
 
 const Discord = require('discord.js');
 var config = require('./config.json');
-var news = require('./news.json');
 const fse = require('fs-extra');
-const PREFIX = config.prefix;
+
+const DEFAULT_PREFIX = config.prefix;
 const passes = config.passes;
-const version = news.version;
-const whatsnew = news.whatsnew;
 const fs = require('fs');
 
 const queue = {};
@@ -32,7 +30,8 @@ var connection = mysql.createConnection({
 });
 connection.query('SET NAMES utf8mb4');
 
-const guildsToAnnounce = ["209467012684972034", "214850991089123328", "215965218449260544", "221663485073817602", "185858769895424001"];
+const guildsToAnnounce = bot.channels.get(config.announce);
+const logChannel = config.logchannel;
 
 var chalk = require('chalk');
 var server = chalk.bold.red;
@@ -48,9 +47,6 @@ let bot = new Discord.Client({
 
 bot.login(config.token);
 
-const replyTextToMentions = "Hi! I'm AsianBOT. Use " + PREFIX + "help to see a list of my commands.";
-const logChannel = bot.channels.get("214876995375464448");
-const msgChannel = bot.channels.get("221038566308839426");
 const owner = bot.users.get(config.owner);
 
 let plugins = new Map();
@@ -70,7 +66,7 @@ function loadPlugins() {
 }
 
 bot.on('ready', () => {
-	const logChannel = bot.channels.get("214876995375464448");
+	const logChannel = config.logchannel;
 
 	console.log('AsianBot is ready! Loading plugins...');
 	loadPlugins();
@@ -100,8 +96,8 @@ bot.on('ready', () => {
 });
 
 bot.on('message', (msg) => {
-	const logChannel = bot.channels.get("214876995375464448");
-	const msgChannel = bot.channels.get("221038566308839426");
+	const logChannel = config.logchannel;
+	const msgChannel = config.msgchannel;
 
 	var n = msg.timestamp.toTimeString();
 	var str = n.substring(0, n.indexOf(' '));
@@ -144,6 +140,10 @@ bot.on('message', (msg) => {
 	}
 
 	if (msg.author.bot) {return;}
+	
+	connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + msg.guild.id, function (error, results, fields) {
+		var PREFIX = results[0].prefix;
+	});
 
 <<<<<<< HEAD
 >>>>>>> 2d5e1bd... Moved commented code to a txt file
@@ -151,7 +151,7 @@ bot.on('message', (msg) => {
 >>>>>>> 770999c... Fixed head
 	if (msg.content.startsWith(PREFIX)) {
 		let content = msg.content.split(PREFIX)[1];
-		let cmd = content.substring(0, content.indexOf(' ')),
+		let cmd = content.substring(PREFIX.length - 1, content.indexOf(' ')),
 			args = content.substring(content.indexOf(' ') + 1, content.length);
 		if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
 			logChannel.sendMessage(msg.author.username + " executed " + cmd + " " + args + " in " + msg.guild.name);
@@ -190,7 +190,7 @@ bot.on('guildMemberRemove', (guild, user) => {
 });
 
 bot.on("Delete", (message) => {
-	const logChannel = bot.channels.get("214876995375464448");
+	const logChannel = config.logchannel;
 	try {
 		if (message.guild.id != "110373943822540800") {
 			console.log(server(msg.author.username + "'s message was deleted!\n Old message: " + msg.content));
@@ -206,7 +206,7 @@ bot.on("messageUpdate", (message1, message2) => {
 	if(message1.author.id == bot.user.id) return;
 	if(message1.author.bot) return;
 
-	const logChannel = bot.channels.get("214876995375464448");
+	const logChannel = config.logchannel;
 	try {
 		if (message1.guild.id != "110373943822540800") {
 			logChannel.sendMessage(message1.author.username + "'s message was edited!\n Old message: " + message1.content);
@@ -218,7 +218,7 @@ bot.on("messageUpdate", (message1, message2) => {
 });
 
 bot.on("guildDelete", (guild) => {
-	const logChannel = bot.channels.get("214876995375464448");
+	const logChannel = config.logchannel;
 	const owner = bot.users.get(config.owner);
 	console.log("I left " + guild.name);
 	logChannel.sendMessage("I left " + guild.name);
@@ -232,6 +232,7 @@ bot.on("guildCreate", (guild) => {
 		Prefix: '~',
 		AnnouncementChannel: guild.defaultChannel
 	};
+	var PREFIX = args.Prefix;
 		
 	connection.query('INSERT IGNORE asianbot.servers SET ?', args);
 	
