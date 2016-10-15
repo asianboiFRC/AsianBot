@@ -1,5 +1,5 @@
-/*AsianBot v2.5
- *September 27, 2016
+/*AsianBot v2.6
+ *October 11, 2016
  *Created by Michael Cao (ASIANBOI)*/
 'use strict';
 
@@ -21,6 +21,16 @@ var opts = {
 	maxResults: 1,
 	key: config.ytkey
 };
+
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'asianbot',
+  password: 'discordbot!2017',
+  database: 'asianbot'
+});
+connection.query('SET NAMES utf8mb4');
 
 const guildsToAnnounce = ["209467012684972034", "214850991089123328", "215965218449260544", "221663485073817602", "185858769895424001"];
 
@@ -75,6 +85,18 @@ bot.on('ready', () => {
 
 	const owner = bot.users.get(config.owner);
 	owner.sendMessage(bot.user.username + " Online and Ready! On " + bot.guilds.size + " Servers!");
+	
+	bot.guilds.forEach(guild => {
+		var args = {
+			ID: guild.id,
+			NAME: guild.name,
+			Owner: guild.ownerID,
+			Prefix: '~',
+			AnnouncementChannel: guild.defaultChannel.id
+		};
+		
+		connection.query('INSERT IGNORE `servers` SET ?', args);
+	});
 });
 
 bot.on('message', (msg) => {
@@ -85,6 +107,18 @@ bot.on('message', (msg) => {
 	var str = n.substring(0, n.indexOf(' '));
 
 	if (msg.channel.type === "dm" || msg.channel.type === "group") {
+		var args = {
+			ServerID: msg.channel.type,
+			ChannelID: msg.author.id,
+			User: msg.author.username,
+			UserID: msg.author.id,
+			Content: msg.content
+		};
+		
+		var query = 'INSERT INTO `messages` SET ?';
+		
+		connection.query(query, args);
+		
 		msgChannel.sendMessage("[" + str + "]" + " [PM] " + msg.author.username + " : " + msg.content);
 		console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 		return;
@@ -92,150 +126,24 @@ bot.on('message', (msg) => {
 
 	if (msg.channel.type === "text") {
 		if (msg.guild.id != "110373943822540800" && msg.guild.id != "185858769895424001" && msg.channel.id != "221664440750309377") {
+			var args = {
+				ServerID: msg.guild.id,
+				ChannelID: msg.channel.id,
+				User: msg.author.username,
+				UserID: msg.author.id,
+				Content: msg.content
+			};
+			
+			var query = 'INSERT INTO `messages` SET ?';
+			
+			connection.query(query, args);
+			
 			msgChannel.sendMessage("[" + str + "] " + msg.guild + " | " + msg.channel.name + " | " + msg.author.username + ": " + msg.cleanContent);
 			console.log(gray("[" + str + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.cleanContent));
 		}
 	}
 
 	if (msg.author.bot) {return;}
-
-	/*if(msg.content.startsWith(PREFIX + "play")) {
-			let input = msg.content.slice(6);
-			if(input.length > 1) {
-				msg.channel.sendMessage('Searching for video...');
-				search(input, opts, function(err, results) {
-					if(err) return console.log(err);
-					console.dir(results);
-					var url = results[0].link;
-					yt.getInfo(url, (err, info) => {
-						if(err) {
-							return msg.channel.sendMessage('Invalid video: ' + err);
-						}
-						if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [], queue[msg.guild.id].dispatcher = null;
-						queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
-						msg.channel.sendMessage(`Added **${info.title}** to the queue`);
-						if (!queue[msg.guild.id].playing) {
-							const voiceChannel = msg.member.voiceChannel;
-							if (!voiceChannel) {
-								return message.reply(`Please be in a voice channel first!`);
-							}
-							var song = {url: url, title: info.title, requester: msg.author.username};
-							console.log(song);
-							if (song === undefined) {
-								queue[msg.guild.id].playing = false;
-								return msg.channel.sendMessage('Queue is empty');
-							}
-							let stream = yt(song.url, { audioonly: true }, { passes : passes });
-							let connection = bot.voiceConnections.find('channel', msg.member.voiceChannel);
-							queue[msg.guild.id].dispatcher = connection.playStream(stream);
-							msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
-						}
-						return;
-					});
-				});
-			}
-			
-			if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Add some songs to the queue first with ${PREFIX}add`);
-    		if (!bot.voiceConnections.exists('channel', msg.member.voiceChannel)) return msg.channel.sendMessage(`Join me to a voice channel with ${PREFIX}summon first`);
-    		if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Already Playing');
-
-			if (!queue[msg.guild.id].playing) {
-				let voiceChannel = msg.member.voiceChannel;
-				if (!voiceChannel) {
-					return message.reply(`Please be in a voice channel first!`);
-				}
-				
-				voiceChannel = bot.voiceConnections.find('channel', msg.member.voiceChannel);
-				var song = queue[msg.guild.id].songs[0];
-				if (song === undefined) {
-					queue[msg.guild.id].playing = false;
-					return msg.channel.sendMessage('Queue is empty');
-				}
-
-    			msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
-				var songToPlay = queue[msg.guild.id].songs[0];
-    			queue[msg.guild.id].dispatcher = voiceChannel.playStream(yt(songToPlay.url, { audioonly: true }), { passes : passes });
-				
-    			queue[msg.guild.id].dispatcher.on('end', () => {
-    				collector.stop();
-    				queue[msg.guild.id].songs.shift();
-    				play(queue[msg.guild.id].songs[0]);
-    			});
-    			queue[msg.guild.id].dispatcher.on('error', (err) => {
-    				return msg.channel.sendMessage('error: ' + err).then(() => {
-    					collector.stop();
-    					queue[msg.guild.id].songs.shift();
-    					play(queue[msg.guild.id].songs[0]);
-    				});
-    			});
-			}
-			
-			console.log(queue);
-    		(function play(song) {
-    			console.log(song);
-    			if (song === undefined) {
-					queue[msg.guild.id].playing = false;
-					return msg.channel.sendMessage('Queue is empty');
-				}
-
-    			msg.channel.sendMessage(`Playing: **${song.title}** as requested by: **${song.requester}**`);
-				var songToPlay = queue[msg.guild.id].songs[0];
-    			queue[msg.guild.id].dispatcher = voiceChannel.playStream(yt(songToPlay.url, { audioonly: true }), { passes : passes });
-				
-    			queue[msg.guild.id].dispatcher.on('end', () => {
-    				collector.stop();
-    				queue[msg.guild.id].songs.shift();
-    				play(queue[msg.guild.id].songs[0]);
-    			});
-    			queue[msg.guild.id].dispatcher.on('error', (err) => {
-    				return msg.channel.sendMessage('error: ' + err).then(() => {
-    					collector.stop();
-    					queue[msg.guild.id].songs.shift();
-    					play(queue[msg.guild.id].songs[0]);
-    				});
-    			});
-    		})(queue[msg.guild.id].songs[0]);
-		} else if(msg.content.startsWith(PREFIX + "summon")) {
-			const voiceChannel = msg.member.voiceChannel;
-			if (!voiceChannel || voiceChannel.type !== 'voice') return msg.reply('I couldn\'t connect to your voice channel...');
-			voiceChannel.join();
-		} else if(msg.content.startsWith(PREFIX + "disconnect")) {
-			const voiceChannel = msg.member.voiceChannel;
-			if (!voiceChannel || voiceChannel.type !== 'voice') return msg.reply('I couldn\'t leave your voice channel...');
-			voiceChannel.leave();
-		} else if(msg.content.startsWith(PREFIX + "queue")) {
-			let input = msg.content.slice(5);
-			msg.channel.sendMessage('Searching for video...');
-			
-			search(input, opts, function(err, results) {
-				if(err) return console.log(err);
-				console.dir(results);
-				var url = results[0].link;
-				yt.getInfo(url, (err, info) => {
-					if(err) {
-						return msg.channel.sendMessage('Invalid video: ' + err);
-					}
-					if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
-					queue[msg.guild.id].songs.push({url: url, title: info.title, requester: msg.author.username});
-					msg.channel.sendMessage(`added **${info.title}** to the queue`);
-				});
-			});
-		} else if (msg.content.startsWith(PREFIX + 'pause')) {
-			if(queue[msg.guild.id].dispatcher != null) {
-				msg.channel.sendMessage('Music paused!');
-				queue[msg.guild.id].dispatcher.pause();
-			}
-    	} else if (msg.content.startsWith(PREFIX + 'resume')){
-			if(queue[msg.guild.id].dispatcher != null) {
-				msg.channel.sendMessage('Music resumed!');
-				queue[msg.guild.id].dispatcher.resume();
-			}
-    	} else if (msg.content.startsWith(PREFIX + 'skip')){
-			if(queue[msg.guild.id].dispatcher != null) {
-				msg.channel.sendMessage('Music skipped!');
-				queue[msg.guild.id].dispatcher.end();
-			}
-    	}*/
 	
 	if (msg.content.startsWith(PREFIX)) {
 		let content = msg.content.split(PREFIX)[1];
@@ -314,16 +222,17 @@ bot.on("guildDelete", (guild) => {
 })
 
 bot.on("guildCreate", (guild) => {
+	var args = {
+		ID: guild.id,
+		Owner: guild.ownerID,
+		Prefix: '~',
+		AnnouncementChannel: guild.defaultChannel
+	};
+		
+	connection.query('INSERT IGNORE asianbot.servers SET ?', args);
+	
 	console.log(server("Bot added to " + guild.name));
 	var defaultChannel = bot.channels.get(guild.id);
 	defaultChannel.sendMessage("Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage guild, and administrator.");
 	owner.sendMessage("I joined " + guild.name);
 });
-
-/*function getQueue(guild) {
-	if (!guild) return
-	if (typeof guild == 'object') guild = guild.id
-	if (queues[guild]) return queues[guild]
-	else queues[guild] = []
-	return queues[guild]
-}*/

@@ -32,6 +32,8 @@
 	"fs-extra": "*",
 	"google-search": "*",
 	"leetspeak": "*",
-	"urban": "*"
+	"urban": "*",
+	"cleverbot-node": "*",
+	"mysql": "*"
   }
 }
