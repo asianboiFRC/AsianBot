@@ -89,7 +89,7 @@ bot.on('ready', () => {
 	bot.guilds.forEach(guild => {
 		var args = {
 			ID: guild.id,
-			NAME: guild.name,
+			Name: guild.name,
 			Owner: guild.ownerID,
 			Prefix: '~',
 			AnnouncementChannel: guild.defaultChannel.id
