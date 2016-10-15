@@ -144,11 +144,11 @@ bot.on('message', (msg) => {
 	}
 
 	if (msg.author.bot) {return;}
-<<<<<<< HEAD
-	
-=======
 
+<<<<<<< HEAD
 >>>>>>> 2d5e1bd... Moved commented code to a txt file
+=======
+>>>>>>> 770999c... Fixed head
 	if (msg.content.startsWith(PREFIX)) {
 		let content = msg.content.split(PREFIX)[1];
 		let cmd = content.substring(0, content.indexOf(' ')),
@@ -239,8 +239,8 @@ bot.on("guildCreate", (guild) => {
 	var defaultChannel = bot.channels.get(guild.id);
 	defaultChannel.sendMessage("Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage guild, and administrator.");
 	owner.sendMessage("I joined " + guild.name);
+});
 <<<<<<< HEAD
-});
-=======
-});
 >>>>>>> 2d5e1bd... Moved commented code to a txt file
+=======
+>>>>>>> 770999c... Fixed head
