@@ -65,7 +65,7 @@ function loadPlugins() {
 }
 
 bot.on('ready', () => {
-	const logChannel = bot.channels.get('id', config.logchannel);
+	const logChannel = bot.channels.get(config.logchannel);
 
 	console.log('AsianBot is ready! Loading plugins...');
 	loadPlugins();
@@ -95,8 +95,8 @@ bot.on('ready', () => {
 });
 
 bot.on('message', (msg) => {
-	const logChannel = config.logchannel;
-	const msgChannel = config.msgchannel;
+	const logChannel = bot.channels.get(config.logchannel);
+	const msgchannel = bot.channels.get(config.msgchannel);
 
 	var n = msg.timestamp.toTimeString();
 	var str = n.substring(0, n.indexOf(' '));
@@ -189,7 +189,7 @@ bot.on('guildMemberRemove', (guild, user) => {
 });
 
 bot.on("Delete", (message) => {
-	const logChannel = config.logchannel;
+	const logChannel = bot.channels.get(config.logchannel);
 	try {
 		if (message.guild.id != "110373943822540800") {
 			console.log(server(msg.author.username + "'s message was deleted!\n Old message: " + msg.content));
@@ -217,7 +217,7 @@ bot.on("messageUpdate", (message1, message2) => {
 });
 
 bot.on("guildDelete", (guild) => {
-	const logChannel = config.logchannel;
+	const logChannel = bot.channels.get(config.logchannel);
 	const owner = bot.users.get(config.owner);
 	console.log("I left " + guild.name);
 	logChannel.sendMessage("I left " + guild.name);
