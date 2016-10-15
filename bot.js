@@ -65,7 +65,7 @@ function loadPlugins() {
 }
 
 bot.on('ready', () => {
-	const logChannel = config.logchannel;
+	const logChannel = bot.channels.get('id', config.logchannel);
 
 	console.log('AsianBot is ready! Loading plugins...');
 	loadPlugins();
