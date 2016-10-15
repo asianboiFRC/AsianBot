@@ -27,7 +27,7 @@ module.exports = {
 				}
 			});
 		}
-		if(message.content == "~xkcd"){
+		else {
 			xkcd(function (err, res) {
 				if(!err) {
 					message.channel.sendMessage("**" + res.num + "**: " + res.title + "\n" + res.img + "\n*" + res.alt);

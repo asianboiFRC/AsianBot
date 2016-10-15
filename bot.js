@@ -1,5 +1,5 @@
-/*AsianBot v2.6
- *October 11, 2016
+/*AsianBot v2.7
+ *October 14, 2016
  *Created by Michael Cao (ASIANBOI)*/
 'use strict';
 
@@ -118,7 +118,7 @@ bot.on('message', (msg) => {
 		var query = 'INSERT INTO `messages` SET ?';
 		
 		connection.query(query, args);
-		
+	
 		msgChannel.sendMessage("[" + str + "]" + " [PM] " + msg.author.username + " : " + msg.content);
 		console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 		return;

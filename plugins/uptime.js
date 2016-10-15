@@ -6,6 +6,6 @@ module.exports = {
 		strDate += date.getUTCHours() + " hours, ";
 		strDate += date.getUTCMinutes() + " minutes, ";
 		strDate += date.getUTCSeconds() + " seconds**";
-		msg.channel.sendMessage("ASIANBOT UPTIME:\n" + strDate);
+		message.channel.sendMessage("ASIANBOT UPTIME:\n" + strDate);
 	}
 };
