@@ -179,7 +179,7 @@ bot.on('message', (msg) => {
 				console.log('BROKEN:' + content);
 			}
 		}
-	//});
+	});
 });
 
 bot.on('guildMemberAdd', (guild, user) => {
