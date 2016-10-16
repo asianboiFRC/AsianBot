@@ -12,7 +12,7 @@ module.exports = {
 			
 			if (args[0] === "remove") {
 				ubl.splice(id)
-				fs.writeFile("../userblacklist.json", JSON.stringify(ubl));
+				fs.writeFile("./userblacklist.json", JSON.stringify(ubl));
 				message.reply("User removed from blacklist!");
 			} else if (args[0] === "add") {
 				ubl.push(id)
