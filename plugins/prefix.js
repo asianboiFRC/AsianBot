@@ -10,7 +10,8 @@ module.exports = {
 		});
 		connection.query('SET NAMES utf8mb4');
 		
-		var newprefix = message.content.trim();
+		var newprefix = message.content.substring(0, 1);
+		console.log(newprefix);
 		connection.query('UPDATE servers SET prefix = ? WHERE id = ?', [newprefix, message.guild.id], function (error, results, fields) {});
 		message.reply("Successfully set server prefix to ``" + newprefix + "``!")
 	}
