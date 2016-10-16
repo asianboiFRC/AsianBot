@@ -12,7 +12,7 @@ module.exports = {
 		
 		const owner = bot.users.get(config.owner);
 		
-		if(message.author.id == message.server.owner.id || message.author.id == config.owner) {
+		if(message.author.id == message.guild.owner.id || message.author.id == config.owner) {
 			connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + msg.guild.id, function (error, results, fields) {
 				var PREFIX = results[0].prefix;
 				var newprefix = message.content.substring(0, 1);
