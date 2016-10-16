@@ -1,5 +1,5 @@
-/*AsianBot v2.7
- *October 14, 2016
+/*AsianBot v2.8
+ *October 15, 2016
  *Created by Michael Cao (ASIANBOI)*/
 'use strict';
 
@@ -28,15 +28,9 @@ var opts = {
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-<<<<<<< HEAD
-  host: 'localhost',
-  user: 'asianbot',
-  password: 'discordbot!2017',
-=======
   host: config.host,
   user: config.sqluser,
   password: config.sqlpassword,
->>>>>>> 012dd36... added prefix cmd:
   database: 'asianbot'
 });
 connection.query('SET NAMES utf8mb4');
@@ -147,30 +141,8 @@ bot.on('message', (msg) => {
 	
 	connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + msg.guild.id, function (error, results, fields) {
 		var PREFIX = results[0].prefix;
-<<<<<<< HEAD
 	});
 
-<<<<<<< HEAD
->>>>>>> 2d5e1bd... Moved commented code to a txt file
-=======
->>>>>>> 770999c... Fixed head
-	if (msg.content.startsWith(PREFIX)) {
-		let content = msg.content.split(PREFIX)[1];
-		let cmd = content.substring(PREFIX.length - 1, content.indexOf(' ')),
-			args = content.substring(content.indexOf(' ') + 1, content.length);
-		if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
-			logChannel.sendMessage(msg.author.username + " executed " + cmd + " " + args + " in " + msg.guild.name);
-			console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
-			msg.content = args;
-			plugins.get(cmd).main(bot, msg);
-		} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
-			logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
-			console.log(cmand(msg.author.username + " executed: " + content));
-			plugins.get(content).main(bot, msg);
-		} else {
-			console.log('BROKEN:' + content);
-=======
-		
 		if (msg.content.startsWith(PREFIX)) {
 			let content = msg.content.split(PREFIX)[1];
 			let cmd = content.substring(0, content.indexOf(' ')),
@@ -187,7 +159,6 @@ bot.on('message', (msg) => {
 			} else {
 				console.log('BROKEN:' + content);
 			}
->>>>>>> 8becf64... THAT DIDN'T FIX IT EITHER
 		}
 	});
 });
@@ -265,12 +236,5 @@ bot.on("guildCreate", (guild) => {
 	defaultChannel.sendMessage("Hello! I'm AsianBOT. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage guild, and administrator.");
 	owner.sendMessage("I joined " + guild.name);
 });
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 2d5e1bd... Moved commented code to a txt file
-=======
->>>>>>> 770999c... Fixed head
-=======
 
 bot.login(config.token);
->>>>>>> b54ec1a... Attempted to add prefix query
