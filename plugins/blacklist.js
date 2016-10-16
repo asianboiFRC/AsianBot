@@ -10,11 +10,11 @@ module.exports = {
 			
 			if (args[0] === "remove") {
 				sbl.splice(sbl.indexOf(args[1]))
-				fs.writeFile("../serverblacklist.json", JSON.stringify(sbl))
+				fs.writeFile("./serverblacklist.json", JSON.stringify(sbl))
 				message.reply("Server removed from blacklist!");
 			} else if (args[0] === "add") {
 				sbl.push(args[1])
-				fs.writeFile("../serverblacklist.json", JSON.stringify(sbl));
+				fs.writeFile("./serverblacklist.json", JSON.stringify(sbl));
 				message.reply("Server added to blacklist!");
 			} else {
 				message.reply(`you need to specify what to do! ~blacklist <add/remove> <server id>`)

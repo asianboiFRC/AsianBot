@@ -16,7 +16,7 @@ module.exports = {
 				message.reply("User removed from blacklist!");
 			} else if (args[0] === "add") {
 				ubl.push(id)
-				fs.writeFile("../userblacklist.json", JSON.stringify(ubl));
+				fs.writeFile("./userblacklist.json", JSON.stringify(ubl));
 				message.reply("User added to blacklist!");
 			} else {
 				message.channel.sendMessage(`You need to specify what to do! ~serverblacklist <add/remove> <server id>`)
