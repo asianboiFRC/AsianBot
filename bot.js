@@ -255,4 +255,13 @@ bot.on("guildCreate", (guild) => {
 	owner.sendMessage("I joined " + guild.name);
 });
 
+bot.on('disconnect', () => {
+	bot.login(config.token);
+});
+
+bot.on('warn', (warning) => {
+	const owner = bot.users.get(config.owner);
+	owner.sendMessage(warning);
+});
+
 bot.login(config.token);
