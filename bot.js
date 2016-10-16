@@ -143,7 +143,6 @@ bot.on('message', (msg) => {
 	
 	connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + msg.guild.id, function (error, results, fields) {
 		var PREFIX = results[0].prefix;
-		var PREFIX = '|';
 		
 		if (sbl.indexOf(msg.channel.guild.id) != -1 && msg.content.startsWith(PREFIX)) {
 			if(msg.author.id != config.owner) {
