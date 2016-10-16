@@ -1,4 +1,5 @@
-
+serverblacklist.json
+userblacklist.json
 config.json
 # Logs
 logs
