@@ -1,6 +1,7 @@
 module.exports = {
 	main: function(bot, message) {
-		const isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
+		var config = require('../config.json');
+		var isCommander = config.admins;		
 		if (message.member.roles.exists('name', 'Bot Commander') || isCommander.indexOf(message.author.id) > -1){
 			var user = message.mentions.users.array()[0];
 			var roleToGive = message.content.split(" ").splice(1).join(" ");

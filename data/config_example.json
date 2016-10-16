@@ -1,0 +1,16 @@
+{
+	"token": "YOUR_TOKEN_HERE",
+	"prefix": "PREFIX",
+	"key": "GOOGLE_API_KEY",
+	"cx": "GOOGLE_CX_KEY",
+	"ytkey": "YOUTUBE_API_KEY",
+	"passes": NUMBER_OF_PASSES(RECOMMENDED 3),
+	"owner": "OWNER_ID",
+	"admins": ["ADMIN1", "ADMIN2"],
+	"logchannel": "LOG_CHANNEL_ID",
+	"msgchannel": "MESSAGE_LOG_CHANNEL_ID",
+	"announce": ["CHANNEL_TO_ANNOUNCE"],
+	"sqluser": "SQL_USERNAME",
+	"sqlpassword": "SQL_PASSWORD",
+	"host": "SQL_DATABASE_IP/LOCALHOST"
+}

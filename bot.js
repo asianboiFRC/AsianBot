@@ -10,6 +10,8 @@ let bot = new Discord.Client({
 });
 
 var config = require('./config.json');
+var sbl = require('./serverblacklist.json');
+var ubl = require('./userblacklist.json');
 const fse = require('fs-extra');
 
 const DEFAULT_PREFIX = config.prefix;
@@ -56,9 +58,9 @@ function loadPlugins() {
 	for (let plugin of files) {
 		if (plugin.endsWith('.js')) {
 			plugins.set(plugin.slice(0, -3), require(__dirname + '/plugins/' + plugin));
-			console.log(plugin.slice(0, -3) + ': ' + plugins.has(plugin.slice(0, -3)));
+			//console.log(plugin.slice(0, -3) + ': ' + plugins.has(plugin.slice(0, -3)));
 		} else {
-			console.log(plugin);
+			//console.log(plugin);
 		}
 	}
 	console.log('Plugins loaded.');
@@ -141,7 +143,24 @@ bot.on('message', (msg) => {
 	
 	connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + msg.guild.id, function (error, results, fields) {
 		var PREFIX = results[0].prefix;
-	});
+		var PREFIX = '|';
+		
+		if (sbl.indexOf(msg.channel.guild.id) != -1 && msg.content.startsWith(PREFIX)) {
+			if(msg.author.id != config.owner) {
+				msg.channel.sendMessage("This server is blacklisted!")
+				return;
+			}
+		}
+		if (ubl.indexOf(msg.author.id) != -1 && msg.content.startsWith(PREFIX)) {
+			if(msg.author.id != config.owner) {
+				msg.reply("you are blacklisted from using AsianBot!")
+				return;
+			}
+		}
+		
+		if(msg.content == "<@!" + bot.user.id + "> What's your prefix?" || msg.content == "<@" + bot.user.id + "> What's your prefix?") {
+			msg.reply("my prefix is `" + PREFIX + "`!");
+		}
 
 		if (msg.content.startsWith(PREFIX)) {
 			let content = msg.content.split(PREFIX)[1];
@@ -160,7 +179,7 @@ bot.on('message', (msg) => {
 				console.log('BROKEN:' + content);
 			}
 		}
-	});
+	//});
 });
 
 bot.on('guildMemberAdd', (guild, user) => {

@@ -2,7 +2,9 @@ module.exports = {
 	main: function(bot, message) {
 		//['primary_arg', ['array', 'of', 'secondary', 'arguments']]
 		
-		const isCommander = ["171319044715053057", "180094452860321793"];
+		var config = require('../config.json');
+		var isCommander = config.admins;
+		
 		if (isCommander.indexOf(message.author.id) > -1){
 			var command = message.content;
 			try {

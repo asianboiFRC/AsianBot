@@ -1,6 +1,9 @@
 module.exports = {
 	main: function(bot, message) {
-		if (message.member.roles.exists('name', 'Bot Commander')){
+		var config = require('../config.json');
+		var isCommander = config.admins;
+		
+		if (message.member.roles.exists('name', 'Bot Commander') || isCommander.indexOf(message.author.id) > -1){
 			var num = message.content;
 			if(!isNaN(num)){
 				message.channel.fetchMessages({limit: num})

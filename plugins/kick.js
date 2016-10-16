@@ -1,7 +1,10 @@
 module.exports = {
 	main: function(bot, message) {
+		var config = require('../config.json');
+		var isCommander = config.admins;
+		
 		var kickee = message.mentions.users.array()[0];
-		if (message.member.roles.exists('name', 'Bot Commander')) {
+		if (message.member.roles.exists('name', 'Bot Commander') || isCommander.indexOf(message.author.id) > -1) {
 			try {
 				var kicked = message.guild.members.find('id', kickee.id);
 				kicked.kick();

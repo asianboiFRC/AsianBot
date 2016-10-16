@@ -1,7 +1,10 @@
 module.exports = {
 	main: function(bot, message) {
+		var config = require('../config.json');
+		var isCommander = config.admins;
+		
 		var banee = message.mentions.users.array()[0];
-		if (message.member.roles.exists('name', 'Bot Commander')) {
+		if (message.member.roles.exists('name', 'Bot Commander') || isCommander.indexOf(message.author.id) > -1) {
 			try {
 				var banned = message.guild.members.get(banee.id);
 				banned.ban();
