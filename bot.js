@@ -88,8 +88,8 @@ bot.on('ready', () => {
 			ID: guild.id,
 			Name: guild.name,
 			Owner: guild.ownerID,
-			Prefix: '~',
-			AnnouncementChannel: guild.defaultChannel.id
+			Prefix: '~'
+			//AnnouncementChannel: guild.defaultChannel.id
 		};
 		
 		connection.query('INSERT IGNORE `servers` SET ?', args);
