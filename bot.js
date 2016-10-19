@@ -264,4 +264,10 @@ bot.on('warn', (warning) => {
 	owner.sendMessage(warning);
 });
 
+process.on("unhandledRejection", err => {
+	console.error("Uncaught Promise Error: \n" + err.stack);
+	const owner = bot.users.get(config.owner);
+	owner.sendMessage(err);
+});
+
 bot.login(config.token);
