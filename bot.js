@@ -202,19 +202,6 @@ bot.on('guildMemberRemove', (guild, user) => {
 	}
 });
 
-bot.on("Delete", (message) => {
-	const logChannel = bot.channels.get(config.logchannel);
-	try {
-		if (message.guild.id != "110373943822540800") {
-			console.log(server(msg.author.username + "'s message was deleted!\n Old message: " + msg.content));
-			logChannel.sendMessage(msg.author.username + "'s message was deleted!\n Old message: " + msg.content);
-		}
-	} catch (err) {
-		console.log(server("ERR: MESSAGE NOT ARCHIVED"));
-		logChannel.sendMessage("ERR: MESSAGE NOT ARCHIVED");
-	}
-});
-
 bot.on("messageUpdate", (message1, message2) => {
 	if(message1.author.id == bot.user.id) return;
 	if(message1.author.bot) return;
@@ -255,9 +242,9 @@ bot.on("guildCreate", (guild) => {
 	owner.sendMessage("I joined " + guild.name);
 });
 
-bot.on('disconnect', () => {
+/*bot.on('disconnect', () => {
 	bot.login(config.token);
-});
+});*/
 
 bot.on('warn', (warning) => {
 	const owner = bot.users.get(config.owner);
