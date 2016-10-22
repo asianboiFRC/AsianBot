@@ -218,4 +218,8 @@ process.on("unhandledRejection", err => {
 	owner.sendMessage(err);
 });
 
+bot.on('disconnect', () => {
+	bot.login(config.token);
+});
+
 bot.login(config.token);
