@@ -32,7 +32,7 @@ function getTime() {
 	var currentTime = new Date()
 	var n = currentTime.toTimeString();
 	var str = n.substring(0, n.indexOf(' '));
-	return time;
+	return str;
 }
 
 function loadPlugins() {
