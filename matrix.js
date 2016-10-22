@@ -130,7 +130,7 @@ bot.on('message', (msg) => {
 					console.log('BROKEN:' + content);
 				}
 			}
-		}
+		});
 	}
 });
 
