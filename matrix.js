@@ -50,6 +50,7 @@ bot.on('ready', () => {
 	loadPlugins();
 	var time = getTime()
 	console.log("Bot Online and Ready! On " + bot.guilds.size + " Servers!");
+	const logChannel = bot.channels.get('id', config.logchannel);
 	logChannel.sendMessage(":stopwatch: ``" + time + "`` :mega: Matrix is online and ready! :white_check_mark:");
 	bot.user.setStatus("online", DEFAULT_PREFIX + 'help | ' + bot.guilds.size + ' Servers');
 	
@@ -112,7 +113,7 @@ bot.on('message', (msg) => {
 		
 		connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + msg.guild.id, function (error, results, fields) {
 			var PREFIX = results[0].prefix;
-			const logChannel = config.logchannel;
+			const logChannel = bot.channels.get('id', config.logchannel);
 			if (msg.content.startsWith(PREFIX)) {
 				let content = msg.content.split(PREFIX)[1];
 				let cmd = content.substring(0, content.indexOf(' ')),
