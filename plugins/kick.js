@@ -4,12 +4,12 @@ module.exports = {
 		var isCommander = config.admins;
 		
 		var kickee = message.mentions.users.array()[0];
-		if (message.member.roles.exists('name', 'Bot Commander') || isCommander.indexOf(message.author.id) > -1) {
+		if (message.guild.permissionsFor(message.author).serialize().MANAGE_MESSAGES || isCommander.indexOf(message.author.id) > -1) {
 			try {
-				var kicked = message.guild.members.find('id', kickee.id);
+				var kicked = message.guild.members.find("id", kickee.id);
+				var reason = message.content.split(" ").splice(1).join(" ");
 				kicked.kick();
 				message.channel.sendMessage(kickee + ' has been kicked.');
-				var reason = message.content.split(" ").splice(1).join(" ")
 				try{
 					var log = message.guild.channels.find('name', 'mod-log');
 					message.channel.sendMessage("ACTION: KICK\nUSER: " + kickee.username + "\nReason: " + reason + "\nModerator: " + message.author.username);
@@ -23,7 +23,7 @@ module.exports = {
 				console.log(e);
 			}
 		} else {
-			bot.reply(message, ': you do not have the proper roles for this action');
+			message.reply( " you do not have permission to do this!");
 		}
 	}
 };
