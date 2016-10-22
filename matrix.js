@@ -121,9 +121,9 @@ bot.on('message', (msg) => {
 		
 		connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + msg.guild.id, function (error, results, fields) {
 			var PREFIX = results[0].prefix;
-			const logChannel = bot.channels.get('id', config.logchannel);
 			
 			if (msg.content.startsWith(PREFIX)) {
+				const logChannel = bot.channels.get('id', config.logchannel);
 				let content = msg.content.split(PREFIX)[1];
 				let cmd = content.substring(0, content.indexOf(' ')),
 					args = content.substring(content.indexOf(' ') + 1, content.length);
