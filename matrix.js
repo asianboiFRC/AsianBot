@@ -26,6 +26,14 @@ const guildsToAnnounce = config.announce;
 const logChannel = config.logchannel;
 const log = config.log;
 
+var chalk = require('chalk');
+var server = chalk.bold.red;
+var chan = chalk.bold.green;
+var message = chalk.yellow;
+var usr = chalk.bold.blue;
+var cmand = chalk.bgRed;
+var gray = chalk.gray;
+
 let plugins = new Map();
 
 function getTime() {
