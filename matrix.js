@@ -50,7 +50,7 @@ bot.on('ready', () => {
 	loadPlugins();
 	var time = getTime()
 	console.log("Bot Online and Ready! On " + bot.guilds.size + " Servers!");
-	const logChannel = bot.channels.get('id', config.logchannel);
+	const logChannel = bot.channels.find('id', config.logchannel);
 	logChannel.sendMessage(":stopwatch: ``" + time + "`` :mega: Matrix is online and ready! :white_check_mark:");
 	bot.user.setStatus("online", DEFAULT_PREFIX + 'help | ' + bot.guilds.size + ' Servers');
 	
