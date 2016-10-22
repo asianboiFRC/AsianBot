@@ -19,21 +19,8 @@ emoji: Returns a random emoji.
 leet <text>: transforms text into leetspeak.
 remindme <number> <timeunit> - <remindertext>: pms you a reminder to do something after the amount of time specified.
 uptime: Shows bot uptime.
-kickoff: Shows the time until FRC's Kickoff.
 timeuntil <date>: Shows the time until that date.
 timesince <date>: Shows the time since that date.
-
-join: Join Voice channel of msg sender
-add: Add a valid youtube link to the queue
-queue: Shows the current queue, up to 15 songs shown.
-play: Play the music queue if already joined to a voice channel
-
-The following commands only function while the play command is running:
-pause: pauses the music
-resume: resumes the music
-skip: skips the playing song
-volume+(+++): increases volume by 2%/+
-volume-(---): decreases volume by 2%/-
 
 **Adminstrative Commands (Requires the command user to have 'Bot Commander' Role):**
 createchan <name>: Creates a channel with the name specified.
