@@ -1,0 +1,38 @@
+```xl
+
+RoBot v1.0.0
+
+General commands:
+
+google <search-query>: search google for a top result link
+frccopypasta <team>: returns an frc copypasta
+ping: pings the bot
+server: gives info about the server
+talk: talks with cleverbot
+user <optional-mention> gives info about yourself, or the mentioned user.
+meme <content>: creates a meme with the content being formatted as such: template-top text-bottom text
+
+Templates: tenguy, afraid, older, aag, tried, biw,
+           blb, kermit, bd, ch, cbg, wonka, cb, keanu, dsm,live,
+           ants, doge, alwaysonbeat, ermg, fwp, fa, fbf, fmr, fry,
+           ggg, hipster, icanhas, crazypills, regret, boat, sohappy,
+           captain, inigo, iw, ackbar, happening, joker, ive, ll, 
+           morpheus, badchoice, mmm, jetpack, red, mordor, oprah,
+           oag, remembers, philosoraptor, jw, sad-obama, sad-clinton,
+           sadfrog, sad-bush, sad-boehner, sarcasticbear, dwight, sb,
+           ss, sf, dodgson, money, sohot, awesome-awkward, awesome,
+           awkward-awesome, fetch, success, ski, officespace,
+           interesting, toohigh, bs, both, winter, xy, buzz, yodawg,
+           yuno, yallgot, bad, elf, chosen
+
+Adminstrative commands (requires the command user to have 'Bot Commander' Role:
+mute <user>: mutes a given user (requires a role 'muted' to be present')
+unmute <user>: opposite of mute command
+kick <user>: kicks a given user
+ban <user>: bans a given user
+give <role> <user>: gives a role to a user
+prune <amount>: prunes a certain amount of messages
+restart: restarts the bot
+take <role> <user>: takes a role from a user
+
+```
