@@ -4,7 +4,7 @@ module.exports = {
 		var isCommander = config.admins;
 		
 		var kickee = message.mentions.users.array()[0];
-		if (message.guild.permissionsFor(message.author).serialize().MANAGE_MESSAGES || isCommander.indexOf(message.author.id) > -1) {
+		if (message.author.permissions.hasPermission('KICK_MEMBERS') || isCommander.indexOf(message.author.id) > -1) {
 			try {
 				var kicked = message.guild.members.find("id", kickee.id);
 				var reason = message.content.split(" ").splice(1).join(" ");
