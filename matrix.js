@@ -48,9 +48,9 @@ function loadPlugins() {
 bot.on('ready', () => {
 	console.log('Matrix is ready! Loading plugins...');
 	loadPlugins();
-	
+	var time = getTime()
 	console.log("Bot Online and Ready! On " + bot.guilds.size + " Servers!");
-	logChannel.sendMessage(":stopwatch: ``" + str + "`` :mega: Matrix is online and ready! :white_check_mark:");
+	logChannel.sendMessage(":stopwatch: ``" + time + "`` :mega: Matrix is online and ready! :white_check_mark:");
 	bot.user.setStatus("online", DEFAULT_PREFIX + 'help | ' + bot.guilds.size + ' Servers');
 	
 	bot.guilds.forEach(guild => {
