@@ -123,7 +123,7 @@ bot.on('message', (msg) => {
 			var PREFIX = results[0].prefix;
 			
 			if (msg.content.startsWith(PREFIX)) {
-				const logChannel = bot.channels.get('id', config.logchannel);
+				const logChannel = bot.channels.find('id', config.logchannel);
 				let content = msg.content.split(PREFIX)[1];
 				let cmd = content.substring(0, content.indexOf(' ')),
 					args = content.substring(content.indexOf(' ') + 1, content.length);
