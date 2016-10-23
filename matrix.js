@@ -89,6 +89,7 @@ bot.on('ready', () => {
 				}
 				servers.push(guild);
 			}
+			return;
 		}
 	}
 	fs.writeFileSync("./servers.json", JSON.stringify(servers));
