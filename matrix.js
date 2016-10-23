@@ -78,15 +78,17 @@ bot.on('ready', () => {
 		console.log(i);
 		if(!findServers(guilds[i].id)) {
 			var guilds = bot.guilds.array();
-			var guild = {
-				"id": servers.length,
-				"servername": guilds[i].name,
-				"serverid": guilds[i].id,
-				"ownerid": guilds[i].owner.id,
-				"announcementchan": guilds[i].id,
-				"prefix": "~"
+			if(guilds[i] != undefined) {
+				var guild = {
+					"id": servers.length,
+					"servername": guilds[i].name,
+					"serverid": guilds[i].id,
+					"ownerid": guilds[i].owner.id,
+					"announcementchan": guilds[i].id,
+					"prefix": "~"
+				}
+				servers.push(guild);
 			}
-			servers.push(guild);
 		}
 	}
 	fs.writeFileSync("./servers.json", JSON.stringify(servers));
