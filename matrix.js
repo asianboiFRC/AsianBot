@@ -9,18 +9,10 @@ const config = require('./config.json');
 const owner = bot.users.get(config.owner);
 const sbl = require('./serverblacklist.json');
 const ubl = require('./userblacklist.json');
+const servers = require("./servers.json");
 
-const fse = require('fs-extra');
-const DEFAULT_PREFIX = config.prefix;
-
-const mysql = require('mysql');
-const connection = mysql.createConnection({
-  host: config.host,
-  user: config.sqluser,
-  password: config.sqlpassword,
-  database: 'asianbot'
-});
-connection.query('SET NAMES utf8mb4');
+const fs = require('fs-extra');
+const DEFAULT_PREFIX = config.default.prefix;
 
 const guildsToAnnounce = config.announce;
 const logChannel = config.logchannel;
@@ -44,13 +36,31 @@ function getTime() {
 }
 
 function loadPlugins() {
-	let files = fse.readdirSync(__dirname + '/plugins', 'utf8');
+	let files = fs.readdirSync(__dirname + '/plugins', 'utf8');
 	for (let plugin of files) {
 		if (plugin.endsWith('.js')) {
 			plugins.set(plugin.slice(0, -3), require(__dirname + '/plugins/' + plugin));
 		}
 	}
 	console.log('Plugins loaded.');
+}
+
+function findServers(id) {
+	for (i = 0; i < servers.length; i++) {
+		if(servers[i].serverid == id) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function findLocation(id) {
+	for (i = 0; i < servers.length; i++) {
+		if(servers[i].serverid == id) {
+			return i;
+		}
+	}
+	return null;
 }
 
 bot.on('ready', () => {
@@ -62,17 +72,23 @@ bot.on('ready', () => {
 	logChannel.sendMessage(":stopwatch: ``" + time + "`` :mega: Matrix is online and ready! :white_check_mark:");
 	bot.user.setStatus("online", DEFAULT_PREFIX + 'help | ' + bot.guilds.size + ' Servers');
 	
-	bot.guilds.forEach(guild => {
-		var args = {
-			ID: guild.id,
-			Name: guild.name,
-			Owner: guild.ownerID,
-			Prefix: config.default.prefix
-		};
-		connection.query('INSERT IGNORE `servers` SET ?', args);
-	});
+	var guilds = bot.guilds.array();
 	
-	
+	for (i = 0; i < guilds.length; i++) {
+		if(!findServers(guilds[i].id)) {
+			var guilds = bot.guilds.array();
+			var guild = {
+				"id": servers.length,
+				"servername": guilds[i].name,
+				"serverid": guilds[i].id,
+				"ownerid": guilds[i].owner.id,
+				"announcementchan": guilds[i].id,
+				"prefix": "~"
+			}
+			servers.push(guild);
+		}
+	}
+	fs.writeFileSync("./servers.json", JSON.stringify(servers));
 });
 
 bot.on('message', (msg) => {
@@ -86,8 +102,8 @@ bot.on('message', (msg) => {
 			UserID: msg.author.id,
 			Content: msg.content
 		};
-		var query = 'INSERT INTO `messages` SET ?';
-		connection.query(query, args);
+		//var query = 'INSERT INTO `messages` SET ?';
+		//connection.query(query, args);
 		console.log(gray("[" + time + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 	}
 	
@@ -101,8 +117,8 @@ bot.on('message', (msg) => {
 				Content: msg.content
 			};
 			
-			var query = 'INSERT INTO `messages` SET ?';
-			connection.query(query, args);
+			//var query = 'INSERT INTO `messages` SET ?';
+			//connection.query(query, args);
 			console.log(gray("[" + time + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.cleanContent));
 		}
 		
@@ -119,28 +135,29 @@ bot.on('message', (msg) => {
 			msg.reply("my prefix is `" + PREFIX + "`!");
 		}
 		
-		connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + msg.guild.id, function (error, results, fields) {
-			var PREFIX = results[0].prefix;
-			
-			if (msg.content.startsWith(PREFIX)) {
-				const logChannel = bot.channels.find('id', config.logchannel);
-				let content = msg.content.split(PREFIX)[1];
-				let cmd = content.substring(0, content.indexOf(' ')),
-					args = content.substring(content.indexOf(' ') + 1, content.length);
-				if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
-					logChannel.sendMessage(msg.author.username + " executed " + cmd + " " + args + " in " + msg.guild.name);
-					console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
-					msg.content = args;
-					plugins.get(cmd).main(bot, msg);
-				} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
-					logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
-					console.log(cmand(msg.author.username + " executed: " + content));
-					plugins.get(content).main(bot, msg);
-				} else {
-					console.log('BROKEN:' + content);
-				}
+		var id = msg.channel.guild.id;
+		var location = findLocation(id);
+		var PREFIX = servers[location].prefix;
+		console.log(PREFIX);
+		
+		if (msg.content.startsWith(PREFIX)) {
+			const logChannel = bot.channels.find('id', config.logchannel);
+			let content = msg.content.split(PREFIX)[1];
+			let cmd = content.substring(0, content.indexOf(' ')),
+				args = content.substring(content.indexOf(' ') + 1, content.length);
+			if (plugins.get(cmd) !== undefined && content.indexOf(' ') !== -1) {
+				logChannel.sendMessage(msg.author.username + " executed " + cmd + " " + args + " in " + msg.guild.name);
+				console.log(cmand(msg.author.username + " executed: " + cmd + " " + args));
+				msg.content = args;
+				plugins.get(cmd).main(bot, msg);
+			} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
+				logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
+				console.log(cmand(msg.author.username + " executed: " + content));
+				plugins.get(content).main(bot, msg);
+			} else {
+				console.log('BROKEN:' + content);
 			}
-		});
+		}
 	}
 });
 
@@ -179,6 +196,12 @@ bot.on('guildMemberRemove', (guild, user) => {
 });
 
 bot.on("guildDelete", (guild) => {
+	var id = guild.id;
+	var location = findLocation(id);
+	
+	delete servers[location];
+	fs.writeFileSync("./servers.json", JSON.stringify(servers));
+	
 	const owner = bot.users.get(config.owner);
 	console.log("I left " + guild.name);
 	owner.sendMessage("I left " + guild.name);
@@ -191,16 +214,20 @@ bot.on("guildCreate", (guild) => {
 		return;
 	}
 	
-	var args = {
-		ID: guild.id,
-		Owner: guild.ownerID,
-		Prefix: '~',
-		AnnouncementChannel: guild.defaultChannel
-	};
-	var PREFIX = args.Prefix;
-		
-	connection.query('INSERT IGNORE asianbot.servers SET ?', args);
+	var guilds = bot.guilds.array();
+	var guild = {
+		"id": servers.length,
+		"servername": guilds[i].name,
+		"serverid": guilds[i].id,
+		"ownerid": guilds[i].owner.id,
+		"announcementchan": guild[i].id,
+		"prefix": "~"
+	}
+	servers.push(guild);
+	fs.writeFileSync("./servers.json", JSON.stringify(servers));
 	
+	var PREFIX = args.Prefix;
+			
 	console.log(server("Bot added to " + guild.name));
 	var defaultChannel = bot.channels.get(guild.id);
 	defaultChannel.sendMessage("Hello! I'm Matrix. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage guild, and administrator.");
