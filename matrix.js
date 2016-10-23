@@ -74,7 +74,8 @@ bot.on('ready', () => {
 	
 	var guilds = bot.guilds.array();
 	
-	for (i = 1; i < guilds.length + 1; i++) {
+	for (i = 0; i < guilds.length; i++) {
+		console.log(i);
 		if(!findServers(guilds[i].id)) {
 			var guilds = bot.guilds.array();
 			var guild = {
