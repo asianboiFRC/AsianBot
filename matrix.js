@@ -88,7 +88,7 @@ bot.on('message', (msg) => {
 		};
 		var query = 'INSERT INTO `messages` SET ?';
 		connection.query(query, args);
-		console.log(gray("[" + str + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
+		console.log(gray("[" + time + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 	}
 	
 	if (msg.channel.type === "text") {

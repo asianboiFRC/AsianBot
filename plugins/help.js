@@ -4,7 +4,7 @@ module.exports = {
 	main: function(bot, message) {
 		const rb = "```";
 		message.author.sendMessage(`${rb}xl
-AsianBOT (IN DEVELOPMENT)
+Matrix (IN DEVELOPMENT)
 
 **General Commands:**
 git: Returns my GitHub repo.
