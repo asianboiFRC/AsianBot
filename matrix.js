@@ -131,14 +131,14 @@ bot.on('message', (msg) => {
 			}
 		}
 		
-		if(msg.content == "<@!" + bot.user.id + "> What's your prefix?" || msg.content == "<@" + bot.user.id + "> What's your prefix?") {
-			msg.reply("my prefix is `" + PREFIX + "`!");
-		}
-		
 		var id = msg.channel.guild.id;
 		var location = findLocation(id);
 		var PREFIX = servers[location].prefix;
-		console.log(PREFIX);
+		//console.log(PREFIX);
+		
+		if(msg.content == "<@!" + bot.user.id + "> What's your prefix?" || msg.content == "<@" + bot.user.id + "> What's your prefix?") {
+			msg.reply("my prefix is `" + PREFIX + "`!");
+		}
 		
 		if (msg.content.startsWith(PREFIX)) {
 			const logChannel = bot.channels.find('id', config.logchannel);
