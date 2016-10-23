@@ -78,7 +78,7 @@ bot.on('ready', () => {
 		console.log(i);
 		if(!findServers(guilds[i].id)) {
 			var guilds = bot.guilds.array();
-			if(guilds[i] != undefined) {
+			try{
 				var guild = {
 					"id": servers.length,
 					"servername": guilds[i].name,
@@ -88,6 +88,9 @@ bot.on('ready', () => {
 					"prefix": "~"
 				}
 				servers.push(guild);
+			}
+			catch(e) {
+				console.log(e);
 			}
 			return;
 		}
