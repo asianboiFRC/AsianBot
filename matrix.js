@@ -154,13 +154,12 @@ bot.on('message', (msg) => {
 		
 		var id = msg.channel.guild.id;
 		var location = findLocation(id);
-		try {
-			var PREFIX = servers[location].prefix;
-		}
-		catch(e) {
-			console.log(e);
+		if(location == undefined) {
+			console.log(msg.guild.name);
 			insertServer(msg.guild.id);
 		}
+		else
+			var PREFIX = servers[location].prefix;
 		//console.log(PREFIX);
 		
 		if(msg.content == "<@!" + bot.user.id + "> What's your prefix?" || msg.content == "<@" + bot.user.id + "> What's your prefix?") {
