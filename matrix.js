@@ -86,29 +86,26 @@ bot.on('ready', () => {
 	logChannel.sendMessage(":stopwatch: ``" + time + "`` :mega: Matrix is online and ready! :white_check_mark:");
 	bot.user.setStatus("online", DEFAULT_PREFIX + 'help | ' + bot.guilds.size + ' Servers');
 	
-	var guilds = bot.guilds.array();
-	
-	for (i = 0; i < guilds.length; i++) {
-		console.log(i);
-		if(!findServers(guilds[i].id)) {
-			var guilds = bot.guilds.array();
+	bot.guilds.forEach( guild =>{
+		if(!findServers(guild.id)) {
 			try{
-				var guild = {
+				var guildi = {
 					"id": servers.length,
-					"servername": guilds[i].name,
-					"serverid": guilds[i].id,
-					"ownerid": guilds[i].owner.id,
-					"announcementchan": guilds[i].id,
+					"servername": guild.name,
+					"serverid": guild.id,
+					"ownerid": guild.owner.id,
+					"announcementchan": guild.id,
 					"prefix": "~"
 				}
-				servers.push(guild);
+				servers.push(guildi);
 			}
 			catch(e) {
 				console.log(e);
 			}
 			return;
 		}
-	}
+	});
+
 	fs.writeFileSync("./servers.json", JSON.stringify(servers));
 });
 
@@ -240,7 +237,6 @@ bot.on("guildCreate", (guild) => {
 		return;
 	}
 	
-	var guilds = bot.guilds.array();
 	var guildi = {
 		"id": servers.length,
 		"servername": guild.name,
