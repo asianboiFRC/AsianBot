@@ -63,6 +63,20 @@ function findLocation(id) {
 	return null;
 }
 
+function insertServer(id) {
+	var guild = bot.guilds.find('id', id);
+	var guildi = {
+		"id": servers.length,
+		"servername": guild.name,
+		"serverid": guild.id,
+		"ownerid": guild.owner.id,
+		"announcementchan": guild.id,
+		"prefix": "~"
+	}
+	servers.push(guildi);
+	fs.writeFileSync("./servers.json", JSON.stringify(servers));
+}
+
 bot.on('ready', () => {
 	console.log('Matrix is ready! Loading plugins...');
 	loadPlugins();
@@ -140,7 +154,13 @@ bot.on('message', (msg) => {
 		
 		var id = msg.channel.guild.id;
 		var location = findLocation(id);
-		var PREFIX = servers[location].prefix;
+		try {
+			var PREFIX = servers[location].prefix;
+		}
+		catch(e) {
+			console.log(e);
+			insertServer(msg.guild.id);
+		}
 		//console.log(PREFIX);
 		
 		if(msg.content == "<@!" + bot.user.id + "> What's your prefix?" || msg.content == "<@" + bot.user.id + "> What's your prefix?") {
@@ -222,15 +242,15 @@ bot.on("guildCreate", (guild) => {
 	}
 	
 	var guilds = bot.guilds.array();
-	var guild = {
+	var guildi = {
 		"id": servers.length,
-		"servername": guilds[i].name,
-		"serverid": guilds[i].id,
-		"ownerid": guilds[i].owner.id,
-		"announcementchan": guild[i].id,
+		"servername": guild.name,
+		"serverid": guild.id,
+		"ownerid": guild.owner.id,
+		"announcementchan": guild.id,
 		"prefix": "~"
 	}
-	servers.push(guild);
+	servers.push(guildi);
 	fs.writeFileSync("./servers.json", JSON.stringify(servers));
 	
 	var PREFIX = args.Prefix;
