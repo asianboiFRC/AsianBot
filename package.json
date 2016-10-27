@@ -33,6 +33,6 @@
 	"google-search": "*",
 	"leetspeak": "*",
 	"urban": "*",
-	"cleverbot-node": "*",
+	"cleverbot-node": "*"
   }
 }
