@@ -4,7 +4,13 @@ module.exports = {
 		var ubl = require('../userblacklist.json');
 		var config = require('../config.json');
 		var blockee = message.mentions.users.array()[0];
-		var id = blockee.id;
+		try{
+			var id = blockee.id;
+		}
+		catch(e) {
+			message.channel.sendMessage("MENTION YOU DUMMY");
+			return;
+		}
 		
 		if (message.author.id === config.owner || config.admins.indexOf(message.author.id)!= -1) {
 			let args = message.content.split(" ");

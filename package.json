@@ -27,12 +27,13 @@
     "chalk": "*",
     "xkcd": "*",
     "eightball": "*",
-	"ytdl-core" :  "github:fent/node-ytdl-core#master",
+	"ytdl-core" : "github:fent/node-ytdl-core#master",
 	"youtube-search": "*",
 	"fs-extra": "*",
 	"google-search": "*",
 	"leetspeak": "*",
 	"urban": "*",
-	"cleverbot-node": "*"
+	"cleverbot-node": "*",
+	"os-utils": "*"
   }
 }
