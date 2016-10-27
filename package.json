@@ -1,12 +1,12 @@
 {
   "name": "AsianBot",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A useful Discord bot",
   "author": "Michael Cao <mike.x.cao@gmail.com>",
   "main": "bot.js",
   "scripts": {
-    "test": "node bot.js",
-    "start": "node bot.js"
+    "test": "node matrix.js",
+    "start": "node matrix.js"
   },
   "repository": {
   "type": "git",
@@ -34,6 +34,5 @@
 	"leetspeak": "*",
 	"urban": "*",
 	"cleverbot-node": "*",
-	"mysql": "*"
   }
 }
