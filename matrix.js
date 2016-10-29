@@ -46,6 +46,7 @@ function loadPlugins() {
 }
 
 function findServers(id) {
+	var servers = bot.guilds.array();
 	for (i = 0; i < servers.length; i++) {
 		if(servers[i].id == id) {
 			return true;
@@ -55,6 +56,7 @@ function findServers(id) {
 }
 
 function findLocation(id) {
+	var servers = bot.guilds.array();
 	for (i = 0; i < servers.length; i++) {
 		if(servers[i].serverid == id) {
 			return i;
