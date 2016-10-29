@@ -58,7 +58,7 @@ function findServers(id) {
 function findLocation(id) {
 	var servers = bot.guilds.array();
 	for (i = 0; i < servers.length; i++) {
-		if(servers[i].serverid == id) {
+		if(servers[i].id == id) {
 			return i;
 		}
 	}
@@ -127,7 +127,7 @@ bot.on('message', (msg) => {
 		console.log(gray("[" + time + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 	}
 	
-	if (msg.channel.type === "text") {
+	if (msg.channel.type === "text" && msg.guild.id != "110373943822540800") {
 		if (log.indexOf(msg.guild.id) > 0) {
 			var args = {
 				ServerID: msg.guild.id,
