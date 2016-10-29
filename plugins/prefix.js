@@ -18,7 +18,7 @@ module.exports = {
 			var i = findLocation(id);
 			var PREFIX = servers[i].prefix;
 			var newprefix = message.content.substring(0, 1);
-			if(PREFIX == newprefix) {
+			if (PREFIX == newprefix) {
 				message.reply("this is the same prefix!");
 				return;
 			}

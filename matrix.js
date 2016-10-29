@@ -47,7 +47,7 @@ function loadPlugins() {
 
 function findServers(id) {
 	for (i = 0; i < servers.length; i++) {
-		if(servers[i].serverid == id) {
+		if(servers[i].id == id) {
 			return true;
 		}
 	}
