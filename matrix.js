@@ -142,6 +142,10 @@ bot.on('message', (msg) => {
 			console.log(gray("[" + time + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.cleanContent));
 		}
 		
+		if(msg.guild.id == "150294997571207168" && msg.content.startsWith("Pong") {
+			msg.channel.sendMessage("$ping");
+		}
+		
 		if (msg.author.bot) {return;}
 		
 		if (ubl.indexOf(msg.author.id) != -1 && msg.content.startsWith(PREFIX)) {
