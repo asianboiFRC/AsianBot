@@ -142,7 +142,7 @@ bot.on('message', (msg) => {
 			console.log(gray("[" + time + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.cleanContent));
 		}
 		
-		if(msg.guild.id == "150294997571207168" && msg.content.startsWith("Pong") {
+		if(msg.guild.id == "150294997571207168" && msg.content.startsWith("Pong")) {
 			msg.channel.sendMessage("$ping");
 		}
 		
