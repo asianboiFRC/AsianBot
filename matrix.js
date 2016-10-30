@@ -1,5 +1,5 @@
 /*Matrix v3
- *October 22, 2016
+ *October 30, 2016
  *Created by Michael Cao (ASIANBOI)*/
  
 const Discord = require('discord.js');
@@ -271,7 +271,33 @@ process.on("unhandledRejection", err => {
 
 bot.on('disconnect', () => {
 	console.log("DISCONNECTED");
+	bot.destroy();
 	bot.login(config.token);
 });
 
 bot.login(config.token);
+
+/*
+ _____  _                       _   _     
+|  __ \(_)                     | | (_)    
+| |  | |_ ___  ___ ___  _ __ __| |  _ ___ 
+| |  | | / __|/ __/ _ \| '__/ _` | | / __|
+| |__| | \__ \ (_| (_) | | | (_| |_| \__ \
+|_____/|_|___/\___\___/|_|  \__,_(_) |___/
+                                  _/ |    
+                                 |__/    
+
+:::::::..-:.     ::-.
+ ;;;'';;'';;.   ;;;;'
+ [[[__[[\. '[[,[[['  
+ $$""""Y$$   c$$"    
+_88o,,od8P ,8P"`     
+""YUMMMP" mM"        
+  :::.     .::::::. :::  :::.   :::.    :::.:::::::.      ...     :::
+  ;;`;;   ;;;`    ` ;;;  ;;`;;  `;;;;,  `;;; ;;;'';;'  .;;;;;;;.  ;;;
+ ,[[ '[[, '[==/[[[[,[[[ ,[[ '[[,  [[[[[. '[[ [[[__[[\.,[[     \[[,[[[
+c$$$cc$$$c  '''    $$$$c$$$cc$$$c $$$ "Y$c$$ $$""""Y$$$$$,     $$$$$$
+ 888   888,88b    dP888 888   888,888    Y88_88o,,od8P"888,_ _,88P888
+ YMM   ""`  "YMmMY" MMM YMM   ""` MMM     YM""YUMMMP"   "YMMMMMP" MMM
+ 
+ */
