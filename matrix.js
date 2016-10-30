@@ -270,6 +270,7 @@ process.on("unhandledRejection", err => {
 });
 
 bot.on('disconnect', () => {
+	console.log("DISCONNECTED");
 	bot.login(config.token);
 });
 
