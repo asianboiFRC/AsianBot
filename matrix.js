@@ -190,9 +190,9 @@ bot.on("messageUpdate", (msg1, msg2) => {
 bot.on('guildMemberAdd', (member) => {
 	console.log(member);
 	console.log(member.guild);
-	console.log(message = servers[location].joinmessage);
 	var location = findLocation(member.guild.id);
 	if (servers[location].announce == true) {
+		console.log(servers[location].joinmessage);
 		var message = servers[location].joinmessage;
 		message = custom(message, member.user, member.guild);
 		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
