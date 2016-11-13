@@ -88,7 +88,7 @@ function insertServer(id) {
 		"prefix": "~"
 	}
 	servers.push(guildi);
-	fs.writeFileSync("./servers.json", JSON.stringify(servers));
+	fs.writeFileSync("./servers.json", JSON.stringify(servers, null, 3));
 	console.log(guild.name + " inserted successfully!");
 }
 
@@ -188,14 +188,11 @@ bot.on("messageUpdate", (msg1, msg2) => {
 });
 
 bot.on('guildMemberAdd', (member) => {
-	console.log(member);
-	console.log(member.guild);
 	var location = findLocation(member.guild.id);
 	if (servers[location].announce == true) {
-		console.log(servers[location].joinmessage);
 		var message = servers[location].joinmessage;
 		message = custom(message, member.user, member.guild);
-		var announceChannel = bot.channels.find('id', servers[location].announcementchan);
+		var announceChannel = bot.channels.get('id', servers[location].announcementchan);
 		announceChannel.sendMessage(message);
 	}
 	//Joinrole + Botrole
@@ -206,7 +203,7 @@ bot.on('guildBanAdd', (member) => {
 	if (servers[location].announce == true) {
 		var message = servers[location].banmessage;
 		message = custom(message, member.user, member.guild);
-		var announceChannel = bot.channels.find('id', servers[location].announcementchan);
+		var announceChannel = bot.channels.get('id', servers[location].announcementchan);
 		announceChannel.sendMessage(message);
 	}
 });
@@ -216,7 +213,7 @@ bot.on('guildMemberRemove', (member) => {
 	if (servers[guildlocation].announce == true) {
 		var message = servers[guildlocation].leavemessage;
 		message = custom(message, member.user, member.guild);
-		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
+		var announceChannel = bot.channels.get('id', servers[guildlocation].announcementchan);
 		announceChannel.sendMessage(message);
 	}
 });
