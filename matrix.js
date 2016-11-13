@@ -66,15 +66,21 @@ function findLocation(id) {
 function insertServer(id) {
 	var guild = bot.guilds.find('id', id);
 	var guildi = {
-		"id": servers.length,
 		"servername": guild.name,
 		"serverid": guild.id,
 		"ownerid": guild.owner.id,
 		"announcementchan": guild.id,
+		"announce": false,
+		"joinmessage": "{user} has joined the server.",
+		"leavemessage": "{user} has left the server.",
+		"banmessage": "{user} was banned.",
+		"joinrole": null,
+		"botrole": null,
 		"prefix": "~"
 	}
 	servers.push(guildi);
 	fs.writeFileSync("./servers.json", JSON.stringify(servers));
+	console.log(guild.name + " inserted successfully!");
 }
 
 bot.on('ready', () => {
@@ -89,14 +95,7 @@ bot.on('ready', () => {
 	bot.guilds.forEach( guild =>{
 		if(!findServers(guild.id)) {
 			try{
-				var guildi = {
-					"servername": guild.name,
-					"serverid": guild.id,
-					"ownerid": guild.owner.id,
-					"announcementchan": guild.id,
-					"prefix": "~"
-				}
-				servers.push(guildi);
+				insertServer(guild.id);
 			}
 			catch(e) {
 				console.log(e);
@@ -115,7 +114,7 @@ bot.on('message', (msg) => {
 		console.log(gray("[" + time + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 	}
 	
-	if (msg.channel.type === "text" && msg.guild.id != "110373943822540800") {
+	if (msg.channel.type === "text") {
 		if (log.indexOf(msg.guild.id) > 0) {
 			console.log(gray("[" + time + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.cleanContent));
 		}
@@ -180,24 +179,30 @@ bot.on("messageUpdate", (msg1, msg2) => {
 });
 
 bot.on('guildMemberAdd', (guild, user) => {
-	if (guildsToAnnounce.indexOf(guild.id) > -1) {
-		var guildlocation = findLocation(guildid);
+	var guildlocation = findLocation(guild.id);
+	if (servers[guildlocation].announce == true) {
+		var message = servers[guildlocation].joinmessage;
 		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
-		announceChannel.sendMessage(":wave: " + user.user.username + " joined the server.");
+		announceChannel.sendMessage(message);
 	}
+	//Joinrole + Botrole
 });
 
 bot.on('guildBanAdd', (guild, user) => {
-	if (guildsToAnnounce.indexOf(guild.id) > -1) {
-		var defaultChannel = bot.channels.get(guild.id);
-		defaultChannel.sendMessage(":hammer: " + user.username + " was banned.");
+	var guildlocation = findLocation(guildid);
+	if (servers[guildlocation].announce == true) {
+		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
+		var message = servers[guildlocation].banmessage;
+		announceChannel.sendMessage(message);
 	}
 });
 
 bot.on('guildMemberRemove', (guild, user) => {
-	if (guildsToAnnounce.indexOf(guild.id) > -1) {
-		var defaultChannel = bot.channels.get(guild.id);
-		defaultChannel.sendMessage(user.user.username + " left the server. RIP " + user.user.username + ".");
+	var guildlocation = findLocation(guildid);
+	if (servers[guildlocation].announce == true) {
+		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
+		var message = servers[guildlocation].leavemessage;
+		announceChannel.sendMessage(message);
 	}
 });
 
@@ -220,22 +225,11 @@ bot.on("guildCreate", (guild) => {
 		return;
 	}
 	
-	var guildi = {
-		"id": servers.length,
-		"servername": guild.name,
-		"serverid": guild.id,
-		"ownerid": guild.owner.id,
-		"announcementchan": guild.id,
-		"prefix": "~"
-	}
-	servers.push(guildi);
-	fs.writeFileSync("./servers.json", JSON.stringify(servers));
-	
-	var PREFIX = args.Prefix;
-			
+	insertServer(guild.id);
+				
 	console.log(server("Bot added to " + guild.name));
 	var defaultChannel = bot.channels.get(guild.id);
-	defaultChannel.sendMessage("Hello! I'm Matrix. Someone invited me here. To view my commands do " + PREFIX + "help!\nGive me a role with manage roles, manage guild, and administrator.");
+	defaultChannel.sendMessage("Hello! I'm Matrix. Someone invited me here. To view my commands do " + DEFAULT_PREFIX + "help!\nGive me a role with manage roles, manage guild, and administrator.");
 	owner.sendMessage("I joined " + guild.name);
 });
 
