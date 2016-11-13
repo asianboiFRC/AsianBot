@@ -199,7 +199,7 @@ bot.on('guildMemberAdd', (guild, user) => {
 });
 
 bot.on('guildBanAdd', (guild, user) => {
-	var guildlocation = findLocation(guildid);
+	var guildlocation = findLocation(guild.id);
 	if (servers[guildlocation].announce == true) {
 		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
 		var message = servers[guildlocation].banmessage;
@@ -209,7 +209,7 @@ bot.on('guildBanAdd', (guild, user) => {
 });
 
 bot.on('guildMemberRemove', (guild, user) => {
-	var guildlocation = findLocation(guildid);
+	var guildlocation = findLocation(guild.id);
 	if (servers[guildlocation].announce == true) {
 		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
 		var message = servers[guildlocation].leavemessage;
