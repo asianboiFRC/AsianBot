@@ -24,7 +24,7 @@ module.exports = {
 								+ "\n> Operating System : Ubuntu Linux 14.04.4 Server"
 								+ "\n> Uptime           : " + strDate
 								+ "\n> Memory Usage     : " + memory + "MB / " + totalmem + " MB"
-								+ "\n> CPU Usage        : " + v + "%"
+								+ "\n> CPU Usage        : " + v.toFixed(2) & 100 + "%"
 								+ "```");
 		});
 	}
