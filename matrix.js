@@ -188,11 +188,10 @@ bot.on("messageUpdate", (msg1, msg2) => {
 });
 
 bot.on('guildMemberAdd', (member) => {
-	var guild = member.guild;
-	var guildlocation = findLocation(guild.id);
+	var guildlocation = findLocation(member.guild.id);
 	if (servers[guildlocation].announce == true) {
 		var message = servers[guildlocation].joinmessage;
-		message = custom(message, member, guild);
+		message = custom(message, member.user, member.guild);
 		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
 		announceChannel.sendMessage(message);
 	}
@@ -200,22 +199,20 @@ bot.on('guildMemberAdd', (member) => {
 });
 
 bot.on('guildBanAdd', (member) => {
-	var guild = member.guild;
-	var guildlocation = findLocation(guild.id);
+	var guildlocation = findLocation(member.guild.id);
 	if (servers[guildlocation].announce == true) {
 		var message = servers[guildlocation].banmessage;
-		message = custom(message, member, guild);
+		message = custom(message, member.user, member.guild);
 		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
 		announceChannel.sendMessage(message);
 	}
 });
 
 bot.on('guildMemberRemove', (member) => {
-	var guild = member.guild;
-	var guildlocation = findLocation(guild.id);
+	var guildlocation = findLocation(member.guild.id);
 	if (servers[guildlocation].announce == true) {
 		var message = servers[guildlocation].leavemessage;
-		message = custom(message, member, guild);
+		message = custom(message, member.user, member.guild);
 		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
 		announceChannel.sendMessage(message);
 	}
