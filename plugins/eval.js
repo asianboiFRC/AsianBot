@@ -9,7 +9,7 @@ module.exports = {
 				if (typeof evaled !== 'string') {
 					evaled = require('util').inspect(evaled);
 				}
-				message.channel.sendMessage("Code: ``" + evalcode + "``\nOutput: ``" + clean(evaled) + "``");
+				message.channel.sendMessage("Code: ```js\n" + evalcode + "```\nOutput: ```diff\n" + clean(evaled) + "```");
 			}
 			catch (err) {
 				message.channel.sendMessage("Error: " + clean(err));
