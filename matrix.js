@@ -188,6 +188,8 @@ bot.on("messageUpdate", (msg1, msg2) => {
 });
 
 bot.on('guildMemberAdd', (member) => {
+	console.log(member);
+	console.log(member.guild);
 	var guildlocation = findLocation(member.guild.id);
 	if (servers[guildlocation].announce == true) {
 		var message = servers[guildlocation].joinmessage;
