@@ -195,18 +195,18 @@ bot.on('guildMemberAdd', (member) => {
 		console.log(servers[location].joinmessage);
 		var message = servers[location].joinmessage;
 		message = custom(message, member.user, member.guild);
-		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
+		var announceChannel = bot.channels.find('id', servers[location].announcementchan);
 		announceChannel.sendMessage(message);
 	}
 	//Joinrole + Botrole
 });
 
 bot.on('guildBanAdd', (member) => {
-	var guildlocation = findLocation(member.guild.id);
-	if (servers[guildlocation].announce == true) {
-		var message = servers[guildlocation].banmessage;
+	var location = findLocation(member.guild.id);
+	if (servers[location].announce == true) {
+		var message = servers[location].banmessage;
 		message = custom(message, member.user, member.guild);
-		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
+		var announceChannel = bot.channels.find('id', servers[location].announcementchan);
 		announceChannel.sendMessage(message);
 	}
 });
