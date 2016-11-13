@@ -9,7 +9,6 @@ const config = require('./config.json');
 const owner = bot.users.get(config.owner);
 const sbl = require('./serverblacklist.json');
 const ubl = require('./userblacklist.json');
-const servers = require("./servers.json");
 
 const fs = require('fs-extra');
 const DEFAULT_PREFIX = config.default.prefix;
@@ -27,6 +26,7 @@ var cmand = chalk.bgRed;
 var gray = chalk.gray;
 
 let plugins = new Map();
+var servers = require("./servers.json");
 
 function getTime() {
 	var currentTime = new Date()
@@ -46,9 +46,8 @@ function loadPlugins() {
 }
 
 function findServers(id) {
-	var servers = bot.guilds.array();
 	for (i = 0; i < servers.length; i++) {
-		if(servers[i].id == id) {
+		if(servers[i].serverid == id) {
 			return true;
 		}
 	}
@@ -56,9 +55,8 @@ function findServers(id) {
 }
 
 function findLocation(id) {
-	var servers = bot.guilds.array();
 	for (i = 0; i < servers.length; i++) {
-		if(servers[i].id == id) {
+		if(servers[i].serverid == id) {
 			return i;
 		}
 	}
@@ -137,9 +135,11 @@ bot.on('message', (msg) => {
 			console.log(msg.guild.name);
 			insertServer(msg.guild.id);
 		}
-		else
+		else {
+			var location = findLocation(id);
+			var servers = require("./servers.json");
 			var PREFIX = servers[location].prefix;
-		//console.log(PREFIX);
+		}
 		
 		if(msg.content == "<@!" + bot.user.id + "> What's your prefix?" || msg.content == "<@" + bot.user.id + "> What's your prefix?") {
 			msg.reply("my prefix is `" + PREFIX + "`!");
