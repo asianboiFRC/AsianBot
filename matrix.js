@@ -190,7 +190,8 @@ bot.on("messageUpdate", (msg1, msg2) => {
 bot.on('guildMemberAdd', (member) => {
 	var location = findLocation(member.guild.id);
 	if (servers[location].announce == true) {
-		var message = servers[location].joinmessage;
+		//var message = servers[location].joinmessage;
+		var message = "{user} joined the server.";
 		message = custom(message, member.user, member.guild);
 		var announceChannel = bot.channels.get('id', servers[location].announcementchan);
 		announceChannel.sendMessage(message);
@@ -201,7 +202,8 @@ bot.on('guildMemberAdd', (member) => {
 bot.on('guildBanAdd', (member) => {
 	var location = findLocation(member.guild.id);
 	if (servers[location].announce == true) {
-		var message = servers[location].banmessage;
+		//var message = servers[location].banmessage;
+		var message = "{user} was banned.";
 		message = custom(message, member.user, member.guild);
 		var announceChannel = bot.channels.get('id', servers[location].announcementchan);
 		announceChannel.sendMessage(message);
@@ -211,7 +213,8 @@ bot.on('guildBanAdd', (member) => {
 bot.on('guildMemberRemove', (member) => {
 	var guildlocation = findLocation(member.guild.id);
 	if (servers[guildlocation].announce == true) {
-		var message = servers[guildlocation].leavemessage;
+		//var message = servers[guildlocation].leavemessage;
+		var message = "{user} left the server.";
 		message = custom(message, member.user, member.guild);
 		var announceChannel = bot.channels.get('id', servers[guildlocation].announcementchan);
 		announceChannel.sendMessage(message);
