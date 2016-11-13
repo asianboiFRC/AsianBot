@@ -181,8 +181,9 @@ bot.on("messageUpdate", (msg1, msg2) => {
 
 bot.on('guildMemberAdd', (guild, user) => {
 	if (guildsToAnnounce.indexOf(guild.id) > -1) {
-		var defaultChannel = bot.channels.get(guild.id);
-		defaultChannel.sendMessage(":wave: " + user.user.username + " joined the server.");
+		var guildlocation = findLocation(guildid);
+		var announceChannel = bot.channels.find('id', servers[guildlocation].announcementchan);
+		announceChannel.sendMessage(":wave: " + user.user.username + " joined the server.");
 	}
 });
 
