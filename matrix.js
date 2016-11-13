@@ -92,7 +92,6 @@ bot.on('ready', () => {
 		if(!findServers(guild.id)) {
 			try{
 				var guildi = {
-					"id": servers.length,
 					"servername": guild.name,
 					"serverid": guild.id,
 					"ownerid": guild.owner.id,
@@ -115,30 +114,11 @@ bot.on('message', (msg) => {
 	var time = getTime();
 	
 	if (msg.channel.type === "dm") {
-		var args = {
-			ServerID: msg.channel.type,
-			ChannelID: msg.author.id,
-			User: msg.author.username,
-			UserID: msg.author.id,
-			Content: msg.content
-		};
-		//var query = 'INSERT INTO `messages` SET ?';
-		//connection.query(query, args);
 		console.log(gray("[" + time + "]") + server(" [PM] ") + usr(msg.author.username) + " : " + message(msg.content));
 	}
 	
 	if (msg.channel.type === "text" && msg.guild.id != "110373943822540800") {
 		if (log.indexOf(msg.guild.id) > 0) {
-			var args = {
-				ServerID: msg.guild.id,
-				ChannelID: msg.channel.id,
-				User: msg.author.username,
-				UserID: msg.author.id,
-				Content: msg.content
-			};
-			
-			//var query = 'INSERT INTO `messages` SET ?';
-			//connection.query(query, args);
 			console.log(gray("[" + time + "] ") + server(msg.guild) + " | " + chan(msg.channel.name) + " | " + usr(msg.author.username) + ": " + message(msg.cleanContent));
 		}
 		
