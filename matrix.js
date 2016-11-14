@@ -275,8 +275,13 @@ bot.on('disconnect', () => {
 		process.exit(0);
 	}
 });
-
-bot.login(config.token);
+try {
+	bot.login(config.token);
+}
+catch(err) {
+	console.log("Assuming this is Travis or you provided wrong token. Shutting down!");
+	process.exit(0);
+}
 
 /*
  _____  _                       _   _     
