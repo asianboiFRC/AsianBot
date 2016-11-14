@@ -1,5 +1,5 @@
 {
-	"token": "YoUr_ToKeN_hErE",
+	"token": "",
 	"prefix": "~",
 	"key": "GoOgLe_ApI_kEy",
 	"cx": "GoOgLe_Cx_KeY",
@@ -9,7 +9,7 @@
 	"admins": ["ADMIN_IDS"],
 	"logchannel": "LOG_CHANNEL_ID",
 	"announce": ["CHANNELS", "FOR", "JOIN", "LEAVE", "MESSAGES"],
-	"log": ["SERVERS_TO_LOG_IDS"],
+	"log": ["SERVERS_TO_LOG_MSGS_IN"],
 	"default" : {
 		"prefix": "~"
 	}
