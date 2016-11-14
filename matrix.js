@@ -256,7 +256,12 @@ bot.on('warn', (warning) => {
 process.on("unhandledRejection", err => {
 	console.error("Uncaught Promise Error: \n" + err.stack);
 	const owner = bot.users.get(config.owner);
-	owner.sendMessage(err);
+	try {
+		owner.sendMessage(err);
+	}
+	catch(err) {
+		console.log("Either this is Travis CI or the bot's fucked up!");
+	}
 });
 
 bot.on('disconnect', () => {
