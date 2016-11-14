@@ -266,8 +266,13 @@ process.on("unhandledRejection", err => {
 
 bot.on('disconnect', () => {
 	console.log("DISCONNECTED");
-	bot.destroy();
-	bot.login(config.token);
+	try {
+		bot.destroy();
+		bot.login(config.token);
+	}
+	catch(err) {
+		console.log("Assuming this is Travis, or the bot fucked up a LOT");
+	}
 });
 
 bot.login(config.token);
