@@ -272,6 +272,7 @@ bot.on('disconnect', () => {
 	}
 	catch(err) {
 		console.log("Assuming this is Travis, or the bot fucked up a LOT");
+		process.exit(0);
 	}
 });
 
