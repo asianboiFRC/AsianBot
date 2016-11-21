@@ -29,7 +29,7 @@ let plugins = new Map();
 var servers = require("./servers.json");
 
 function getTime() {
-	var currentTime = new Date()
+	var currentTime = new Date();
 	var n = currentTime.toTimeString();
 	var str = n.substring(0, n.indexOf(' '));
 	return str;
@@ -55,12 +55,12 @@ function findServers(id) {
 }
 
 function custom(message, user, guild) {
-	message = message.replace(/{user}/gi, user.toString())
-	message = message.replace(/{user:id}/gi, user.id)
-	message = message.replace(/{user:name}/gi, user.username)
-	message = message.replace(/{user:discrim}/gi, user.discriminator)
-	message = message.replace(/{server}/gi, guild.name)
-	message = message.replace(/{server:id}/gi, guild.id)
+	message = message.replace(/{user}/gi, user.toString());
+	message = message.replace(/{user:id}/gi, user.id);
+	message = message.replace(/{user:name}/gi, user.username);
+	message = message.replace(/{user:discrim}/gi, user.discriminator);
+	message = message.replace(/{server}/gi, guild.name);
+	message = message.replace(/{server:id}/gi, guild.id);
 }
 
 function findLocation(id) {
@@ -86,7 +86,7 @@ function insertServer(id) {
 		"joinrole": null,
 		"botrole": null,
 		"prefix": "~"
-	}
+	};
 	servers.push(guildi);
 	fs.writeFileSync("./servers.json", JSON.stringify(servers, null, 3));
 	console.log(guild.name + " inserted successfully!");
@@ -95,7 +95,7 @@ function insertServer(id) {
 bot.on('ready', () => {
 	console.log('Matrix is ready! Loading plugins...');
 	loadPlugins();
-	var time = getTime()
+	var time = getTime();
 	console.log("Bot Online and Ready! On " + bot.guilds.size + " Servers!");
 	const logChannel = bot.channels.find('id', config.logchannel);
 	logChannel.sendMessage(":stopwatch: ``" + time + "`` :mega: Matrix is online and ready! :white_check_mark:");
@@ -132,25 +132,26 @@ bot.on('message', (msg) => {
 		
 		if (ubl.indexOf(msg.author.id) != -1 && msg.content.startsWith(PREFIX)) {
 			if(msg.author.id != config.owner) {
-				msg.reply("you are blacklisted from using Matrix!")
+				msg.reply("you are blacklisted from using Matrix!");
 				return;
 			}
 		}
 		
 		var id = msg.channel.guild.id;
 		var location = findLocation(id);
-		if(location == undefined) {
+		var PREFIX;
+		if(location === undefined) {
 			console.log(msg.guild.name);
 			insertServer(msg.guild.id);
 		}
 		else {
-			var location = findLocation(id);
+			location = findLocation(id);
 			var servers = require("./servers.json");
-			var PREFIX = servers[location].prefix;
+			PREFIX = servers[location].prefix;
 		}
 		
 		if(msg.content == "<@!" + bot.user.id + "> What's your prefix?" || msg.content == "<@" + bot.user.id + "> What's your prefix?") {
-			msg.reply("my prefix is `" + PREFIX + "`!");
+			msg.reply("my prefix is ${PREFIX}!");
 		}
 		
 		if (msg.content.startsWith(PREFIX)) {
@@ -189,7 +190,7 @@ bot.on("messageUpdate", (msg1, msg2) => {
 
 bot.on('guildMemberAdd', (member) => {
 	var location = findLocation(member.guild.id);
-	if (servers[location].announce == true) {
+	if (servers[location].announce === true) {
 		//var message = servers[location].joinmessage;
 		var message = "{user} joined the server.";
 		message = custom(message, member.user, member.guild);
@@ -201,7 +202,7 @@ bot.on('guildMemberAdd', (member) => {
 
 bot.on('guildBanAdd', (member) => {
 	var location = findLocation(member.guild.id);
-	if (servers[location].announce == true) {
+	if (servers[location].announce === true) {
 		//var message = servers[location].banmessage;
 		var message = "{user} was banned.";
 		message = custom(message, member.user, member.guild);
@@ -212,7 +213,7 @@ bot.on('guildBanAdd', (member) => {
 
 bot.on('guildMemberRemove', (member) => {
 	var guildlocation = findLocation(member.guild.id);
-	if (servers[guildlocation].announce == true) {
+	if (servers[guildlocation].announce === true) {
 		//var message = servers[guildlocation].leavemessage;
 		var message = "{user} left the server.";
 		message = custom(message, member.user, member.guild);
@@ -231,7 +232,7 @@ bot.on("guildDelete", (guild) => {
 	const owner = bot.users.get(config.owner);
 	console.log("I left " + guild.name);
 	owner.sendMessage("I left " + guild.name);
-})
+});
 
 bot.on("guildCreate", (guild) => {
 	if (sbl.indexOf(guild.id) != -1) {
@@ -271,7 +272,6 @@ bot.on('disconnect', () => {
 		bot.login(config.token);
 	}
 	catch(err) {
-		console.log("Assuming this is Travis, or the bot fucked up a LOT");
 		process.exit(0);
 	}
 });
