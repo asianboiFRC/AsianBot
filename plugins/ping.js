@@ -1,9 +1,9 @@
 module.exports = {
 	main: function(bot, message) {
-		var start = new Date(message.createdAt).getTime();
-
-		message.channel.sendMessage("Pong!")
-			.then(message => message.edit("Hello, pong! You're on the " + message.channel.guild.name + " server.\nTook " + (message.createdAt.getTime() - start) + " ms to respond."))
-			.catch(console.error);
+		var start = new Date(message.timestamp).getTime();
+			bot.sendMessage(message, "Pong!", (error, botMessage) => {
+				var end = new Date(botMessage.timestamp).getTime();
+				bot.updateMessage(botMessage, "Hello, pong! You're on server **" + message.channel.server.name + "**.\nTook ``" + (end - start) + "`` ms to respond.");
+			});
 	}
 };

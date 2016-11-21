@@ -1,16 +1,10 @@
 module.exports = {
 	main: function(bot, message) {
-		var config = require('../config.json');
-		var isCommander = config.admins;
-
-		if (isCommander.indexOf(message.sender.id) > -1) {
-			message.channel.sendMessage(":wave: ASIANBOT is restarting...");
-			var logChannel = bot.channels.get("214850991089123328");
-			reason = message.content;
-			if(message.content != "~restart")
-				logChannel.sendMessage("AsianBot is restarting because of " + reason);
+		var isCommander = ["143194991886467072", "171319044715053057", "176870986900045824", "213108782388084736", "180094452860321793"];
+		if (message.content.startsWith(prefix + "restart") && isCommander.indexOf(message.sender.id) > -1) {
+			bot.sendMessage(message, ":wave: ASIANBOT is restarting...\n*Windows XP shutdown sounds*");
 			setTimeout(function() {
-				bot.destroy()
+				bot.logout()
 			}, 1000)
 			setTimeout(function() {
 				process.exit()

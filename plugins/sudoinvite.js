@@ -1,22 +1,19 @@
 module.exports = {
 	main: function(bot, message) {
-		if (message.author.id === "171319044715053057") {
-			const serverToInvite = message.content;
-			message.channel.sendMessage("Alright I am sending you an invite to " + serverToInvite + "!");
+		if (message.sender.id === "171319044715053057") {
+			const serverToInvite = message.content.split(" ").splice(1).join(" ");
+			bot.sendMessage(message, "Alright I am sending you an invite to " + serverToInvite + "!");
 			try {
-				var server = bot.guilds.find('name', serverToInvite);
-				var chan = bot.channels.find('id', server.id);
-				chan.createInvite({
-						temporary: false,
+				bot.createInvite(bot.servers.get("name", serverToInvite).generalChannel, {
 						maxAge: 60,
-						maxUses: 1,
+						maxUses: 1
 					})
 					.then(i => {
-						message.author.sendMessage("https://discord.gg/" + i.code);
+						bot.sendMessage(message.author, i + "");
 					});
 			}
 			catch(err) {
-				console.log(err);
+				bot.sendMessage(message, "I do not have permission to create an invite.");
 			}
         }
 	}

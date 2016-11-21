@@ -1,41 +1,38 @@
 ```xl
-AsianBOT (IN DEVELOPMENT)
 
-**General Commands:**
-git: Returns my GitHub repo.
-ping: Pings the bot.
-invite: Returns bot invite link.
-help: DMs you with this message.
-stats: Shows bot stats
-say <content>: Replies with the message!
-8ball <content>: Predicts something for you.
-server: Returns server info
-user <optional-mention>: Returns user info
-talk <content>: Talk with Cleverbot!
-support <msg>: Sends ASIANBOI a message!
-xkcd: Returns a XKCD comic.
-google <search>: Googles the inputted info.
-emoji: Returns a random emoji.
-leet <text>: transforms text into leetspeak.
-remindme <number> <timeunit> - <remindertext>: pms you a reminder to do something after the amount of time specified.
-uptime: Shows bot uptime.
-timeuntil <date>: Shows the time until that date.
-timesince <date>: Shows the time since that date.
+RoBot v1.0.0
 
-**Adminstrative Commands (Requires the command user to have 'Bot Commander' Role):**
-createchan <name>: Creates a channel with the name specified.
-ban <user> <reason>: Bans a user and outputs a mod-log message.
-verify: Prove to others who you are.
-mute <user> <reason>: Mutes the mentioned user (Server must have role 'muted' that cannot talk).
-unmute <user>: Unmutes the mentioned user.
-prune <number>: Deletes messages.
-kick <user> <reason>: Kicks the mentioned user.
-give <user> <role-name>: Gives the user the role (Bot must have higher role).
-take <user> <role-name>: Takes the role from the user (Bot must have higher role).
+General commands:
 
-**For ban, mute, and kick, you can choose to make a channel named #mod-log to output into.**
+google <search-query>: search google for a top result link
+frccopypasta <team>: returns an frc copypasta
+ping: pings the bot
+server: gives info about the server
+talk: talks with cleverbot
+user <optional-mention> gives info about yourself, or the mentioned user.
+meme <content>: creates a meme with the content being formatted as such: template-top text-bottom text
 
-Type ~license for the software license.
-Check out my server at https://discord.gg/scfs8Bx
+Templates: tenguy, afraid, older, aag, tried, biw,
+           blb, kermit, bd, ch, cbg, wonka, cb, keanu, dsm,live,
+           ants, doge, alwaysonbeat, ermg, fwp, fa, fbf, fmr, fry,
+           ggg, hipster, icanhas, crazypills, regret, boat, sohappy,
+           captain, inigo, iw, ackbar, happening, joker, ive, ll, 
+           morpheus, badchoice, mmm, jetpack, red, mordor, oprah,
+           oag, remembers, philosoraptor, jw, sad-obama, sad-clinton,
+           sadfrog, sad-bush, sad-boehner, sarcasticbear, dwight, sb,
+           ss, sf, dodgson, money, sohot, awesome-awkward, awesome,
+           awkward-awesome, fetch, success, ski, officespace,
+           interesting, toohigh, bs, both, winter, xy, buzz, yodawg,
+           yuno, yallgot, bad, elf, chosen
+
+Adminstrative commands (requires the command user to have 'Bot Commander' Role:
+mute <user>: mutes a given user (requires a role 'muted' to be present')
+unmute <user>: opposite of mute command
+kick <user>: kicks a given user
+ban <user>: bans a given user
+give <role> <user>: gives a role to a user
+prune <amount>: prunes a certain amount of messages
+restart: restarts the bot
+take <role> <user>: takes a role from a user
 
 ```

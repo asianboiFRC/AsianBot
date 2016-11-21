@@ -1,18 +1,15 @@
 module.exports = {
 	main: function(bot, msg) {
-		var mutee = msg.mentions.users.array()[0];
-		if (msg.member.roles.exists('name', 'Bot Commander')) {
+		var mutee = msg.mentions[0];
+		if (bot.memberHasRole(msg.author, msg.server.roles.get('name', 'Bot Commander')) || isCommander.indexOf(message.sender.id) > -1) {
 			try {
-				var muted = msg.guild.members.find('id', mutee.id);
-				let role = msg.guild.roles.find('name', 'muted');
-				muted.removeRole(role).catch(console.error);
-				msg.reply(mutee + ' has been unmuted.');
+				bot.removeMemberFromRole(mutee.id, msg.server.roles.get('name', 'muted'));
+				bot.reply(msg, mutee + ' has been unmuted.');
 			} catch (e) {
-				console.log(e);
-				msg.channel.sendMessage('muted Role does not exist');
+				bot.sendMessage(msg, 'Muted Role does not exist');
 			}
 		} else {
-			msg.reply('You do not have permission to do this action');
+			bot.reply(msg, 'you do not have permission to do this action');
 		}
 	}
 };

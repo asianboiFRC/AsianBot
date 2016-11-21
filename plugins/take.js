@@ -1,19 +1,15 @@
 module.exports = {
 	main: function(bot, message) {
-		var config = require('../config.json');
-		var isCommander = config.admins;
-		
-		if (message.member.roles.exists('name', 'Bot Commander') || isCommander.indexOf(message.author.id) > -1){
-			var user = message.mentions.users.array()[0];
-			var roleToTake = message.content.split(" ").splice(1).join(" ");
-			var role = message.guild.roles.find("name", roleToTake);
+		if (bot.memberHasRole(message.author, message.server.roles.get("name", "Bot Commander")) || isCommander.indexOf(message.sender.id) > -1){
+			var user = message.mentions[0];
+			var roleToTake = message.content.split(" ").splice(2).join(" ");
+			var role = message.server.roles.get("name", roleToTake);
 			if (!role) {
-				message.channel.sendMessage("Role does not exist.");
+				bot.sendMessage(message, "Role does not exist.");
 				return;
 			}
-			var member = message.guild.members.find('id', user.id);
-			member.removeRole(roleToTake);
-			message.channel.sendMessage("Successfully removed role " + roleToTake + " from " + user.username + ".");
+			bot.removeMemberFromRole(user.id, role);
+			bot.sendMessage(message, "Successfully removed role " + roleToTake + " from " + user.username + ".");
 		}
 	}
 };
