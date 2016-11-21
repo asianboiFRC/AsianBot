@@ -16,9 +16,6 @@ module.exports = {
 				sbl.push(args[1])
 				fs.writeFile("./serverblacklist.json", JSON.stringify(sbl));
 				message.reply("Server added to blacklist!");
-				var guild = bot.guilds.find('id', args[1]);
-				guild.defaultChannel.sendMessage("This server is blacklisted!");
-				guild.leave();
 			} else {
 				message.reply(`you need to specify what to do! ~blacklist <add/remove> <server id>`)
 			}

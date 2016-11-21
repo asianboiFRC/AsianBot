@@ -1,30 +1,30 @@
 module.exports = {
 	main: function(bot, message) {
 		var config = require('../config.json');
-		var servers = require('../servers.json');		
+		var mysql = require('mysql');
+		var connection = mysql.createConnection({
+		  host: config.host,
+		  user: config.sqluser,
+		  password: config.sqlpassword,
+		  database: 'asianbot'
+		});
+		connection.query('SET NAMES utf8mb4');
+		
 		const owner = bot.users.get(config.owner);
 		
-		function findLocation(id) {
-			for (i = 0; i < servers.length; i++) {
-				if(servers[i].serverid == id) {
-					return i;
-				}
-			}
-			return null;
-		}
-		
 		if(message.author.id == message.guild.owner.id || message.author.id == config.owner) {
-			var id = message.guild.id;
-			var i = findLocation(id);
-			var PREFIX = servers[i].prefix;
-			var newprefix = message.content.substring(0, 1);
-			if (PREFIX == newprefix) {
-				message.reply("this is the same prefix!");
-				return;
-			}
-			servers[i].prefix = newprefix;
-			console.log(newprefix);
-			message.reply("Successfully set server prefix to ``" + servers[i].prefix + "``!");
+			connection.query('SELECT DISTINCT prefix FROM servers WHERE id = ' + message.guild.id, function (error, results, fields) {
+				var PREFIX = results[0].prefix;
+				var newprefix = message.content.substring(0, 1);
+				if(PREFIX == newprefix) {
+					message.reply("this is the same prefix!");
+					return;
+				}
+				
+				console.log(newprefix);
+				connection.query('UPDATE servers SET prefix = ? WHERE id = ?', [newprefix, message.guild.id], function (error, results, fields) {});
+				message.reply("Successfully set server prefix to ``" + newprefix + "``!");
+			});
 		}
 	}
 };
