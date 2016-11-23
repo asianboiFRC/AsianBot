@@ -1,18 +1,18 @@
 {
-	"token": "MjQ5NzU2NTQ0NzMwNjYwODc0.CxK7bg.uvoyKqIGPnEcbghyia7rhvsq_KA",
-	"prefix": "|",
-	"key": "AIzaSyDiILoG1qh6IYH73WtRaBmIIXVVT7-qzEE",
-	"cx": "007737353325157317805:fkyedwielp0",
-	"ytkey": "AIzaSyCn2t4nLz9OgZPqr6_Ea4U3IWcZdDxBjW0",
+	"token": "Token",
+	"prefix": "~",
+	"key": "GoogleKey",
+	"cx": "CXKey",
+	"ytkey": "YTKey",
 	"passes": 3,
-	"owner": "171319044715053057",
-	"admins": ["171319044715053057", "143194991886467072", "180094452860321793", "223250008873500673"],
-	"logchannel": "214876995375464448",
-	"announce": [],
-	"log": [],
+	"owner": "ownerid",
+	"admins": ["adminids"],
+	"logchannel": "logchan",
+	"announce": ["announcechans"],
+	"log": ["channels to log messages of"],
 	"default" : {
-		"prefix": "|"
+		"prefix": "~"
 	},
-	"euser": "asianboihp",
-	"epass": "HarryPotterisAwesome!"
+	"euser": "username for email",
+	"epass": "pass for email"
 }

@@ -1,7 +1,7 @@
 serverblacklist.json
 userblacklist.json
-config.json
-servers.json
+./config.json
+./servers.json
 # Logs
 logs
 *.log
