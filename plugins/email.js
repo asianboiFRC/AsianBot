@@ -23,7 +23,7 @@ module.exports = {
 			html: content
 		};
 		
-		if (message.author.id === "171319044715053057" {
+		if (message.author.id === "171319044715053057") {
 			transporter.sendMail(mailOptions, function(error, info){
 				if(error){
 					msg.reply('there was an error sending the message.\n' + error);
