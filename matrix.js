@@ -85,7 +85,7 @@ function insertServer(id) {
 		"banmessage": "{user} was banned.",
 		"joinrole": null,
 		"botrole": null,
-		"prefix": "~"
+		"prefix": config.default.prefix
 	};
 	servers.push(guildi);
 	fs.writeFileSync("./servers.json", JSON.stringify(servers, null, 3));
@@ -151,7 +151,7 @@ bot.on('message', (msg) => {
 		}
 		
 		if(msg.content == "<@!" + bot.user.id + "> What's your prefix?" || msg.content == "<@" + bot.user.id + "> What's your prefix?") {
-			msg.reply("my prefix is ${PREFIX}!");
+			msg.reply(`my prefix is ${PREFIX}!`);
 		}
 		
 		if (msg.content.startsWith(PREFIX)) {

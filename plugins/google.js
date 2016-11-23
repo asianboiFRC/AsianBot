@@ -7,8 +7,6 @@ var google = new GoogleSearch({
 
 module.exports = {
 	main: function(bot, message) {
-
-
         google.build({
 			q: message.content,
 			num: 1, // Number of search results to return between 1 and 10, inclusive
