@@ -99,7 +99,7 @@ bot.on('ready', () => {
 	console.log("Bot Online and Ready! On " + bot.guilds.size + " Servers!");
 	const logChannel = bot.channels.find('id', config.logchannel);
 	logChannel.sendMessage(":stopwatch: ``" + time + "`` :mega: Matrix is online and ready! :white_check_mark:");
-	bot.user.setStatus("online", DEFAULT_PREFIX + 'help | ' + bot.guilds.size + ' Servers');
+	bot.user.setGame(DEFAULT_PREFIX + 'help | ' + bot.guilds.size + ' Servers');
 	
 	bot.guilds.forEach( guild =>{
 		if(!findServers(guild.id)) {
