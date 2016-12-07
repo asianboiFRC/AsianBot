@@ -113,7 +113,7 @@ bot.on('ready', () => {
 		}
 	});
 
-	fs.writeFileSync("./servers.json", JSON.stringify(servers));
+	fs.writeFileSync("./servers.json", JSON.stringify(servers, null, 3));
 });
 
 bot.on('message', (msg) => {
@@ -256,13 +256,8 @@ bot.on('warn', (warning) => {
 
 process.on("unhandledRejection", err => {
 	console.error("Uncaught Promise Error: \n" + err.stack);
-	const owner = bot.users.get(config.owner);
-	try {
-		owner.sendMessage(err);
-	}
-	catch(err) {
-		console.log("Either this is Travis CI or the bot's fucked up!");
-	}
+	const owner = bot.users.get('id', config.owner);
+	owner.sendMessage(err);
 });
 
 bot.on('disconnect', () => {
@@ -275,13 +270,8 @@ bot.on('disconnect', () => {
 		process.exit(0);
 	}
 });
-try {
-	bot.login(config.token);
-}
-catch(err) {
-	console.log("Assuming this is Travis or you provided wrong token. Shutting down!");
-	process.exit(0);
-}
+
+bot.login(config.token);
 
 /*
  _____  _                       _   _     
