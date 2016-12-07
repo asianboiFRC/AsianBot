@@ -165,7 +165,7 @@ bot.on('message', (msg) => {
 				msg.content = args;
 				plugins.get(cmd).main(bot, msg);
 			} else if (plugins.get(content) !== undefined && content.indexOf(' ') < 0) {
-				logChannel.sendMessage(msg.author.username + " executed " + cmd + " in " + msg.guild.name);
+				logChannel.sendMessage(msg.author.username + " executed " + content + " in " + msg.guild.name);
 				console.log(cmand(msg.author.username + " executed: " + content));
 				plugins.get(content).main(bot, msg);
 			} else {

@@ -8,7 +8,8 @@ module.exports = {
                 "\nDiscriminator: " + message.author.discriminator +
                 "\nID: " + message.author.id +
 				"\nRoles: " + roles + 
-                "\nStatus: " + message.author.status +
+                "\nStatus: " + message.author.presence.status +
+				"\nCreated At: " + message.author.createdAt.toDateString() +
                 "\n" + message.author.avatarURL + "```");
         } else {
             var user = message.mentions.users.array()[0];
@@ -19,7 +20,8 @@ module.exports = {
                 "\nDiscriminator: " + user.discriminator +
                 "\nID: " + user.id +
 				"\nRoles: " + roles + 
-                "\nStatus: " + user.status +
+                "\nStatus: " + user.presence.status +
+				"\nCreated At: " + user.createdAt.toDateString() +
                 "\n" + user.avatarURL + "```");
         }
 	}
