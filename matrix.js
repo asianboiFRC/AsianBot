@@ -97,7 +97,7 @@ bot.on('ready', () => {
 	loadPlugins();
 	var time = getTime();
 	console.log("Bot Online and Ready! On " + bot.guilds.size + " Servers!");
-	const logChannel = bot.channels.find('id', config.logchannel);
+	const logChannel = bot.channels.get(config.logchannel);
 	logChannel.sendMessage(":stopwatch: ``" + time + "`` :mega: Matrix is online and ready! :white_check_mark:");
 	bot.user.setGame(DEFAULT_PREFIX + 'help | ' + bot.guilds.size + ' Servers');
 	
@@ -155,7 +155,7 @@ bot.on('message', (msg) => {
 		}
 		
 		if (msg.content.startsWith(PREFIX)) {
-			const logChannel = bot.channels.find('id', config.logchannel);
+			const logChannel = bot.channels.get(config.logchannel);
 			let content = msg.content.split(PREFIX)[1];
 			let cmd = content.substring(0, content.indexOf(' ')),
 				args = content.substring(content.indexOf(' ') + 1, content.length);
