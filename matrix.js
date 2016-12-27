@@ -73,7 +73,7 @@ function findLocation(id) {
 }
 
 function insertServer(id) {
-	var guild = bot.guilds.find('id', id);
+	var guild = bot.guilds.get(id);
 	var guildi = {
 		"servername": guild.name,
 		"serverid": guild.id,
